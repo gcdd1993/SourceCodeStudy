@@ -116,17 +116,17 @@ public final class RandomUtil {
     }
 
     public static String getStringWithCharacter(int n) {
-        int[] arg = new int[] {'a', 'z' + 1, 'A', 'Z' + 1};
+        int[] arg = new int[]{'a', 'z' + 1, 'A', 'Z' + 1};
         return getString(n, arg);
     }
 
     public static String getStringWithNumber(int n) {
-        int[] arg = new int[] {'0', '9' + 1};
+        int[] arg = new int[]{'0', '9' + 1};
         return getString(n, arg);
     }
 
     public static String getStringWithNumAndCha(int n) {
-        int[] arg = new int[] {'a', 'z' + 1, 'A', 'Z' + 1, '0', '9' + 1};
+        int[] arg = new int[]{'a', 'z' + 1, 'A', 'Z' + 1, '0', '9' + 1};
         return getString(n, arg);
     }
 

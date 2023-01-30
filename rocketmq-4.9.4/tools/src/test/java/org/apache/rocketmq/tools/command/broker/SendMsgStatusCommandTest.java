@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.broker;
 
-import java.lang.reflect.Field;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -35,6 +34,8 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
 
 import static org.mockito.Mockito.mock;
 
@@ -70,9 +71,9 @@ public class SendMsgStatusCommandTest {
     public void testExecute() {
         SendMsgStatusCommand cmd = new SendMsgStatusCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-b 127.0.0.1:10911", "-s 1024 -c 10"};
+        String[] subargs = new String[]{"-b 127.0.0.1:10911", "-s 1024 -c 10"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         //cmd.execute(commandLine, options, null);
     }
 }

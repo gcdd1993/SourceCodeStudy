@@ -91,7 +91,7 @@ public class LmqBrokerStatsManager extends BrokerStatsManager {
 
     @Override
     public void recordDiskFallBehindTime(final String group, final String topic, final int queueId,
-        final long fallBehind) {
+                                         final long fallBehind) {
         String lmqGroup = group;
         String lmqTopic = topic;
         if (MixAll.isLmq(group)) {
@@ -105,7 +105,7 @@ public class LmqBrokerStatsManager extends BrokerStatsManager {
 
     @Override
     public void recordDiskFallBehindSize(final String group, final String topic, final int queueId,
-        final long fallBehind) {
+                                         final long fallBehind) {
         String lmqGroup = group;
         String lmqTopic = topic;
         if (MixAll.isLmq(group)) {

@@ -16,10 +16,6 @@
  */
 package org.apache.rocketmq.client.impl.consumer;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely;
 import org.apache.rocketmq.client.consumer.store.OffsetStore;
@@ -39,6 +35,10 @@ import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -76,7 +76,7 @@ public class RebalancePushImplTest {
     @Test
     public void testMessageQueueChanged_CountThreshold() {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
-            new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
+                new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
 
         // Just set pullThresholdForQueue
@@ -124,7 +124,7 @@ public class RebalancePushImplTest {
     @Test
     public void testMessageQueueChanged_SizeThreshold() {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
-            new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
+                new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
 
         // Just set pullThresholdSizeForQueue
@@ -149,7 +149,7 @@ public class RebalancePushImplTest {
     @Test
     public void testMessageQueueChanged_ConsumerRuntimeInfo() throws MQClientException {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
-            new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
+                new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
 
         defaultMQPushConsumer.getDefaultMQPushConsumer().setPullThresholdSizeForQueue(1024);

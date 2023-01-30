@@ -42,6 +42,6 @@ public class DeleteMsgsEvent {
     @Override
     public String toString() {
         return "DeleteMsgsEvent [offsetMovedEvent=" + offsetMovedEvent + ", eventTimestamp=" + eventTimestamp
-            + "]";
+                + "]";
     }
 }

@@ -38,9 +38,8 @@ import java.util.List;
 public abstract class UnaryExpression implements Expression {
 
     private static final BigDecimal BD_LONG_MIN_VALUE = BigDecimal.valueOf(Long.MIN_VALUE);
-    protected Expression right;
-
     public UnaryType unaryType;
+    protected Expression right;
 
     public UnaryExpression(Expression left) {
         this.right = left;
@@ -73,7 +72,7 @@ public abstract class UnaryExpression implements Expression {
     }
 
     public static BooleanExpression createInExpression(PropertyExpression right, List<Object> elements,
-        final boolean not) {
+                                                       final boolean not) {
 
         // Use a HashSet if there are many elements.
         Collection<Object> t;
@@ -137,18 +136,6 @@ public abstract class UnaryExpression implements Expression {
                 }
             }
         };
-    }
-
-    abstract static class BooleanUnaryExpression extends UnaryExpression implements BooleanExpression {
-        public BooleanUnaryExpression(Expression left, UnaryType unaryType) {
-            super(left, unaryType);
-        }
-
-        @Override
-        public boolean matches(EvaluationContext context) throws Exception {
-            Object object = evaluate(context);
-            return object != null && object == Boolean.TRUE;
-        }
     }
 
     public static BooleanExpression createNOT(BooleanExpression left) {
@@ -275,5 +262,17 @@ public abstract class UnaryExpression implements Expression {
      * addition is represented by "+"
      */
     public abstract String getExpressionSymbol();
+
+    abstract static class BooleanUnaryExpression extends UnaryExpression implements BooleanExpression {
+        public BooleanUnaryExpression(Expression left, UnaryType unaryType) {
+            super(left, unaryType);
+        }
+
+        @Override
+        public boolean matches(EvaluationContext context) throws Exception {
+            Object object = evaluate(context);
+            return object != null && object == Boolean.TRUE;
+        }
+    }
 
 }

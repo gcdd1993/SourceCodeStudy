@@ -33,8 +33,8 @@ import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.log.ClientLogger;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.common.protocol.ResponseCode;
+import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.remoting.exception.RemotingConnectException;
 import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
@@ -45,8 +45,8 @@ abstract class AbstractOMSProducer implements ServiceLifecycle, MessageFactory {
     final static InternalLogger log = ClientLogger.getLog();
     final KeyValue properties;
     final DefaultMQProducer rocketmqProducer;
-    private boolean started = false;
     private final ClientConfig clientConfig;
+    private boolean started = false;
 
     AbstractOMSProducer(final KeyValue properties) {
         this.properties = properties;
@@ -97,20 +97,20 @@ abstract class AbstractOMSProducer implements ServiceLifecycle, MessageFactory {
             if (e.getCause() != null) {
                 if (e.getCause() instanceof RemotingTimeoutException) {
                     return new OMSTimeOutException("-1", String.format("Send message to broker timeout, %dms, Topic=%s, msgId=%s",
-                        this.rocketmqProducer.getSendMsgTimeout(), topic, msgId), e);
+                            this.rocketmqProducer.getSendMsgTimeout(), topic, msgId), e);
                 } else if (e.getCause() instanceof MQBrokerException || e.getCause() instanceof RemotingConnectException) {
                     if (e.getCause() instanceof MQBrokerException) {
                         MQBrokerException brokerException = (MQBrokerException) e.getCause();
                         return new OMSRuntimeException("-1", String.format("Received a broker exception, Topic=%s, msgId=%s, %s",
-                            topic, msgId, brokerException.getErrorMessage()), e);
+                                topic, msgId, brokerException.getErrorMessage()), e);
                     }
 
                     if (e.getCause() instanceof RemotingConnectException) {
-                        RemotingConnectException connectException = (RemotingConnectException)e.getCause();
+                        RemotingConnectException connectException = (RemotingConnectException) e.getCause();
                         return new OMSRuntimeException("-1",
-                            String.format("Network connection experiences failures. Topic=%s, msgId=%s, %s",
-                                topic, msgId, connectException.getMessage()),
-                            e);
+                                String.format("Network connection experiences failures. Topic=%s, msgId=%s, %s",
+                                        topic, msgId, connectException.getMessage()),
+                                e);
                     }
                 }
             }
@@ -119,10 +119,10 @@ abstract class AbstractOMSProducer implements ServiceLifecycle, MessageFactory {
                 MQClientException clientException = (MQClientException) e;
                 if (-1 == clientException.getResponseCode()) {
                     return new OMSRuntimeException("-1", String.format("Topic does not exist, Topic=%s, msgId=%s",
-                        topic, msgId), e);
+                            topic, msgId), e);
                 } else if (ResponseCode.MESSAGE_ILLEGAL == clientException.getResponseCode()) {
                     return new OMSMessageFormatException("-1", String.format("A illegal message for RocketMQ, Topic=%s, msgId=%s",
-                        topic, msgId), e);
+                            topic, msgId), e);
                 }
             }
         }

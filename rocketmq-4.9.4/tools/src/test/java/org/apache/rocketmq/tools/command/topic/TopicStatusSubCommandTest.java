@@ -29,9 +29,9 @@ public class TopicStatusSubCommandTest {
     public void testExecute() {
         TopicStatusSubCommand cmd = new TopicStatusSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-t unit-test"};
+        String[] subargs = new String[]{"-t unit-test"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
     }
 }

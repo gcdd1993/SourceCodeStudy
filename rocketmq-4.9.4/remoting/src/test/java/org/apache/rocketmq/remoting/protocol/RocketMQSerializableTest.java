@@ -16,17 +16,17 @@
  */
 package org.apache.rocketmq.remoting.protocol;
 
-import java.util.HashMap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import org.apache.rocketmq.remoting.CommandCustomHeader;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.Unpooled;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RocketMQSerializableTest {
     @Test
@@ -74,7 +74,7 @@ public class RocketMQSerializableTest {
         //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
         int code = 103;
         RemotingCommand cmd = RemotingCommand.createRequestCommand(code,
-            new SampleCommandCustomHeader());
+                new SampleCommandCustomHeader());
         cmd.setSerializeTypeCurrentRPC(SerializeType.ROCKETMQ);
         cmd.setRemark("Sample Remark");
 
@@ -118,7 +118,7 @@ public class RocketMQSerializableTest {
         //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
         int code = 103;
         RemotingCommand cmd = RemotingCommand.createRequestCommand(code,
-            new SampleCommandCustomHeader());
+                new SampleCommandCustomHeader());
         cmd.setSerializeTypeCurrentRPC(SerializeType.ROCKETMQ);
         cmd.addExtField("key", "value");
 
@@ -174,32 +174,7 @@ public class RocketMQSerializableTest {
 
     private int parseToInt(byte[] array, int index) {
         return array[index] * 16777216 + array[++index] * 65536 + array[++index] * 256
-            + array[++index];
-    }
-
-    public static class MyHeader1 implements CommandCustomHeader {
-        private String str;
-        private int num;
-
-        @Override
-        public void checkFields() throws RemotingCommandException {
-        }
-
-        public String getStr() {
-            return str;
-        }
-
-        public void setStr(String str) {
-            this.str = str;
-        }
-
-        public int getNum() {
-            return num;
-        }
-
-        public void setNum(int num) {
-            this.num = num;
-        }
+                + array[++index];
     }
 
     @Test
@@ -227,5 +202,30 @@ public class RocketMQSerializableTest {
         MyHeader1 h2 = (MyHeader1) cmd2.decodeCommandCustomHeader(MyHeader1.class);
         assertThat(h2.getStr()).isEqualTo("s1");
         assertThat(h2.getNum()).isEqualTo(100);
+    }
+
+    public static class MyHeader1 implements CommandCustomHeader {
+        private String str;
+        private int num;
+
+        @Override
+        public void checkFields() throws RemotingCommandException {
+        }
+
+        public String getStr() {
+            return str;
+        }
+
+        public void setStr(String str) {
+            this.str = str;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
     }
 }

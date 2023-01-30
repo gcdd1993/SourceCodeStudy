@@ -16,11 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.message;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -38,25 +33,15 @@ import org.apache.rocketmq.tools.admin.api.MessageTrack;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
 public class QueryMsgByUniqueKeySubCommand implements SubCommand {
 
     private DefaultMQAdminExt defaultMQAdminExt;
-
-    private DefaultMQAdminExt createMQAdminExt(RPCHook rpcHook) throws SubCommandException {
-        if (this.defaultMQAdminExt != null) {
-            return defaultMQAdminExt;
-        } else {
-            defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
-            defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
-            try {
-                defaultMQAdminExt.start();
-            }
-            catch (Exception e) {
-                throw new SubCommandException(this.getClass().getSimpleName() + " command failed", e);
-            }
-            return defaultMQAdminExt;
-        }
-    }
 
     public static void queryById(final DefaultMQAdminExt admin, final String topic, final String msgId,
                                  final boolean showAll) throws MQClientException,
@@ -133,6 +118,21 @@ public class QueryMsgByUniqueKeySubCommand implements SubCommand {
         }
     }
 
+    private DefaultMQAdminExt createMQAdminExt(RPCHook rpcHook) throws SubCommandException {
+        if (this.defaultMQAdminExt != null) {
+            return defaultMQAdminExt;
+        } else {
+            defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
+            defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
+            try {
+                defaultMQAdminExt.start();
+            } catch (Exception e) {
+                throw new SubCommandException(this.getClass().getSimpleName() + " command failed", e);
+            }
+            return defaultMQAdminExt;
+        }
+    }
+
     @Override
     public String commandName() {
         return "queryMsgByUniqueKey";
@@ -172,7 +172,7 @@ public class QueryMsgByUniqueKeySubCommand implements SubCommand {
     public void execute(CommandLine commandLine, Options options, RPCHook rpcHook) throws SubCommandException {
 
         try {
-            defaultMQAdminExt =  createMQAdminExt(rpcHook);
+            defaultMQAdminExt = createMQAdminExt(rpcHook);
 
             final String msgId = commandLine.getOptionValue('i').trim();
             final String topic = commandLine.getOptionValue('t').trim();
@@ -181,7 +181,7 @@ public class QueryMsgByUniqueKeySubCommand implements SubCommand {
                 final String consumerGroup = commandLine.getOptionValue('g').trim();
                 final String clientId = commandLine.getOptionValue('d').trim();
                 ConsumeMessageDirectlyResult result =
-                    defaultMQAdminExt.consumeMessageDirectly(consumerGroup, clientId, topic, msgId);
+                        defaultMQAdminExt.consumeMessageDirectly(consumerGroup, clientId, topic, msgId);
                 System.out.printf("%s", result);
             } else {
                 queryById(defaultMQAdminExt, topic, msgId, showAll);

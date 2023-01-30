@@ -16,9 +16,10 @@
  */
 package org.apache.rocketmq.common.protocol.body;
 
+import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
 public class TopicList extends RemotingSerializable {
     private Set<String> topicList = new HashSet<String>();

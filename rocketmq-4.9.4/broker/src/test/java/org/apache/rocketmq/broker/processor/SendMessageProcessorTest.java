@@ -48,9 +48,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -61,7 +59,6 @@ import java.util.concurrent.CompletableFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -216,6 +213,7 @@ public class SendMessageProcessorTest {
         assertThat(response[0].getCode()).isEqualTo(ResponseCode.SUCCESS);
 
     }
+
     private RemotingCommand createSendTransactionMsgCommand(int requestCode) {
         SendMessageRequestHeader header = createSendMsgRequestHeader();
         int sysFlag = header.getSysFlag();
@@ -225,7 +223,7 @@ public class SendMessageProcessorTest {
         sysFlag |= MessageSysFlag.TRANSACTION_PREPARED_TYPE;
         header.setSysFlag(sysFlag);
         RemotingCommand request = RemotingCommand.createRequestCommand(requestCode, header);
-        request.setBody(new byte[] {'a'});
+        request.setBody(new byte[]{'a'});
         request.makeCustomHeaderToNet();
         return request;
     }
@@ -248,7 +246,7 @@ public class SendMessageProcessorTest {
         SendMessageRequestHeader requestHeader = createSendMsgRequestHeader();
 
         RemotingCommand request = RemotingCommand.createRequestCommand(requestCode, requestHeader);
-        request.setBody(new byte[] {'a'});
+        request.setBody(new byte[]{'a'});
         request.makeCustomHeaderToNet();
         return request;
     }

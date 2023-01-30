@@ -59,15 +59,15 @@ public class DynamicAddConsumerIT extends BaseConf {
         TestUtils.waitForSeconds(waitTime);
 
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
 
         asyncDefaultMQProducer.waitSendAll(waitTime * 6);
 
         MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(), consumer1.getListener(),
-            consumer2.getListener());
+                consumer2.getListener());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
     }
 
@@ -81,17 +81,17 @@ public class DynamicAddConsumerIT extends BaseConf {
         TestUtils.waitForSeconds(waitTime);
 
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         RMQNormalConsumer consumer3 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
 
         asyncDefaultMQProducer.waitSendAll(waitTime * 6);
 
         MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(), consumer1.getListener(),
-            consumer2.getListener(), consumer3.getListener());
+                consumer2.getListener(), consumer3.getListener());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener(), consumer3.getListener());
+                consumer1.getListener(), consumer2.getListener(), consumer3.getListener());
         assertThat(recvAll).isEqualTo(true);
     }
 }

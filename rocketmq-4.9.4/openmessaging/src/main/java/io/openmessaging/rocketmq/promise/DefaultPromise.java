@@ -16,8 +16,8 @@
  */
 package io.openmessaging.rocketmq.promise;
 
-import io.openmessaging.Promise;
 import io.openmessaging.FutureListener;
+import io.openmessaging.Promise;
 import io.openmessaging.exception.OMSRuntimeException;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.logging.InternalLoggerFactory;

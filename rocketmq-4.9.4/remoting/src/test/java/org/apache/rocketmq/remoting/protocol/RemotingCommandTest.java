@@ -16,14 +16,15 @@
  */
 package org.apache.rocketmq.remoting.protocol;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
 import org.apache.rocketmq.remoting.CommandCustomHeader;
 import org.apache.rocketmq.remoting.annotation.CFNotNull;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +40,7 @@ public class RemotingCommandTest {
         result[1] = (byte) (x >> 16);
         result[2] = (byte) (x >> 8);
         result[3] = (byte) x;
-        assertThat(result).isEqualTo(new byte[] {0, 0, 1, 5});
+        assertThat(result).isEqualTo(new byte[]{0, 0, 1, 5});
     }
 
     @Test
@@ -52,7 +53,7 @@ public class RemotingCommandTest {
         result[1] = (byte) (x >> 16);
         result[2] = (byte) (x >> 8);
         result[3] = (byte) x;
-        assertThat(result).isEqualTo(new byte[] {1, -1, -1, -1});
+        assertThat(result).isEqualTo(new byte[]{1, -1, -1, -1});
     }
 
     @Test
@@ -150,7 +151,7 @@ public class RemotingCommandTest {
         int code = 103; //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
         CommandCustomHeader header = new SampleCommandCustomHeader();
         RemotingCommand cmd = RemotingCommand.createRequestCommand(code, header);
-        cmd.setBody(new byte[] {0, 1, 2, 3, 4});
+        cmd.setBody(new byte[]{0, 1, 2, 3, 4});
 
         ByteBuffer buffer = cmd.encode();
 
@@ -165,7 +166,7 @@ public class RemotingCommandTest {
             decodedCommand = RemotingCommand.decode(buffer);
 
             assertThat(decodedCommand.getSerializeTypeCurrentRPC()).isEqualTo(SerializeType.JSON);
-            assertThat(decodedCommand.getBody()).isEqualTo(new byte[] {0, 1, 2, 3, 4});
+            assertThat(decodedCommand.getBody()).isEqualTo(new byte[]{0, 1, 2, 3, 4});
         } catch (RemotingCommandException e) {
             e.printStackTrace();
             Assert.fail("Should not throw IOException");

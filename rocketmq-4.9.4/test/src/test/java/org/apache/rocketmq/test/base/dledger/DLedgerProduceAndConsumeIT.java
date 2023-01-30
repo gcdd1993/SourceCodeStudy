@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.test.base.dledger;
 
-import java.util.UUID;
 import org.apache.rocketmq.broker.BrokerController;
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.PullResult;
@@ -37,13 +36,15 @@ import org.apache.rocketmq.test.factory.ProducerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.apache.rocketmq.test.base.IntegrationTestBase.nextPort;
 import static sun.util.locale.BaseLocale.SEP;
 
 public class DLedgerProduceAndConsumeIT {
 
     public BrokerConfig buildBrokerConfig(String cluster, String brokerName) {
-        BrokerConfig brokerConfig =  new BrokerConfig();
+        BrokerConfig brokerConfig = new BrokerConfig();
         brokerConfig.setBrokerClusterName(cluster);
         brokerConfig.setBrokerName(brokerName);
         brokerConfig.setBrokerIP1("127.0.0.1");
@@ -53,7 +54,7 @@ public class DLedgerProduceAndConsumeIT {
 
     public MessageStoreConfig buildStoreConfig(String brokerName, String peers, String selfId) {
         MessageStoreConfig storeConfig = new MessageStoreConfig();
-        String baseDir =  IntegrationTestBase.createBaseDir();
+        String baseDir = IntegrationTestBase.createBaseDir();
         storeConfig.setStorePathRootDir(baseDir);
         storeConfig.setStorePathCommitLog(baseDir + SEP + "commitlog");
         storeConfig.setHaListenPort(nextPort());
@@ -103,7 +104,7 @@ public class DLedgerProduceAndConsumeIT {
         Assert.assertEquals(10, brokerController.getMessageStore().getMaxOffsetInQueue(topic, 0));
 
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 0);
-        PullResult pullResult= consumer.pull(messageQueue, "*", 0, 32);
+        PullResult pullResult = consumer.pull(messageQueue, "*", 0, 32);
         Assert.assertEquals(PullStatus.FOUND, pullResult.getPullStatus());
         Assert.assertEquals(10, pullResult.getMsgFoundList().size());
 

@@ -17,9 +17,6 @@
 
 package org.apache.rocketmq.broker.offset;
 
-import java.io.File;
-import java.util.Map;
-
 import org.apache.rocketmq.broker.BrokerController;
 import org.apache.rocketmq.broker.subscription.LmqSubscriptionGroupManager;
 import org.apache.rocketmq.broker.topic.LmqTopicConfigManager;
@@ -34,13 +31,16 @@ import org.junit.After;
 import org.junit.Test;
 import org.mockito.Spy;
 
+import java.io.File;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LmqConsumerOffsetManagerTest {
 
     @Spy
     private BrokerController brokerController = new BrokerController(new BrokerConfig(), new NettyServerConfig(),
-        new NettyClientConfig(), new MessageStoreConfig());
+            new NettyClientConfig(), new MessageStoreConfig());
 
     @Test
     public void testOffsetManage() {
@@ -60,7 +60,7 @@ public class LmqConsumerOffsetManagerTest {
         subscriptionGroupConfig.setGroupName(lmqGroupName);
         lmqSubscriptionGroupManager.updateSubscriptionGroupConfig(subscriptionGroupConfig);
         SubscriptionGroupConfig subscriptionGroupConfig1 = lmqSubscriptionGroupManager.findSubscriptionGroupConfig(
-            lmqGroupName);
+                lmqGroupName);
         assertThat(subscriptionGroupConfig1.getGroupName()).isEqualTo(subscriptionGroupConfig.getGroupName());
 
         lmqConsumerOffsetManager.commitOffset("127.0.0.1", lmqGroupName, lmqTopicName, 0, 10L);
@@ -88,7 +88,7 @@ public class LmqConsumerOffsetManagerTest {
         lmqGroupName = "%LMQ%GID_test222";
 
         lmqConsumerOffsetManager.commitOffset("127.0.0.1", lmqGroupName, lmqTopicName, 0, 10L);
-        lmqConsumerOffsetManager.commitOffset("127.0.0.1","GID_test1", "MqttTest",0, 10L);
+        lmqConsumerOffsetManager.commitOffset("127.0.0.1", "GID_test1", "MqttTest", 0, 10L);
 
         String json = lmqConsumerOffsetManager.encode(true);
 

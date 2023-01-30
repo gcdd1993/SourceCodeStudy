@@ -29,17 +29,17 @@ public class UpdateTopicSubCommandTest {
     public void testExecute() {
         UpdateTopicSubCommand cmd = new UpdateTopicSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {
-            "-b 127.0.0.1:10911",
-            "-t unit-test",
-            "-r 8",
-            "-w 8",
-            "-p 6",
-            "-o false",
-            "-u false",
-            "-s false"};
+        String[] subargs = new String[]{
+                "-b 127.0.0.1:10911",
+                "-t unit-test",
+                "-r 8",
+                "-w 8",
+                "-p 6",
+                "-o false",
+                "-u false",
+                "-s false"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('b').trim()).isEqualTo("127.0.0.1:10911");
         assertThat(commandLine.getOptionValue('r').trim()).isEqualTo("8");
         assertThat(commandLine.getOptionValue('w').trim()).isEqualTo("8");

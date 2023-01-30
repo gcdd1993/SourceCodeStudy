@@ -59,9 +59,9 @@ public class ConsumerConnectionSubCommandTest {
     public void testExecute() throws SubCommandException {
         ConsumerConnectionSubCommand cmd = new ConsumerConnectionSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-g default-consumer-group"};
+        String[] subargs = new String[]{"-g default-consumer-group"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
     }
 

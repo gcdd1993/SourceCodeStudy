@@ -54,21 +54,21 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
         int msgSize = 400;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(msgSize);
         Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         boolean balance = VerifyUtils.verifyBalance(msgSize,
-            VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                consumer1.getListener().getAllUndupMsgBody()).size(),
-            VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                consumer2.getListener().getAllUndupMsgBody()).size());
+                VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                        consumer1.getListener().getAllUndupMsgBody()).size(),
+                VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                        consumer2.getListener().getAllUndupMsgBody()).size());
         assertThat(balance).isEqualTo(true);
     }
 
@@ -77,33 +77,33 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
         int msgSize = 600;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         RMQNormalConsumer consumer3 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         RMQNormalConsumer consumer4 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(msgSize);
         Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener(), consumer3.getListener(),
-            consumer4.getListener());
+                consumer1.getListener(), consumer2.getListener(), consumer3.getListener(),
+                consumer4.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         boolean balance = VerifyUtils
-            .verifyBalance(msgSize,
-                VerifyUtils
-                    .getFilterdMessage(producer.getAllMsgBody(),
-                        consumer1.getListener().getAllUndupMsgBody())
-                    .size(),
-                VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                    consumer2.getListener().getAllUndupMsgBody()).size(),
-                VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                    consumer3.getListener().getAllUndupMsgBody()).size(),
-                VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                    consumer4.getListener().getAllUndupMsgBody()).size());
+                .verifyBalance(msgSize,
+                        VerifyUtils
+                                .getFilterdMessage(producer.getAllMsgBody(),
+                                        consumer1.getListener().getAllUndupMsgBody())
+                                .size(),
+                        VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                                consumer2.getListener().getAllUndupMsgBody()).size(),
+                        VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                                consumer3.getListener().getAllUndupMsgBody()).size(),
+                        VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                                consumer4.getListener().getAllUndupMsgBody()).size());
         assertThat(balance).isEqualTo(true);
     }
 }

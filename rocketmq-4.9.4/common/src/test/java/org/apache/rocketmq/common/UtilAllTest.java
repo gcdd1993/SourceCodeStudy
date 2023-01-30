@@ -17,13 +17,14 @@
 
 package org.apache.rocketmq.common;
 
+import org.junit.Test;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
@@ -163,11 +164,11 @@ public class UtilAllTest {
         @Override
         public String toString() {
             return "DemoConfig{" +
-                "demoWidth=" + demoWidth +
-                ", demoLength=" + demoLength +
-                ", demoOK=" + demoOK +
-                ", demoName='" + demoName + '\'' +
-                '}';
+                    "demoWidth=" + demoWidth +
+                    ", demoLength=" + demoLength +
+                    ", demoOK=" + demoOK +
+                    ", demoName='" + demoName + '\'' +
+                    '}';
         }
     }
 }

@@ -16,14 +16,7 @@
  */
 package org.apache.rocketmq.tools.command.export;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
 import com.alibaba.fastjson.JSON;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -49,6 +42,12 @@ import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 import org.apache.rocketmq.tools.command.stats.StatsAllSubCommand;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 public class ExportMetricsCommand implements SubCommand {
 
     @Override
@@ -68,7 +67,7 @@ public class ExportMetricsCommand implements SubCommand {
         options.addOption(opt);
 
         opt = new Option("f", "filePath", true,
-            "export metrics.json path | default /tmp/rocketmq/export");
+                "export metrics.json path | default /tmp/rocketmq/export");
         opt.setRequired(false);
         options.addOption(opt);
         return options;
@@ -76,7 +75,7 @@ public class ExportMetricsCommand implements SubCommand {
 
     @Override
     public void execute(CommandLine commandLine, Options options, RPCHook rpcHook)
-        throws SubCommandException {
+            throws SubCommandException {
 
         DefaultMQAdminExt defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
         defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
@@ -84,7 +83,7 @@ public class ExportMetricsCommand implements SubCommand {
         try {
             String clusterName = commandLine.getOptionValue('c').trim();
             String filePath = !commandLine.hasOption('f') ? "/tmp/rocketmq/export" : commandLine.getOptionValue('f')
-                .trim();
+                    .trim();
 
             defaultMQAdminExt.start();
 
@@ -105,7 +104,7 @@ public class ExportMetricsCommand implements SubCommand {
                     Properties properties = defaultMQAdminExt.getBrokerConfig(addr);
 
                     SubscriptionGroupWrapper subscriptionGroupWrapper = defaultMQAdminExt.getUserSubscriptionGroup(addr,
-                        10000);
+                            10000);
 
                     Map<String, Map<String, Object>> brokerInfo = new HashMap<>();
 
@@ -113,12 +112,12 @@ public class ExportMetricsCommand implements SubCommand {
                     brokerInfo.put("runtimeEnv", getRuntimeEnv(kvTable, properties));
 
                     brokerInfo.put("runtimeQuota",
-                        getRuntimeQuota(kvTable, defaultMQAdminExt, addr, totalTpsMap,
-                            totalOneDayNumMap, subscriptionGroupWrapper));
+                            getRuntimeQuota(kvTable, defaultMQAdminExt, addr, totalTpsMap,
+                                    totalOneDayNumMap, subscriptionGroupWrapper));
 
                     // runtime version
                     brokerInfo.put("runtimeVersion",
-                        getRuntimeVersion(defaultMQAdminExt, subscriptionGroupWrapper));
+                            getRuntimeVersion(defaultMQAdminExt, subscriptionGroupWrapper));
 
                     evaluateReportMap.put(brokerName, brokerInfo);
                 }
@@ -146,15 +145,15 @@ public class ExportMetricsCommand implements SubCommand {
     }
 
     private Map<String, Object> getRuntimeVersion(DefaultMQAdminExt defaultMQAdminExt,
-        SubscriptionGroupWrapper subscriptionGroupWrapper) {
+                                                  SubscriptionGroupWrapper subscriptionGroupWrapper) {
         Map<String, Object> runtimeVersionMap = new HashMap();
 
         Set<String> clientInfoSet = new HashSet<>();
         for (Map.Entry<String, SubscriptionGroupConfig> entry : subscriptionGroupWrapper
-            .getSubscriptionGroupTable().entrySet()) {
+                .getSubscriptionGroupTable().entrySet()) {
             try {
                 ConsumerConnection cc = defaultMQAdminExt.examineConsumerConnectionInfo(
-                    entry.getValue().getGroupName());
+                        entry.getValue().getGroupName());
                 for (Connection conn : cc.getConnectionSet()) {
                     String clientInfo = conn.getLanguage() + "%" + MQVersion.getVersionDesc(conn.getVersion());
                     clientInfoSet.add(clientInfo);
@@ -176,25 +175,25 @@ public class ExportMetricsCommand implements SubCommand {
     }
 
     private Map<String, Object> getRuntimeQuota(KVTable kvTable, DefaultMQAdminExt defaultMQAdminExt, String brokerAddr,
-        Map<String, Double> totalTpsMap, Map<String, Long> totalOneDayNumMap,
-        SubscriptionGroupWrapper subscriptionGroupWrapper)
-        throws RemotingException, MQBrokerException, InterruptedException, MQClientException {
+                                                Map<String, Double> totalTpsMap, Map<String, Long> totalOneDayNumMap,
+                                                SubscriptionGroupWrapper subscriptionGroupWrapper)
+            throws RemotingException, MQBrokerException, InterruptedException, MQClientException {
         TopicConfigSerializeWrapper topicConfigSerializeWrapper = defaultMQAdminExt.getUserTopicConfig(
-            brokerAddr, false, 10000);
+                brokerAddr, false, 10000);
 
         BrokerStatsData transStatsData = null;
 
         try {
             transStatsData = defaultMQAdminExt.viewBrokerStatsData(brokerAddr,
-                Stats.TOPIC_PUT_NUMS,
-                TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC);
+                    Stats.TOPIC_PUT_NUMS,
+                    TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC);
         } catch (MQClientException e) {
         }
 
         BrokerStatsData scheduleStatsData = null;
         try {
             scheduleStatsData = defaultMQAdminExt.viewBrokerStatsData(brokerAddr,
-                Stats.TOPIC_PUT_NUMS, TopicValidator.RMQ_SYS_SCHEDULE_TOPIC);
+                    Stats.TOPIC_PUT_NUMS, TopicValidator.RMQ_SYS_SCHEDULE_TOPIC);
         } catch (MQClientException e) {
         }
 
@@ -237,9 +236,9 @@ public class ExportMetricsCommand implements SubCommand {
         //one day num
         Map<String, Long> oneDayNumMap = new HashMap<>();
         long normalOneDayInNum = Long.parseLong(kvTable.getTable().get("msgPutTotalTodayMorning")) -
-            Long.parseLong(kvTable.getTable().get("msgPutTotalYesterdayMorning"));
+                Long.parseLong(kvTable.getTable().get("msgPutTotalYesterdayMorning"));
         long normalOneDayOutNum = Long.parseLong(kvTable.getTable().get("msgGetTotalTodayMorning")) -
-            Long.parseLong(kvTable.getTable().get("msgGetTotalYesterdayMorning"));
+                Long.parseLong(kvTable.getTable().get("msgGetTotalYesterdayMorning"));
         oneDayNumMap.put("normalOneDayInNum", normalOneDayInNum);
         oneDayNumMap.put("normalOneDayOutNum", normalOneDayOutNum);
         oneDayNumMap.put("transOneDayInNum", transOneDayInNum);

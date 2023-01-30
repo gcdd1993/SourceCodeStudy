@@ -31,6 +31,19 @@ public abstract class InternalLoggerFactory {
 
     private static ConcurrentHashMap<String, InternalLoggerFactory> loggerFactoryCache = new ConcurrentHashMap<String, InternalLoggerFactory>();
 
+    static {
+        try {
+            new Slf4jLoggerFactory();
+        } catch (Throwable e) {
+            //ignore
+        }
+        try {
+            new InnerLoggerFactory();
+        } catch (Throwable e) {
+            //ignore
+        }
+    }
+
     public static InternalLogger getLogger(Class clazz) {
         return getLogger(clazz.getName());
     }
@@ -58,19 +71,6 @@ public abstract class InternalLoggerFactory {
 
     public static void setCurrentLoggerType(String type) {
         loggerType = type;
-    }
-
-    static {
-        try {
-            new Slf4jLoggerFactory();
-        } catch (Throwable e) {
-            //ignore
-        }
-        try {
-            new InnerLoggerFactory();
-        } catch (Throwable e) {
-            //ignore
-        }
     }
 
     protected void doRegister() {

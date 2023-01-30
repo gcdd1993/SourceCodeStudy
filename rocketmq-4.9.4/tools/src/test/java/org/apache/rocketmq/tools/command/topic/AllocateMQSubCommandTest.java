@@ -29,9 +29,9 @@ public class AllocateMQSubCommandTest {
     public void testExecute() {
         AllocateMQSubCommand cmd = new AllocateMQSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-t unit-test", "-i 127.0.0.1:10911"};
+        String[] subargs = new String[]{"-t unit-test", "-i 127.0.0.1:10911"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
         assertThat(commandLine.getOptionValue("i").trim()).isEqualTo("127.0.0.1:10911");
     }

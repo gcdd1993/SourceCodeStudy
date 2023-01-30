@@ -17,6 +17,13 @@
 
 package org.apache.rocketmq.broker.transaction.jdbc;
 
+import org.apache.rocketmq.broker.transaction.TransactionRecord;
+import org.apache.rocketmq.broker.transaction.TransactionStore;
+import org.apache.rocketmq.common.MixAll;
+import org.apache.rocketmq.common.constant.LoggerName;
+import org.apache.rocketmq.logging.InternalLogger;
+import org.apache.rocketmq.logging.InternalLoggerFactory;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,12 +34,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.rocketmq.broker.transaction.TransactionRecord;
-import org.apache.rocketmq.broker.transaction.TransactionStore;
-import org.apache.rocketmq.common.MixAll;
-import org.apache.rocketmq.common.constant.LoggerName;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
 
 public class JDBCTransactionStore implements TransactionStore {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.TRANSACTION_LOGGER_NAME);
@@ -53,7 +54,7 @@ public class JDBCTransactionStore implements TransactionStore {
 
             try {
                 this.connection =
-                    DriverManager.getConnection(this.jdbcTransactionStoreConfig.getJdbcURL(), props);
+                        DriverManager.getConnection(this.jdbcTransactionStoreConfig.getJdbcURL(), props);
 
                 this.connection.setAutoCommit(false);
 
@@ -74,7 +75,7 @@ public class JDBCTransactionStore implements TransactionStore {
         try {
             Class.forName(this.jdbcTransactionStoreConfig.getJdbcDriverClass()).getDeclaredConstructor().newInstance();
             log.info("Loaded the appropriate driver, {}",
-                this.jdbcTransactionStoreConfig.getJdbcDriverClass());
+                    this.jdbcTransactionStoreConfig.getJdbcDriverClass());
             return true;
         } catch (Exception e) {
             log.info("Loaded the appropriate driver Exception", e);
@@ -89,7 +90,7 @@ public class JDBCTransactionStore implements TransactionStore {
         try {
             statement = this.connection.createStatement();
 
-            resultSet = statement.executeQuery("select count(offset) as total from t_transaction");
+            resultSet = statement.executeQuery("SELECT COUNT(OFFSET) AS total FROM t_transaction");
             if (!resultSet.next()) {
                 log.warn("computeTotalRecords ResultSet is empty");
                 return false;
@@ -163,7 +164,7 @@ public class JDBCTransactionStore implements TransactionStore {
         PreparedStatement statement = null;
         try {
             this.connection.setAutoCommit(false);
-            statement = this.connection.prepareStatement("insert into t_transaction values (?, ?)");
+            statement = this.connection.prepareStatement("INSERT INTO t_transaction VALUES (?, ?)");
             for (TransactionRecord tr : trs) {
                 statement.setLong(1, tr.getOffset());
                 statement.setString(2, tr.getProducerGroup());
@@ -201,7 +202,7 @@ public class JDBCTransactionStore implements TransactionStore {
         PreparedStatement statement = null;
         try {
             this.connection.setAutoCommit(false);
-            statement = this.connection.prepareStatement("DELETE FROM t_transaction WHERE offset = ?");
+            statement = this.connection.prepareStatement("DELETE FROM t_transaction WHERE OFFSET = ?");
             for (long pk : pks) {
                 statement.setLong(1, pk);
                 statement.addBatch();

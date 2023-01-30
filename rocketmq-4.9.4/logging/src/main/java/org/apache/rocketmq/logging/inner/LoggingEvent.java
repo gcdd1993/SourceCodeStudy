@@ -28,19 +28,12 @@ import java.util.ArrayList;
 public class LoggingEvent implements java.io.Serializable {
 
     transient public final String fqnOfCategoryClass;
-
-    transient private Object message;
-
-    transient private Level level;
-
-    transient private Logger logger;
-
-    private String renderedMessage;
-
-    private String threadName;
-
     public final long timeStamp;
-
+    transient private Object message;
+    transient private Level level;
+    transient private Logger logger;
+    private String renderedMessage;
+    private String threadName;
     private Throwable throwable;
 
     public LoggingEvent(String fqnOfCategoryClass, Logger logger,
@@ -103,7 +96,7 @@ public class LoggingEvent implements java.io.Serializable {
         }
         pw.flush();
         LineNumberReader reader = new LineNumberReader(
-            new StringReader(sw.toString()));
+                new StringReader(sw.toString()));
         ArrayList<String> lines = new ArrayList<String>();
         try {
             String line = reader.readLine();

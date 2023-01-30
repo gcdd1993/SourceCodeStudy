@@ -16,8 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.acl;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -25,6 +23,9 @@ import org.apache.rocketmq.common.PlainAccessConfig;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,18 +35,18 @@ public class UpdateAccessConfigSubCommandTest {
     public void testExecute() {
         UpdateAccessConfigSubCommand cmd = new UpdateAccessConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {
-            "-b 127.0.0.1:10911",
-            "-a RocketMQ",
-            "-s 12345678",
-            "-w 192.168.0.*",
-            "-i DENY",
-            "-u SUB",
-            "-t topicA=DENY;topicB=PUB|SUB",
-            "-g groupA=DENY;groupB=SUB",
-            "-m true"};
+        String[] subargs = new String[]{
+                "-b 127.0.0.1:10911",
+                "-a RocketMQ",
+                "-s 12345678",
+                "-w 192.168.0.*",
+                "-i DENY",
+                "-u SUB",
+                "-t topicA=DENY;topicB=PUB|SUB",
+                "-g groupA=DENY;groupB=SUB",
+                "-m true"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('b').trim()).isEqualTo("127.0.0.1:10911");
         assertThat(commandLine.getOptionValue('a').trim()).isEqualTo("RocketMQ");
         assertThat(commandLine.getOptionValue('s').trim()).isEqualTo("12345678");

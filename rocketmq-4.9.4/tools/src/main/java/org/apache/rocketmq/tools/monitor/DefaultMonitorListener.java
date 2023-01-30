@@ -17,12 +17,13 @@
 
 package org.apache.rocketmq.tools.monitor;
 
+import org.apache.rocketmq.client.log.ClientLogger;
+import org.apache.rocketmq.common.protocol.body.ConsumerRunningInfo;
+import org.apache.rocketmq.logging.InternalLogger;
+
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import org.apache.rocketmq.client.log.ClientLogger;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.common.protocol.body.ConsumerRunningInfo;
 
 public class DefaultMonitorListener implements MonitorListener {
     private final static String LOG_PREFIX = "[MONITOR] ";
@@ -59,8 +60,8 @@ public class DefaultMonitorListener implements MonitorListener {
             boolean result = ConsumerRunningInfo.analyzeSubscription(criTable);
             if (!result) {
                 log.info(String.format(LOG_NOTIFY
-                    + "reportConsumerRunningInfo: ConsumerGroup: %s, Subscription different", criTable
-                    .firstEntry().getValue().getProperties().getProperty("consumerGroup")));
+                        + "reportConsumerRunningInfo: ConsumerGroup: %s, Subscription different", criTable
+                        .firstEntry().getValue().getProperties().getProperty("consumerGroup")));
             }
         }
 
@@ -71,10 +72,10 @@ public class DefaultMonitorListener implements MonitorListener {
                 String result = ConsumerRunningInfo.analyzeProcessQueue(next.getKey(), next.getValue());
                 if (!result.isEmpty()) {
                     log.info(String.format(LOG_NOTIFY
-                            + "reportConsumerRunningInfo: ConsumerGroup: %s, ClientId: %s, %s",
-                        criTable.firstEntry().getValue().getProperties().getProperty("consumerGroup"),
-                        next.getKey(),
-                        result));
+                                    + "reportConsumerRunningInfo: ConsumerGroup: %s, ClientId: %s, %s",
+                            criTable.firstEntry().getValue().getProperties().getProperty("consumerGroup"),
+                            next.getKey(),
+                            result));
                 }
             }
         }

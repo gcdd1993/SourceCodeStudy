@@ -17,13 +17,14 @@
 
 package org.apache.rocketmq.test.clientinterface;
 
-import java.util.Date;
-import java.util.List;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.sendresult.ResultWrapper;
 import org.apache.rocketmq.test.util.RandomUtil;
 import org.apache.rocketmq.test.util.TestUtil;
+
+import java.util.Date;
+import java.util.List;
 
 public abstract class AbstractMQProducer extends MQCollector implements MQProducer {
     protected String topic = null;
@@ -97,7 +98,7 @@ public abstract class AbstractMQProducer extends MQCollector implements MQProduc
         Object objMsg = null;
         if (this instanceof RMQNormalProducer) {
             org.apache.rocketmq.common.message.Message msg = new org.apache.rocketmq.common.message.Message(
-                topic, (RandomUtil.getStringByUUID() + "." + new Date()).getBytes());
+                    topic, (RandomUtil.getStringByUUID() + "." + new Date()).getBytes());
             objMsg = msg;
             if (tag != null) {
                 msg.setTags(tag);

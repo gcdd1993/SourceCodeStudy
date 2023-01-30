@@ -71,7 +71,7 @@ public class ClusterAclVersionInfo extends RemotingSerializable {
     }
 
     public void setAllAclConfigDataVersion(
-        Map<String, DataVersion> allAclConfigDataVersion) {
+            Map<String, DataVersion> allAclConfigDataVersion) {
         this.allAclConfigDataVersion = allAclConfigDataVersion;
     }
 }

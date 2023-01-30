@@ -16,9 +16,10 @@
  */
 package org.apache.rocketmq.client.hook;
 
-import java.util.List;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
+
+import java.util.List;
 
 public class FilterMessageContext {
     private String consumerGroup;
@@ -70,6 +71,6 @@ public class FilterMessageContext {
     @Override
     public String toString() {
         return "ConsumeMessageContext [consumerGroup=" + consumerGroup + ", msgList=" + msgList + ", mq="
-            + mq + ", arg=" + arg + "]";
+                + mq + ", arg=" + arg + "]";
     }
 }

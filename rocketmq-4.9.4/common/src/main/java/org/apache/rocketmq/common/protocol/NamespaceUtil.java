@@ -65,7 +65,7 @@ public class NamespaceUtil {
      * (4) (%RETRY%MQ_INST_XX2%GID_XXX2, MQ_INST_XX3) --> %RETRY%MQ_INST_XX2%GID_XXX2
      *
      * @param resourceWithNamespace, topic/groupId with namespace.
-     * @param namespace, namespace to be unpacked.
+     * @param namespace,             namespace to be unpacked.
      * @return topic/groupId without namespace.
      */
     public static String withoutNamespace(String resourceWithNamespace, String namespace) {
@@ -121,9 +121,9 @@ public class NamespaceUtil {
         }
 
         return new StringBuilder()
-            .append(MixAll.RETRY_GROUP_TOPIC_PREFIX)
-            .append(wrapNamespace(namespace, consumerGroup))
-            .toString();
+                .append(MixAll.RETRY_GROUP_TOPIC_PREFIX)
+                .append(wrapNamespace(namespace, consumerGroup))
+                .toString();
     }
 
     public static String getNamespaceFromResource(String resource) {

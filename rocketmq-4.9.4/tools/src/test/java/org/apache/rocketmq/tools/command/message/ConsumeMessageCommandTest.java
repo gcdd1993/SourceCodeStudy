@@ -16,13 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.message;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -41,6 +34,14 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -55,7 +56,7 @@ public class ConsumeMessageCommandTest {
 
     private static PullResult mockPullResult() {
         MessageExt msg = new MessageExt();
-        msg.setBody(new byte[] {'a'});
+        msg.setBody(new byte[]{'a'});
         List<MessageExt> msgFoundList = new ArrayList<>();
         msgFoundList.add(msg);
         return new PullResult(PullStatus.FOUND, 2, 0, 1, msgFoundList);
@@ -64,7 +65,7 @@ public class ConsumeMessageCommandTest {
 
     @BeforeClass
     public static void init() throws MQClientException, RemotingException, MQBrokerException, InterruptedException,
-        NoSuchFieldException, IllegalAccessException {
+            NoSuchFieldException, IllegalAccessException {
         consumeMessageCommand = new ConsumeMessageCommand();
         DefaultMQPullConsumer defaultMQPullConsumer = mock(DefaultMQPullConsumer.class);
 
@@ -110,10 +111,10 @@ public class ConsumeMessageCommandTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bos));
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-t mytopic", "-n localhost:9876"};
+        String[] subargs = new String[]{"-t mytopic", "-n localhost:9876"};
         assignPullResult();
         CommandLine commandLine = ServerUtil.parseCmdLine("mqadmin " + consumeMessageCommand.commandName(),
-            subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
+                subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
         consumeMessageCommand.execute(commandLine, options, null);
 
         System.setOut(out);
@@ -128,7 +129,7 @@ public class ConsumeMessageCommandTest {
         System.setOut(new PrintStream(bos));
         Options options = ServerUtil.buildCommandlineOptions(new Options());
 
-        String[] subargs = new String[] {"-t mytopic", "-b localhost", "-i 0", "-n localhost:9876"};
+        String[] subargs = new String[]{"-t mytopic", "-b localhost", "-i 0", "-n localhost:9876"};
         CommandLine commandLine = ServerUtil.parseCmdLine("mqadmin " + consumeMessageCommand.commandName(), subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
         assignPullResult();
         consumeMessageCommand.execute(commandLine, options, null);
@@ -149,9 +150,9 @@ public class ConsumeMessageCommandTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bos));
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-t topic-not-existu", "-n localhost:9876"};
+        String[] subargs = new String[]{"-t topic-not-existu", "-n localhost:9876"};
         CommandLine commandLine = ServerUtil.parseCmdLine("mqadmin " + consumeMessageCommand.commandName(),
-            subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
+                subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
         consumeMessageCommand.execute(commandLine, options, null);
 
         System.setOut(out);
@@ -172,7 +173,7 @@ public class ConsumeMessageCommandTest {
         System.setOut(new PrintStream(bos));
         Options options = ServerUtil.buildCommandlineOptions(new Options());
 
-        String[] subargs = new String[] {"-t mytopic", "-b localhost", "-i 0", "-n localhost:9876"};
+        String[] subargs = new String[]{"-t mytopic", "-b localhost", "-i 0", "-n localhost:9876"};
         CommandLine commandLine = ServerUtil.parseCmdLine("mqadmin " + consumeMessageCommand.commandName(), subargs, consumeMessageCommand.buildCommandlineOptions(options), new PosixParser());
         consumeMessageCommand.execute(commandLine, options, null);
 

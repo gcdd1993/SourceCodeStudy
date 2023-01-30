@@ -16,11 +16,12 @@
  */
 package org.apache.rocketmq.common.protocol.body;
 
+import org.apache.rocketmq.common.admin.ConsumeStats;
+import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.rocketmq.common.admin.ConsumeStats;
-import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
 public class ConsumeStatsList extends RemotingSerializable {
     private List<Map<String/*subscriptionGroupName*/, List<ConsumeStats>>> consumeStatsList = new ArrayList<Map<String/*subscriptionGroupName*/, List<ConsumeStats>>>();

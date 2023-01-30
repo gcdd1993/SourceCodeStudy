@@ -16,11 +16,12 @@
  */
 package org.apache.rocketmq.remoting.netty;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +30,7 @@ public class NettyRemotingClientTest {
     private NettyRemotingClient remotingClient = new NettyRemotingClient(new NettyClientConfig());
 
     @Test
-    public void testSetCallbackExecutor() throws NoSuchFieldException, IllegalAccessException {        
+    public void testSetCallbackExecutor() throws NoSuchFieldException, IllegalAccessException {
         ExecutorService customized = Executors.newCachedThreadPool();
         remotingClient.setCallbackExecutor(customized);
 

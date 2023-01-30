@@ -33,7 +33,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class BroadCastNormalMsgRecvStartLaterIT extends BaseBroadCastIT {
     private static Logger logger = Logger
-        .getLogger(NormalMsgTwoSameGroupConsumerIT.class);
+            .getLogger(NormalMsgTwoSameGroupConsumerIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
@@ -56,7 +56,7 @@ public class BroadCastNormalMsgRecvStartLaterIT extends BaseBroadCastIT {
 
         String group = initConsumerGroup();
         RMQBroadCastConsumer consumer1 = getBroadCastConsumer(nsAddr, group, topic, "*",
-            new RMQNormalListener(group + "_1"));
+                new RMQNormalListener(group + "_1"));
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(msgSize);
@@ -64,14 +64,14 @@ public class BroadCastNormalMsgRecvStartLaterIT extends BaseBroadCastIT {
 
         consumer1.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer1.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer1.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
 
         producer.clearMsg();
         consumer1.clearMsg();
 
         RMQBroadCastConsumer consumer2 = getBroadCastConsumer(nsAddr,
-            consumer1.getConsumerGroup(), topic, "*", new RMQNormalListener(group + "_2"));
+                consumer1.getConsumerGroup(), topic, "*", new RMQNormalListener(group + "_2"));
         TestUtils.waitForSeconds(waitTime);
         producer.send(msgSize);
         Assert.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
@@ -79,10 +79,10 @@ public class BroadCastNormalMsgRecvStartLaterIT extends BaseBroadCastIT {
         consumer1.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
         consumer2.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer1.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer1.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer2.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer2.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
     }
 }

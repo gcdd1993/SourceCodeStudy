@@ -26,7 +26,7 @@ public class NameServerAddressUtilsTest {
     private static String endpoint1 = "http://127.0.0.1:9876";
     private static String endpoint2 = "127.0.0.1:9876";
     private static String endpoint3
-        = "http://MQ_INST_123456789_BXXUzaee.xxx:80";
+            = "http://MQ_INST_123456789_BXXUzaee.xxx:80";
     private static String endpoint4 = "MQ_INST_123456789_BXXUzaee.xxx:80";
 
     @Test
@@ -40,20 +40,20 @@ public class NameServerAddressUtilsTest {
     @Test
     public void testParseInstanceIdFromEndpoint() {
         assertThat(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint3)).isEqualTo(
-            "MQ_INST_123456789_BXXUzaee");
+                "MQ_INST_123456789_BXXUzaee");
         assertThat(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint4)).isEqualTo(
-            "MQ_INST_123456789_BXXUzaee");
+                "MQ_INST_123456789_BXXUzaee");
     }
 
     @Test
     public void testGetNameSrvAddrFromNamesrvEndpoint() {
         assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint1))
-            .isEqualTo("127.0.0.1:9876");
+                .isEqualTo("127.0.0.1:9876");
         assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint2))
-            .isEqualTo("127.0.0.1:9876");
+                .isEqualTo("127.0.0.1:9876");
         assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint3))
-            .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
+                .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
         assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint4))
-            .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
+                .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
     }
 }

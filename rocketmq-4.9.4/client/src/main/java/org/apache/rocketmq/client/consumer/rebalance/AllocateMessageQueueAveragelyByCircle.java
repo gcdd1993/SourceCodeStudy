@@ -16,9 +16,10 @@
  */
 package org.apache.rocketmq.client.consumer.rebalance;
 
+import org.apache.rocketmq.common.message.MessageQueue;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.rocketmq.common.message.MessageQueue;
 
 /**
  * Cycle average Hashing queue algorithm
@@ -27,7 +28,7 @@ public class AllocateMessageQueueAveragelyByCircle extends AbstractAllocateMessa
 
     @Override
     public List<MessageQueue> allocate(String consumerGroup, String currentCID, List<MessageQueue> mqAll,
-        List<String> cidAll) {
+                                       List<String> cidAll) {
 
         List<MessageQueue> result = new ArrayList<MessageQueue>();
         if (!check(consumerGroup, currentCID, mqAll, cidAll)) {

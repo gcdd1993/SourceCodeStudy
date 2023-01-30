@@ -36,7 +36,7 @@ public class BytesMessageImpl implements BytesMessage {
     @Override
     public <T> T getBody(Class<T> type) throws OMSMessageFormatException {
         if (type == byte[].class) {
-            return (T)body;
+            return (T) body;
         }
 
         throw new OMSMessageFormatException("", "Cannot assign byte[] to " + type.getName());

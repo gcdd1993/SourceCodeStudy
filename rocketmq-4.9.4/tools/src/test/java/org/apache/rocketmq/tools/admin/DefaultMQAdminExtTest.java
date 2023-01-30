@@ -251,7 +251,7 @@ public class DefaultMQAdminExtTest {
                 put("topic_test_examine_topicConfig", new TopicConfig("topic_test_examine_topicConfig"));
             }
         });
-        when(mQClientAPIImpl.getAllTopicConfig(anyString(),anyLong())).thenReturn(topicConfigSerializeWrapper);
+        when(mQClientAPIImpl.getAllTopicConfig(anyString(), anyLong())).thenReturn(topicConfigSerializeWrapper);
     }
 
     @AfterClass

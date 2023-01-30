@@ -31,10 +31,8 @@ import java.io.PrintStream;
 
 public class InnerLoggerFactoryTest extends BasicLoggerTest {
 
-    private ByteArrayOutputStream byteArrayOutputStream;
-
     public static final String LOGGER = "ConsoleLogger";
-
+    private ByteArrayOutputStream byteArrayOutputStream;
     private PrintStream out;
 
     @Before
@@ -44,8 +42,8 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
         System.setOut(new PrintStream(byteArrayOutputStream));
 
         Appender consoleAppender = LoggingBuilder.newAppenderBuilder()
-            .withConsoleAppender(LoggingBuilder.SYSTEM_OUT)
-            .withLayout(LoggingBuilder.newLayoutBuilder().withDefaultLayout().build()).build();
+                .withConsoleAppender(LoggingBuilder.SYSTEM_OUT)
+                .withLayout(LoggingBuilder.newLayoutBuilder().withDefaultLayout().build()).build();
 
         Logger consoleLogger = Logger.getLogger("ConsoleLogger");
         consoleLogger.setAdditivity(false);

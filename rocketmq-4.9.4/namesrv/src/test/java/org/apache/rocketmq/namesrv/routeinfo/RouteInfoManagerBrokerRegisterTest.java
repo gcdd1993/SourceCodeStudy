@@ -31,14 +31,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class RouteInfoManagerBrokerRegisterTest extends RouteInfoManagerTestBase {
-    private static RouteInfoManager routeInfoManager;
     public static String clusterName = "cluster";
     public static String brokerPrefix = "broker";
     public static String topicPrefix = "topic";
     public static int brokerPerName = 3;
     public static int brokerNameNumber = 3;
-
     public static RouteInfoManagerTestBase.Cluster cluster;
+    private static RouteInfoManager routeInfoManager;
 
     @Before
     public void setup() {

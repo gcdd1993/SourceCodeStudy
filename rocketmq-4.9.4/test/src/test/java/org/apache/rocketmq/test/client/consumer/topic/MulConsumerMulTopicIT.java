@@ -51,7 +51,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic1, "*", new RMQNormalListener());
         consumer1.subscribe(topic2, "*");
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic1,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         consumer2.subscribe(topic2, "*");
 
         producer.send(MQMessageFactory.getMsg(topic1, msgSize));
@@ -59,7 +59,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
         Assert.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
     }
 
@@ -72,7 +72,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic1, "*", new RMQNormalListener());
         consumer1.subscribe(topic2, tag);
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic1,
-            "*", new RMQNormalListener());
+                "*", new RMQNormalListener());
         consumer2.subscribe(topic2, tag);
 
         producer.send(MQMessageFactory.getMsg(topic1, msgSize));
@@ -80,7 +80,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
         Assert.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
     }
 
@@ -102,7 +102,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
         producer.send(MQMessageFactory.getMsg(topic2, msgSize, tag1));
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
     }
 }

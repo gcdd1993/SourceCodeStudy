@@ -18,9 +18,6 @@
 package org.apache.rocketmq.common.protocol.route;
 
 
-import org.apache.rocketmq.common.protocol.route.BrokerData;
-import org.apache.rocketmq.common.protocol.route.QueueData;
-import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 import org.junit.Test;
 
@@ -29,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
 
 
 public class TopicRouteDataTest {

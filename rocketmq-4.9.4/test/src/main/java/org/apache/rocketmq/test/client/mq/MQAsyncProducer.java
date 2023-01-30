@@ -17,10 +17,11 @@
 
 package org.apache.rocketmq.test.client.mq;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.test.clientinterface.AbstractMQProducer;
 import org.apache.rocketmq.test.util.TestUtil;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MQAsyncProducer {
     private static Logger logger = Logger.getLogger(MQAsyncProducer.class);
@@ -31,7 +32,7 @@ public class MQAsyncProducer {
     private AtomicBoolean bPause = new AtomicBoolean(false);
 
     public MQAsyncProducer(final AbstractMQProducer producer, final long msgNum,
-        final int intervalMills) {
+                           final int intervalMills) {
         this.producer = producer;
         this.msgNum = msgNum;
         this.intervalMills = intervalMills;
@@ -68,7 +69,7 @@ public class MQAsyncProducer {
                 TestUtil.waitForMonment(200);
             } else {
                 logger.error(String.format("time elapse:%s, but the message sending has not finished",
-                    System.currentTimeMillis() - startTime));
+                        System.currentTimeMillis() - startTime));
                 break;
             }
         }

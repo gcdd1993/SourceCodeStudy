@@ -18,6 +18,20 @@ package org.apache.rocketmq.acl.plain;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.rocketmq.acl.common.AclConstants;
+import org.apache.rocketmq.acl.common.AclException;
+import org.apache.rocketmq.acl.common.AclUtils;
+import org.apache.rocketmq.acl.common.Permission;
+import org.apache.rocketmq.common.AclConfig;
+import org.apache.rocketmq.common.DataVersion;
+import org.apache.rocketmq.common.MixAll;
+import org.apache.rocketmq.common.PlainAccessConfig;
+import org.apache.rocketmq.common.constant.LoggerName;
+import org.apache.rocketmq.common.topic.TopicValidator;
+import org.apache.rocketmq.logging.InternalLogger;
+import org.apache.rocketmq.logging.InternalLoggerFactory;
+import org.apache.rocketmq.srvutil.AclFileWatchService;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,49 +50,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.rocketmq.acl.common.AclConstants;
-import org.apache.rocketmq.acl.common.AclException;
-import org.apache.rocketmq.acl.common.AclUtils;
-import org.apache.rocketmq.acl.common.Permission;
-import org.apache.rocketmq.common.AclConfig;
-import org.apache.rocketmq.common.DataVersion;
-import org.apache.rocketmq.common.MixAll;
-import org.apache.rocketmq.common.PlainAccessConfig;
-import org.apache.rocketmq.common.constant.LoggerName;
-import org.apache.rocketmq.common.topic.TopicValidator;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
-import org.apache.rocketmq.srvutil.AclFileWatchService;
-
 public class PlainPermissionManager {
 
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
-
-    private String fileHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY,
-        System.getenv(MixAll.ROCKETMQ_HOME_ENV));
-
-    private String defaultAclDir;
-
-    private String defaultAclFile;
-
-    private Map<String/** fileFullPath **/, Map<String/** AccessKey **/, PlainAccessResource>> aclPlainAccessResourceMap = new HashMap<>();
-
-    private Map<String/** AccessKey **/, String/** fileFullPath **/> accessKeyTable = new HashMap<>();
-
-    private List<RemoteAddressStrategy> globalWhiteRemoteAddressStrategy = new ArrayList<>();
-
-    private RemoteAddressStrategyFactory remoteAddressStrategyFactory = new RemoteAddressStrategyFactory();
-
-    private Map<String/** fileFullPath **/, List<RemoteAddressStrategy>> globalWhiteRemoteAddressStrategyMap = new HashMap<>();
-
-    private boolean isWatchStart;
-
-    private Map<String/** fileFullPath **/, DataVersion> dataVersionMap = new HashMap<>();
-
     @Deprecated
     private final DataVersion dataVersion = new DataVersion();
-
+    private String fileHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY,
+            System.getenv(MixAll.ROCKETMQ_HOME_ENV));
+    private String defaultAclDir;
+    private String defaultAclFile;
+    private Map<String/** fileFullPath **/, Map<String/** AccessKey **/, PlainAccessResource>> aclPlainAccessResourceMap = new HashMap<>();
+    private Map<String/** AccessKey **/, String/** fileFullPath **/> accessKeyTable = new HashMap<>();
+    private List<RemoteAddressStrategy> globalWhiteRemoteAddressStrategy = new ArrayList<>();
+    private RemoteAddressStrategyFactory remoteAddressStrategyFactory = new RemoteAddressStrategyFactory();
+    private Map<String/** fileFullPath **/, List<RemoteAddressStrategy>> globalWhiteRemoteAddressStrategyMap = new HashMap<>();
+    private boolean isWatchStart;
+    private Map<String/** fileFullPath **/, DataVersion> dataVersionMap = new HashMap<>();
     private List<String> fileList = new ArrayList<>();
 
     public PlainPermissionManager() {
@@ -93,7 +80,7 @@ public class PlainPermissionManager {
             log.info("The default acl dir {} is not exist", path);
             return new ArrayList<>();
         }
-        List<String>  allAclFileFullPath = new ArrayList<>();
+        List<String> allAclFileFullPath = new ArrayList<>();
         File file = new File(path);
         File[] files = file.listFiles();
         for (int i = 0; i < files.length; i++) {
@@ -131,7 +118,7 @@ public class PlainPermissionManager {
         for (int i = 0; i < fileList.size(); i++) {
             final String currentFile = MixAll.dealFilePath(fileList.get(i));
             JSONObject plainAclConfData = AclUtils.getYamlDataObject(currentFile,
-                JSONObject.class);
+                    JSONObject.class);
             if (plainAclConfData == null || plainAclConfData.isEmpty()) {
                 log.warn("No data in file {}", currentFile);
                 continue;
@@ -143,7 +130,7 @@ public class PlainPermissionManager {
             if (globalWhiteRemoteAddressesList != null && !globalWhiteRemoteAddressesList.isEmpty()) {
                 for (int j = 0; j < globalWhiteRemoteAddressesList.size(); j++) {
                     globalWhiteRemoteAddressStrategyList.add(remoteAddressStrategyFactory.
-                        getRemoteAddressStrategy(globalWhiteRemoteAddressesList.getString(j)));
+                            getRemoteAddressStrategy(globalWhiteRemoteAddressesList.getString(j)));
                 }
             }
             if (globalWhiteRemoteAddressStrategyList.size() > 0) {
@@ -213,7 +200,7 @@ public class PlainPermissionManager {
         List<RemoteAddressStrategy> globalWhiteRemoteAddressStrategy = new ArrayList<>();
 
         JSONObject plainAclConfData = AclUtils.getYamlDataObject(aclFilePath,
-            JSONObject.class);
+                JSONObject.class);
         if (plainAclConfData == null || plainAclConfData.isEmpty()) {
             log.warn("No data in {}, skip it", aclFilePath);
             return;
@@ -223,7 +210,7 @@ public class PlainPermissionManager {
         if (globalWhiteRemoteAddressesList != null && !globalWhiteRemoteAddressesList.isEmpty()) {
             for (int i = 0; i < globalWhiteRemoteAddressesList.size(); i++) {
                 globalWhiteRemoteAddressStrategy.add(remoteAddressStrategyFactory.
-                    getRemoteAddressStrategy(globalWhiteRemoteAddressesList.getString(i)));
+                        getRemoteAddressStrategy(globalWhiteRemoteAddressesList.getString(i)));
             }
         }
 
@@ -393,7 +380,7 @@ public class PlainPermissionManager {
     }
 
     public Map<String, Object> createAclAccessConfigMap(Map<String, Object> existedAccountMap,
-        PlainAccessConfig plainAccessConfig) {
+                                                        PlainAccessConfig plainAccessConfig) {
 
         Map<String, Object> newAccountsMap = null;
         if (existedAccountMap == null) {
@@ -403,18 +390,18 @@ public class PlainPermissionManager {
         }
 
         if (StringUtils.isEmpty(plainAccessConfig.getAccessKey()) ||
-            plainAccessConfig.getAccessKey().length() <= AclConstants.ACCESS_KEY_MIN_LENGTH) {
+                plainAccessConfig.getAccessKey().length() <= AclConstants.ACCESS_KEY_MIN_LENGTH) {
             throw new AclException(String.format(
-                "The accessKey=%s cannot be null and length should longer than 6",
-                plainAccessConfig.getAccessKey()));
+                    "The accessKey=%s cannot be null and length should longer than 6",
+                    plainAccessConfig.getAccessKey()));
         }
         newAccountsMap.put(AclConstants.CONFIG_ACCESS_KEY, plainAccessConfig.getAccessKey());
 
         if (!StringUtils.isEmpty(plainAccessConfig.getSecretKey())) {
             if (plainAccessConfig.getSecretKey().length() <= AclConstants.SECRET_KEY_MIN_LENGTH) {
                 throw new AclException(String.format(
-                    "The secretKey=%s value length should longer than 6",
-                    plainAccessConfig.getSecretKey()));
+                        "The secretKey=%s value length should longer than 6",
+                        plainAccessConfig.getSecretKey()));
             }
             newAccountsMap.put(AclConstants.CONFIG_SECRET_KEY, plainAccessConfig.getSecretKey());
         }
@@ -449,7 +436,7 @@ public class PlainPermissionManager {
         if (accessKeyTable.containsKey(accesskey)) {
             String aclFileName = accessKeyTable.get(accesskey);
             Map<String, Object> aclAccessConfigMap = AclUtils.getYamlDataObject(aclFileName,
-                Map.class);
+                    Map.class);
             if (aclAccessConfigMap == null || aclAccessConfigMap.isEmpty()) {
                 log.warn("No data found in {} when deleting access config of {}", aclFileName, accesskey);
                 return true;
@@ -519,7 +506,7 @@ public class PlainPermissionManager {
         for (int i = 0; i < fileList.size(); i++) {
             String path = fileList.get(i);
             JSONObject plainAclConfData = AclUtils.getYamlDataObject(path,
-                JSONObject.class);
+                    JSONObject.class);
             if (plainAclConfData == null || plainAclConfData.isEmpty()) {
                 continue;
             }
@@ -600,7 +587,7 @@ public class PlainPermissionManager {
             if (ownedPermMap == null || !ownedPermMap.containsKey(resource)) {
                 // Check the default perm
                 byte ownedPerm = isGroup ? ownedAccess.getDefaultGroupPerm() :
-                    ownedAccess.getDefaultTopicPerm();
+                        ownedAccess.getDefaultTopicPerm();
                 if (!Permission.checkPermission(neededPerm, ownedPerm)) {
                     throw new AclException(String.format("No default permission for %s", PlainAccessResource.printStr(resource, isGroup)));
                 }
@@ -620,12 +607,12 @@ public class PlainPermissionManager {
 
     public void checkPlainAccessConfig(PlainAccessConfig plainAccessConfig) throws AclException {
         if (plainAccessConfig.getAccessKey() == null
-            || plainAccessConfig.getSecretKey() == null
-            || plainAccessConfig.getAccessKey().length() <= AclConstants.ACCESS_KEY_MIN_LENGTH
-            || plainAccessConfig.getSecretKey().length() <= AclConstants.SECRET_KEY_MIN_LENGTH) {
+                || plainAccessConfig.getSecretKey() == null
+                || plainAccessConfig.getAccessKey().length() <= AclConstants.ACCESS_KEY_MIN_LENGTH
+                || plainAccessConfig.getSecretKey().length() <= AclConstants.SECRET_KEY_MIN_LENGTH) {
             throw new AclException(String.format(
-                "The accessKey=%s and secretKey=%s cannot be null and length should longer than 6",
-                plainAccessConfig.getAccessKey(), plainAccessConfig.getSecretKey()));
+                    "The accessKey=%s and secretKey=%s cannot be null and length should longer than 6",
+                    plainAccessConfig.getAccessKey(), plainAccessConfig.getSecretKey()));
         }
     }
 
@@ -645,7 +632,7 @@ public class PlainPermissionManager {
         Permission.parseResourcePerms(plainAccessResource, true, plainAccessConfig.getTopicPerms());
 
         plainAccessResource.setRemoteAddressStrategy(remoteAddressStrategyFactory.
-            getRemoteAddressStrategy(plainAccessResource.getWhiteRemoteAddress()));
+                getRemoteAddressStrategy(plainAccessResource.getWhiteRemoteAddress()));
 
         return plainAccessResource;
     }

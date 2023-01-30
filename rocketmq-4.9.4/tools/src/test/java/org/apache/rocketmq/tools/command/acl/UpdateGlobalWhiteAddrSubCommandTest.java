@@ -30,9 +30,9 @@ public class UpdateGlobalWhiteAddrSubCommandTest {
     public void testExecute() {
         UpdateGlobalWhiteAddrSubCommand cmd = new UpdateGlobalWhiteAddrSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-g 10.10.103.*,192.168.0.*", "-c default-cluster"};
+        String[] subargs = new String[]{"-g 10.10.103.*,192.168.0.*", "-c default-cluster"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('g').trim()).isEqualTo("10.10.103.*,192.168.0.*");
         assertThat(commandLine.getOptionValue('c').trim()).isEqualTo("default-cluster");
     }

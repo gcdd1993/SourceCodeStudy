@@ -47,6 +47,28 @@ public abstract class ServerResponseMocker {
 
     private final NioEventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 
+    public static ServerResponseMocker startServer(int port, byte[] body) {
+        return startServer(port, body, null);
+    }
+
+    public static ServerResponseMocker startServer(int port, byte[] body, HashMap<String, String> extMap) {
+        ServerResponseMocker mocker = new ServerResponseMocker() {
+            @Override
+            protected int getPort() {
+                return port;
+            }
+
+            @Override
+            protected byte[] getBody() {
+                return body;
+            }
+        };
+        mocker.start(extMap);
+        // add jvm hook, close connection when jvm down
+        Runtime.getRuntime().addShutdownHook(new Thread(mocker::shutdown));
+        return mocker;
+    }
+
     @Before
     public void before() {
         start();
@@ -126,28 +148,5 @@ public abstract class ServerResponseMocker {
             }
             ctx.writeAndFlush(response);
         }
-    }
-
-    public static ServerResponseMocker startServer(int port, byte[] body) {
-        return startServer(port, body, null);
-    }
-
-
-    public static ServerResponseMocker startServer(int port, byte[] body, HashMap<String, String> extMap) {
-        ServerResponseMocker mocker = new ServerResponseMocker() {
-            @Override
-            protected int getPort() {
-                return port;
-            }
-
-            @Override
-            protected byte[] getBody() {
-                return body;
-            }
-        };
-        mocker.start(extMap);
-        // add jvm hook, close connection when jvm down
-        Runtime.getRuntime().addShutdownHook(new Thread(mocker::shutdown));
-        return mocker;
     }
 }

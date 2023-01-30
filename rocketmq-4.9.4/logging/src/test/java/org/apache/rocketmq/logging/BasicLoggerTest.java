@@ -17,16 +17,17 @@
 
 package org.apache.rocketmq.logging;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import org.apache.rocketmq.logging.inner.Level;
 import org.apache.rocketmq.logging.inner.Logger;
 import org.apache.rocketmq.logging.inner.LoggingEvent;
 import org.junit.After;
 import org.junit.Before;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class BasicLoggerTest {
 
@@ -39,7 +40,7 @@ public class BasicLoggerTest {
     @Before
     public void createLoggingEvent() {
         loggingEvent = new LoggingEvent(Logger.class.getName(), logger, Level.INFO,
-            "junit test error", new RuntimeException("createLogging error"));
+                "junit test error", new RuntimeException("createLogging error"));
     }
 
     public String readFile(String file) throws IOException {

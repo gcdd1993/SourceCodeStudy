@@ -17,7 +17,6 @@
 
 package org.apache.rocketmq.test.client.producer.order;
 
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.test.base.BaseConf;
@@ -30,6 +29,8 @@ import org.apache.rocketmq.test.util.VerifyUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -63,11 +64,11 @@ public class OrderMsgWithTagIT extends BaseConf {
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(mqMsgs.getMsgBodys());
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 
     @Test
@@ -83,11 +84,11 @@ public class OrderMsgWithTagIT extends BaseConf {
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(mqMsgs.getMsgBodys());
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 
     @Test
@@ -109,11 +110,11 @@ public class OrderMsgWithTagIT extends BaseConf {
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(mqMsgs.getMsgBodys());
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 
     @Test
@@ -122,9 +123,9 @@ public class OrderMsgWithTagIT extends BaseConf {
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, tag1,
-            new RMQOrderListener("consumer1"));
+                new RMQOrderListener("consumer1"));
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, topic, tag2,
-            new RMQOrderListener("consumer2"));
+                new RMQOrderListener("consumer2"));
         List<MessageQueue> mqs = producer.getMessageQueue();
 
         MessageQueueMsg mqMsgs = new MessageQueueMsg(mqs, msgSize, tag1);
@@ -134,13 +135,13 @@ public class OrderMsgWithTagIT extends BaseConf {
         producer.send(mqMsgs.getMsgsWithMQ());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer1.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer2.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 
     @Test
@@ -149,7 +150,7 @@ public class OrderMsgWithTagIT extends BaseConf {
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic,
-            String.format("%s||%s", tag1, tag2), new RMQOrderListener());
+                String.format("%s||%s", tag1, tag2), new RMQOrderListener());
 
         List<MessageQueue> mqs = producer.getMessageQueue();
 
@@ -160,10 +161,10 @@ public class OrderMsgWithTagIT extends BaseConf {
         producer.send(mqMsgs.getMsgsWithMQ());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer.getListener());
+                consumer.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 }

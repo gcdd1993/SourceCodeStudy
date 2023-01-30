@@ -17,15 +17,16 @@
 
 package org.apache.rocketmq.store;
 
-import java.io.File;
-import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +47,7 @@ public class MultiDispatchTest {
         messageStoreConfig.setMaxIndexNum(100 * 10);
         messageStoreConfig.setStorePathRootDir(System.getProperty("user.home") + File.separator + "unitteststore1");
         messageStoreConfig.setStorePathCommitLog(
-            System.getProperty("user.home") + File.separator + "unitteststore1" + File.separator + "commitlog");
+                System.getProperty("user.home") + File.separator + "unitteststore1" + File.separator + "commitlog");
 
         messageStoreConfig.setEnableLmq(true);
         messageStoreConfig.setEnableMultiDispatch(true);

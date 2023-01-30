@@ -16,16 +16,16 @@
  */
 package org.apache.rocketmq.common.protocol.header;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.rocketmq.remoting.CommandCustomHeader;
 import org.apache.rocketmq.remoting.protocol.FastCodesHeader;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class FastCodesHeaderTest {
 
@@ -55,7 +55,7 @@ public class FastCodesHeaderTest {
 
     private HashMap<String, String> buildExtFields(List<Field> fields) {
         HashMap<String, String> extFields = new HashMap<>();
-        for (Field f: fields) {
+        for (Field f : fields) {
             Class<?> c = f.getType();
             if (c.equals(String.class)) {
                 extFields.put(f.getName(), "str");
@@ -73,10 +73,10 @@ public class FastCodesHeaderTest {
     }
 
     private void check(RemotingCommand command, List<Field> fields,
-            Class<? extends CommandCustomHeader> classHeader) throws Exception {
+                       Class<? extends CommandCustomHeader> classHeader) throws Exception {
         CommandCustomHeader o1 = command.decodeCommandCustomHeader(classHeader, false);
         CommandCustomHeader o2 = classHeader.getDeclaredConstructor().newInstance();
-        ((FastCodesHeader)o2).decode(command.getExtFields());
+        ((FastCodesHeader) o2).decode(command.getExtFields());
         for (Field f : fields) {
             Object value1 = f.get(o1);
             Object value2 = f.get(o2);

@@ -29,7 +29,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.apache.rocketmq.common.protocol.heartbeat.ConsumeType.CONSUME_ACTIVELY;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConsumerRunningInfoTest {
@@ -46,7 +45,7 @@ public class ConsumerRunningInfoTest {
         consumerRunningInfo.setJstack("test");
 
         TreeMap<MessageQueue, ProcessQueueInfo> mqTable = new TreeMap<MessageQueue, ProcessQueueInfo>();
-        messageQueue = new MessageQueue("topicA","broker", 1);
+        messageQueue = new MessageQueue("topicA", "broker", 1);
         mqTable.put(messageQueue, new ProcessQueueInfo());
         consumerRunningInfo.setMqTable(mqTable);
 
@@ -86,20 +85,20 @@ public class ConsumerRunningInfoTest {
     }
 
     @Test
-    public void testAnalyzeRebalance(){
+    public void testAnalyzeRebalance() {
         boolean result = ConsumerRunningInfo.analyzeRebalance(criTable);
         assertThat(result).isTrue();
     }
 
     @Test
-    public void testAnalyzeProcessQueue(){
+    public void testAnalyzeProcessQueue() {
         String result = ConsumerRunningInfo.analyzeProcessQueue("client_id", consumerRunningInfo);
         assertThat(result).isEmpty();
 
     }
 
     @Test
-    public void testAnalyzeSubscription(){
+    public void testAnalyzeSubscription() {
         boolean result = ConsumerRunningInfo.analyzeSubscription(criTable);
         assertThat(result).isTrue();
     }

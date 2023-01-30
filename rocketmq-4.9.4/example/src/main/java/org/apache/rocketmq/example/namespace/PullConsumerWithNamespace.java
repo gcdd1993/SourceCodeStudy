@@ -16,13 +16,13 @@
  */
 package org.apache.rocketmq.example.namespace;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.PullResult;
 import org.apache.rocketmq.common.message.MessageQueue;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class PullConsumerWithNamespace {
 
@@ -45,7 +45,7 @@ public class PullConsumerWithNamespace {
             while (true) {
                 try {
                     PullResult pullResult =
-                        pullConsumer.pullBlockIfNotFound(mq, null, getMessageQueueOffset(mq), 32);
+                            pullConsumer.pullBlockIfNotFound(mq, null, getMessageQueueOffset(mq), 32);
                     System.out.printf("%s%n", pullResult);
 
                     putMessageQueueOffset(mq, pullResult.getNextBeginOffset());
@@ -85,7 +85,7 @@ public class PullConsumerWithNamespace {
             return;
         }
         pullResult.getMsgFoundList().forEach(
-            msg -> System.out.printf("Topic is:%s, msgId is:%s%n", msg.getTopic(), msg.getMsgId()));
+                msg -> System.out.printf("Topic is:%s, msgId is:%s%n", msg.getTopic(), msg.getMsgId()));
     }
 
     private static void putMessageQueueOffset(MessageQueue mq, long offset) {

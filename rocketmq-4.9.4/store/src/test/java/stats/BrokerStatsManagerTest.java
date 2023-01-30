@@ -164,7 +164,7 @@ public class BrokerStatsManagerTest {
     }
 
     @Test
-    public void testOnGroupDeleted(){
+    public void testOnGroupDeleted() {
         brokerStatsManager.incGroupGetNums(GROUP_NAME, TOPIC, 1);
         brokerStatsManager.incGroupGetSize(GROUP_NAME, TOPIC, 100);
         brokerStatsManager.incQueueGetNums(GROUP_NAME, TOPIC, QUEUE_ID, 1);

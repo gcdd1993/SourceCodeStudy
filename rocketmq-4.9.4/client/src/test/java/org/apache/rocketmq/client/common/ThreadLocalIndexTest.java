@@ -16,8 +16,9 @@
  */
 package org.apache.rocketmq.client.common;
 
-import java.lang.reflect.Field;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

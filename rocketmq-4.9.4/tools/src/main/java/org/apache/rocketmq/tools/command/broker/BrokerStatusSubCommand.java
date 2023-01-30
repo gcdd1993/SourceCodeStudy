@@ -16,10 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.broker;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -33,6 +29,11 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.CommandUtil;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class BrokerStatusSubCommand implements SubCommand {
 
@@ -74,7 +75,7 @@ public class BrokerStatusSubCommand implements SubCommand {
                 printBrokerRuntimeStats(defaultMQAdminExt, brokerAddr, false);
             } else if (clusterName != null) {
                 Set<String> masterSet =
-                    CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
+                        CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
                 for (String ba : masterSet) {
                     try {
                         printBrokerRuntimeStats(defaultMQAdminExt, ba, true);
@@ -92,7 +93,7 @@ public class BrokerStatusSubCommand implements SubCommand {
     }
 
     public void printBrokerRuntimeStats(final DefaultMQAdminExt defaultMQAdminExt, final String brokerAddr,
-        final boolean printBroker) throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
+                                        final boolean printBroker) throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         KVTable kvTable = defaultMQAdminExt.fetchBrokerRuntimeStats(brokerAddr);
 
         TreeMap<String, String> tmp = new TreeMap<String, String>();

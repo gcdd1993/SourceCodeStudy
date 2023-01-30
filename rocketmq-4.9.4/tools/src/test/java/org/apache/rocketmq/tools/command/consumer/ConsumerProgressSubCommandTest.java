@@ -58,9 +58,9 @@ public class ConsumerProgressSubCommandTest {
     public void testExecute() throws SubCommandException {
         ConsumerProgressSubCommand cmd = new ConsumerProgressSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-g default-group"};
+        String[] subargs = new String[]{"-g default-group"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
     }
 

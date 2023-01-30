@@ -17,6 +17,8 @@
 
 package org.apache.rocketmq.test.util.data.collect.impl;
 
+import org.apache.rocketmq.test.util.data.collect.DataCollector;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.rocketmq.test.util.data.collect.DataCollector;
 
 public class MapDataCollectorImpl implements DataCollector {
 

@@ -22,6 +22,7 @@ import io.openmessaging.MessagingAccessPoint;
 import io.openmessaging.OMS;
 import io.openmessaging.producer.Producer;
 import io.openmessaging.producer.SendResult;
+
 import java.util.concurrent.CountDownLatch;
 
 public class SimpleProducer {
@@ -32,7 +33,7 @@ public class SimpleProducer {
     public static void main(String[] args) {
         // You need to set the environment variable OMS_RMQ_DIRECT_NAME_SRV=true
         final MessagingAccessPoint messagingAccessPoint =
-            OMS.getMessagingAccessPoint(URL);
+                OMS.getMessagingAccessPoint(URL);
 
         final Producer producer = messagingAccessPoint.createProducer();
 

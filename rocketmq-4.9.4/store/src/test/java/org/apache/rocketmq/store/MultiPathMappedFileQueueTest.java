@@ -17,12 +17,14 @@
 
 package org.apache.rocketmq.store;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import java.util.HashSet;
-import java.util.Set;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class MultiPathMappedFileQueueTest {

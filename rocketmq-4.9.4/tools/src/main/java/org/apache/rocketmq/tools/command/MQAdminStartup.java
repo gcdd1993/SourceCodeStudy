@@ -94,7 +94,7 @@ public class MQAdminStartup {
     protected static List<SubCommand> subCommandList = new ArrayList<SubCommand>();
 
     private static String rocketmqHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY,
-        System.getenv(MixAll.ROCKETMQ_HOME_ENV));
+            System.getenv(MixAll.ROCKETMQ_HOME_ENV));
 
     public static void main(String[] args) {
         main0(args, null);
@@ -135,8 +135,8 @@ public class MQAdminStartup {
 
                         Options options = ServerUtil.buildCommandlineOptions(new Options());
                         final CommandLine commandLine =
-                            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options),
-                                new PosixParser());
+                                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options),
+                                        new PosixParser());
                         if (null == commandLine) {
                             return;
                         }

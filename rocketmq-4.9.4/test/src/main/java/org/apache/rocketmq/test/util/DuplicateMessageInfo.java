@@ -30,7 +30,7 @@ import java.util.Map;
 public class DuplicateMessageInfo<T> {
 
     public void checkDuplicatedMessageInfo(boolean bPrintLog,
-        List<List<T>> lQueueList) throws IOException {
+                                           List<List<T>> lQueueList) throws IOException {
         int msgListSize = lQueueList.size();
         int maxmsgList = 0;
         Map<T, Integer> msgIdMap = new HashMap<T, Integer>();
@@ -59,8 +59,8 @@ public class DuplicateMessageInfo<T> {
                         }
 
                         strBQueue.get(msgQueueListIndex).append("" + msgQueueListIndex + "\t" +
-                            msgIdMap.get(lQueueList.get(msgQueueListIndex).get(msgListIndex)) + "\t"
-                            + lQueueList.get(msgQueueListIndex).get(msgListIndex) + "\r\n");
+                                msgIdMap.get(lQueueList.get(msgQueueListIndex).get(msgListIndex)) + "\t"
+                                + lQueueList.get(msgQueueListIndex).get(msgListIndex) + "\r\n");
                     } else {
                         msgIdMap.put(lQueueList.get(msgQueueListIndex).get(msgListIndex), msgQueueListIndex);
                     }
@@ -87,7 +87,7 @@ public class DuplicateMessageInfo<T> {
             float msgQueueInnerDupRate = ((float) msgDupNum / (float) msgNum) * 100.0f;
 
             strBuilder.append(i + "\t" + msgDupNum + "/" + getFloatNumString(msgQueueDupRate) + "%" + "\t\t" +
-                getFloatNumString(msgQueueInnerDupRate) + "%\r\n");
+                    getFloatNumString(msgQueueInnerDupRate) + "%\r\n");
         }
 
         System.out.print(strBuilder);

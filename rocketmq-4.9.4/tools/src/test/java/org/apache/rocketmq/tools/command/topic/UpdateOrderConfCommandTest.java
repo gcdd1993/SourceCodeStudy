@@ -29,9 +29,9 @@ public class UpdateOrderConfCommandTest {
     public void testExecute() {
         UpdateOrderConfCommand cmd = new UpdateOrderConfCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-t unit-test", "-v default-broker:8", "-m post"};
+        String[] subargs = new String[]{"-t unit-test", "-v default-broker:8", "-m post"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
         assertThat(commandLine.getOptionValue('v').trim()).isEqualTo("default-broker:8");
         assertThat(commandLine.getOptionValue('m').trim()).isEqualTo("post");

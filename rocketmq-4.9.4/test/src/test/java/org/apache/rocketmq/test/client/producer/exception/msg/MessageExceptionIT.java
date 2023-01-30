@@ -100,7 +100,7 @@ public class MessageExceptionIT extends BaseConf {
     @Test(expected = org.apache.rocketmq.client.exception.MQClientException.class)
     public void testSend128kMsg() throws Exception {
         Message msg = new Message(topic,
-            RandomUtils.getStringWithNumber(1024 * 1024 * 4 + 1).getBytes());
+                RandomUtils.getStringWithNumber(1024 * 1024 * 4 + 1).getBytes());
         producer.send(msg);
     }
 

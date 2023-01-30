@@ -15,8 +15,6 @@ package org.apache.rocketmq.common;/*
  * limitations under the License.
  */
 
-import org.apache.rocketmq.common.ConfigManager;
-import org.apache.rocketmq.common.MixAll;
 import org.junit.Test;
 
 import java.io.File;

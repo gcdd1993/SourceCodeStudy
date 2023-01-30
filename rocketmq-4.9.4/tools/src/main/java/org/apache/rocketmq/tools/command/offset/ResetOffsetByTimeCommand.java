@@ -17,8 +17,6 @@
 
 package org.apache.rocketmq.tools.command.offset;
 
-import java.util.Iterator;
-import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -30,6 +28,9 @@ import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class ResetOffsetByTimeCommand implements SubCommand {
 
@@ -109,20 +110,20 @@ public class ResetOffsetByTimeCommand implements SubCommand {
             }
 
             System.out.printf("rollback consumer offset by specified group[%s], topic[%s], force[%s], timestamp(string)[%s], timestamp(long)[%s]%n",
-                group, topic, force, timeStampStr, timestamp);
+                    group, topic, force, timeStampStr, timestamp);
 
             System.out.printf("%-40s  %-40s  %-40s%n",
-                "#brokerName",
-                "#queueId",
-                "#offset");
+                    "#brokerName",
+                    "#queueId",
+                    "#offset");
 
             Iterator<Map.Entry<MessageQueue, Long>> iterator = offsetTable.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<MessageQueue, Long> entry = iterator.next();
                 System.out.printf("%-40s  %-40d  %-40d%n",
-                    UtilAll.frontStringAtLeast(entry.getKey().getBrokerName(), 32),
-                    entry.getKey().getQueueId(),
-                    entry.getValue());
+                        UtilAll.frontStringAtLeast(entry.getKey().getBrokerName(), 32),
+                        entry.getKey().getQueueId(),
+                        entry.getValue());
             }
         } catch (Exception e) {
             throw new SubCommandException(this.getClass().getSimpleName() + " command failed", e);

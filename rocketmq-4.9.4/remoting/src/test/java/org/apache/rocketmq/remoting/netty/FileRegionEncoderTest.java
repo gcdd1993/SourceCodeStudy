@@ -21,20 +21,42 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.DefaultFileRegion;
 import io.netty.channel.FileRegion;
 import io.netty.channel.embedded.EmbeddedChannel;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class FileRegionEncoderTest {
 
     /**
+     * Write byte array to the specified file.
+     *
+     * @param file File to write to.
+     * @param data byte array to write.
+     * @throws IOException in case there is an exception.
+     */
+    private static void write(File file, byte[] data) throws IOException {
+        BufferedOutputStream bufferedOutputStream = null;
+        try {
+            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file, false));
+            bufferedOutputStream.write(data);
+            bufferedOutputStream.flush();
+        } finally {
+            if (null != bufferedOutputStream) {
+                bufferedOutputStream.close();
+            }
+        }
+    }
+
+    /**
      * This unit test case ensures that {@link FileRegionEncoder} indeed wraps {@link FileRegion} to
      * {@link ByteBuf}.
+     *
      * @throws IOException if there is an error.
      */
     @Test
@@ -56,25 +78,5 @@ public class FileRegionEncoderTest {
         byte[] arr = new byte[out.readableBytes()];
         out.getBytes(0, arr);
         Assert.assertArrayEquals("Data should be identical", data, arr);
-    }
-
-    /**
-     * Write byte array to the specified file.
-     *
-     * @param file File to write to.
-     * @param data byte array to write.
-     * @throws IOException in case there is an exception.
-     */
-    private static void write(File file, byte[] data) throws IOException {
-        BufferedOutputStream bufferedOutputStream = null;
-        try {
-            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file, false));
-            bufferedOutputStream.write(data);
-            bufferedOutputStream.flush();
-        } finally {
-            if (null != bufferedOutputStream) {
-                bufferedOutputStream.close();
-            }
-        }
     }
 }

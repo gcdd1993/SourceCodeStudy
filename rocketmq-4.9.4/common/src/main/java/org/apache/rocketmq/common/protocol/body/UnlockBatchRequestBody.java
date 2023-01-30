@@ -17,10 +17,11 @@
 
 package org.apache.rocketmq.common.protocol.body;
 
-import java.util.HashSet;
-import java.util.Set;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class UnlockBatchRequestBody extends RemotingSerializable {
     private String consumerGroup;

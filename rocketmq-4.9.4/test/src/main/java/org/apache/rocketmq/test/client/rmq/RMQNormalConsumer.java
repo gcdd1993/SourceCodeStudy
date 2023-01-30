@@ -29,7 +29,7 @@ public class RMQNormalConsumer extends AbstractMQConsumer {
     protected DefaultMQPushConsumer consumer = null;
 
     public RMQNormalConsumer(String nsAddr, String topic, String subExpression,
-        String consumerGroup, AbstractListener listener) {
+                             String consumerGroup, AbstractListener listener) {
         super(nsAddr, topic, subExpression, consumerGroup, listener);
     }
 

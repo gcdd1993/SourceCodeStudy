@@ -57,7 +57,7 @@ public abstract class ComparisonExpression extends BinaryExpression implements B
                 int ret = __compare((Comparable) rv, (Comparable) lv, true);
                 if (ret < 0)
                     throw new RuntimeException(
-                        String.format("Illegal values of between, left value(%s) must less than or equal to right value(%s)", lv, rv)
+                            String.format("Illegal values of between, left value(%s) must less than or equal to right value(%s)", lv, rv)
                     );
             }
         }
@@ -245,36 +245,6 @@ public abstract class ComparisonExpression extends BinaryExpression implements B
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public Object evaluate(EvaluationContext context) throws Exception {
-        Comparable<Comparable> lv = (Comparable) left.evaluate(context);
-        if (lv == null) {
-            return null;
-        }
-        Comparable rv = (Comparable) right.evaluate(context);
-        if (rv == null) {
-            return null;
-        }
-        if (getExpressionSymbol().equals(">=") || getExpressionSymbol().equals(">")
-            || getExpressionSymbol().equals("<") || getExpressionSymbol().equals("<=")) {
-            Class<? extends Comparable> lc = lv.getClass();
-            Class<? extends Comparable> rc = rv.getClass();
-            if (lc == rc && lc == String.class) {
-                // Compare String is illegal
-                // first try to convert to double
-                try {
-                    Comparable lvC = Double.valueOf((String) (Comparable) lv);
-                    Comparable rvC = Double.valueOf((String) rv);
-
-                    return compare(lvC, rvC);
-                } catch (Exception e) {
-                    throw new RuntimeException("It's illegal to compare string by '>=', '>', '<', '<='. lv=" + lv + ", rv=" + rv, e);
-                }
-            }
-        }
-        return compare(lv, rv);
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
     protected static int __compare(Comparable lv, Comparable rv, boolean convertStringExpressions) {
         Class<? extends Comparable> lc = lv.getClass();
         Class<? extends Comparable> rc = rv.getClass();
@@ -392,6 +362,36 @@ public abstract class ComparisonExpression extends BinaryExpression implements B
             }
         }
         return lv.compareTo(rv);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public Object evaluate(EvaluationContext context) throws Exception {
+        Comparable<Comparable> lv = (Comparable) left.evaluate(context);
+        if (lv == null) {
+            return null;
+        }
+        Comparable rv = (Comparable) right.evaluate(context);
+        if (rv == null) {
+            return null;
+        }
+        if (getExpressionSymbol().equals(">=") || getExpressionSymbol().equals(">")
+                || getExpressionSymbol().equals("<") || getExpressionSymbol().equals("<=")) {
+            Class<? extends Comparable> lc = lv.getClass();
+            Class<? extends Comparable> rc = rv.getClass();
+            if (lc == rc && lc == String.class) {
+                // Compare String is illegal
+                // first try to convert to double
+                try {
+                    Comparable lvC = Double.valueOf((String) (Comparable) lv);
+                    Comparable rvC = Double.valueOf((String) rv);
+
+                    return compare(lvC, rvC);
+                } catch (Exception e) {
+                    throw new RuntimeException("It's illegal to compare string by '>=', '>', '<', '<='. lv=" + lv + ", rv=" + rv, e);
+                }
+            }
+        }
+        return compare(lv, rv);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

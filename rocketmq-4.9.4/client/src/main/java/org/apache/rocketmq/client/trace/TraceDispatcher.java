@@ -18,16 +18,13 @@ package org.apache.rocketmq.client.trace;
 
 import org.apache.rocketmq.client.AccessChannel;
 import org.apache.rocketmq.client.exception.MQClientException;
+
 import java.io.IOException;
 
 /**
  * Interface of asynchronous transfer data
  */
 public interface TraceDispatcher {
-    enum Type {
-        PRODUCE,
-        CONSUME
-    }
     /**
      * Initialize asynchronous transfer data module
      */
@@ -35,6 +32,7 @@ public interface TraceDispatcher {
 
     /**
      * Append the transfering data
+     *
      * @param ctx data information
      * @return
      */
@@ -51,4 +49,9 @@ public interface TraceDispatcher {
      * Close the trace Hook
      */
     void shutdown();
+
+    enum Type {
+        PRODUCE,
+        CONSUME
+    }
 }

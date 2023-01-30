@@ -44,12 +44,9 @@ public class QueryMsgTraceByIdSubCommandTest {
     private static final int NAME_SERVER_PORT = 45677;
 
     private static final int BROKER_PORT = 45676;
-
-    private ServerResponseMocker brokerMocker;
-
-    private ServerResponseMocker nameServerMocker;
-
     private static final String MSG_ID = "AC1FF54E81C418B4AAC24F92E1E00000";
+    private ServerResponseMocker brokerMocker;
+    private ServerResponseMocker nameServerMocker;
 
     @Before
     public void before() {
@@ -67,7 +64,7 @@ public class QueryMsgTraceByIdSubCommandTest {
     public void testExecute() throws SubCommandException {
         QueryMsgTraceByIdSubCommand cmd = new QueryMsgTraceByIdSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-i " + MSG_ID};
+        String[] subargs = new String[]{"-i " + MSG_ID};
         final CommandLine commandLine =
                 ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);

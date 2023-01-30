@@ -32,7 +32,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class BroadCastNormalMsgNotRecvIT extends BaseBroadCastIT {
     private static Logger logger = Logger
-        .getLogger(NormalMsgTwoSameGroupConsumerIT.class);
+            .getLogger(NormalMsgTwoSameGroupConsumerIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
@@ -55,18 +55,18 @@ public class BroadCastNormalMsgNotRecvIT extends BaseBroadCastIT {
 
         String group = initConsumerGroup();
         RMQBroadCastConsumer consumer1 = getBroadCastConsumer(nsAddr, group, topic, "*",
-            new RMQNormalListener(group + "_1"));
+                new RMQNormalListener(group + "_1"));
         Thread.sleep(3000);
         producer.send(msgSize);
         Assert.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
 
         consumer1.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer1.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer1.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
 
         RMQBroadCastConsumer consumer2 = getBroadCastConsumer(nsAddr,
-            consumer1.getConsumerGroup(), topic, "*", new RMQNormalListener(group + "_2"));
+                consumer1.getConsumerGroup(), topic, "*", new RMQNormalListener(group + "_2"));
         consumer2.getListener().waitForMessageConsume(producer.getAllMsgBody(), waitTime);
         assertThat(consumer2.getListener().getAllMsgBody().size()).isEqualTo(0);
     }

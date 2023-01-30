@@ -17,13 +17,14 @@
 
 package org.apache.rocketmq.broker.plugin;
 
+import org.apache.rocketmq.store.MessageStore;
+
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import org.apache.rocketmq.store.MessageStore;
 
 public final class MessageStoreFactory {
     public static MessageStore build(MessageStorePluginContext context, MessageStore messageStore)
-        throws IOException {
+            throws IOException {
         String plugin = context.getBrokerConfig().getMessageStorePlugIn();
         if (plugin != null && plugin.trim().length() != 0) {
             String[] pluginClasses = plugin.split(",");
@@ -36,7 +37,7 @@ public final class MessageStoreFactory {
                     messageStore = construct.newInstance(context, messageStore);
                 } catch (Throwable e) {
                     throw new RuntimeException(String.format(
-                        "Initialize plugin's class %s not found!", pluginClass), e);
+                            "Initialize plugin's class %s not found!", pluginClass), e);
                 }
             }
         }

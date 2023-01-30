@@ -20,14 +20,13 @@
  */
 package org.apache.rocketmq.common.protocol.header;
 
-import java.util.HashMap;
-
+import io.netty.buffer.ByteBuf;
 import org.apache.rocketmq.remoting.CommandCustomHeader;
 import org.apache.rocketmq.remoting.annotation.CFNotNull;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 import org.apache.rocketmq.remoting.protocol.FastCodesHeader;
 
-import io.netty.buffer.ByteBuf;
+import java.util.HashMap;
 
 public class PullMessageResponseHeader implements CommandCustomHeader, FastCodesHeader {
     @CFNotNull

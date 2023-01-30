@@ -199,7 +199,7 @@ public class AdminBrokerProcessorTest {
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
         assertThat(response.getRemark()).isEqualTo("Can't modify topic or subscription group from slave broker, " +
-            "please execute it from master broker.");
+                "please execute it from master broker.");
     }
 
     @Test
@@ -231,7 +231,7 @@ public class AdminBrokerProcessorTest {
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
         assertThat(response.getRemark()).isEqualTo("Can't modify topic or subscription group from slave broker, " +
-            "please execute it from master broker.");
+                "please execute it from master broker.");
     }
 
     @Test
@@ -391,7 +391,7 @@ public class AdminBrokerProcessorTest {
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
         assertThat(response.getRemark()).isEqualTo("Can't modify topic or subscription group from slave broker, " +
-            "please execute it from master broker.");
+                "please execute it from master broker.");
     }
 
     @Test
@@ -425,7 +425,7 @@ public class AdminBrokerProcessorTest {
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
         assertThat(response.getRemark()).isEqualTo("Can't modify topic or subscription group from slave broker, " +
-            "please execute it from master broker.");
+                "please execute it from master broker.");
     }
 
     @Test

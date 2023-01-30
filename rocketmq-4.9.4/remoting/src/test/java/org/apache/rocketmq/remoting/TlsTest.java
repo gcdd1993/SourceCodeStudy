@@ -17,11 +17,6 @@
 
 package org.apache.rocketmq.remoting;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import org.apache.rocketmq.remoting.common.TlsMode;
 import org.apache.rocketmq.remoting.exception.RemotingSendRequestException;
 import org.apache.rocketmq.remoting.netty.NettyClientConfig;
@@ -37,6 +32,12 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.TLS_CLIENT_AUTHSERVER;
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.TLS_CLIENT_CERTPATH;
@@ -69,14 +70,33 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TlsTest {
+    @Rule
+    public TestName name = new TestName();
+    @Rule
+    public TemporaryFolder tempFolder = new TemporaryFolder();
     private RemotingServer remotingServer;
     private RemotingClient remotingClient;
 
-    @Rule
-    public TestName name = new TestName();
+    private static void writeStringToFile(String path, String content) {
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
+            out.println(content);
+            out.close();
+        } catch (IOException ignore) {
+        }
+    }
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    private static String getCertsPath(String fileName) {
+        File resourcesDirectory = new File("src/test/resources/certs");
+        return resourcesDirectory.getAbsolutePath() + "/" + fileName;
+    }
+
+    private static RemotingCommand createRequest() {
+        RequestHeader requestHeader = new RequestHeader();
+        requestHeader.setCount(1);
+        requestHeader.setMessageTitle("Welcome");
+        return RemotingCommand.createRequestCommand(0, requestHeader);
+    }
 
     @Before
     public void setUp() throws InterruptedException {
@@ -106,8 +126,7 @@ public class TlsTest {
             tlsClientKeyPath = getCertsPath("badClient.key");
             tlsClientCertPath = getCertsPath("badClient.pem");
             tlsServerAuthClient = false;
-        }
-        else if ("noClientAuthFailure".equals(name.getMethodName())) {
+        } else if ("noClientAuthFailure".equals(name.getMethodName())) {
             //Clear the client cert config to ensure produce the handshake error
             tlsClientKeyPath = "";
             tlsClientCertPath = "";
@@ -289,27 +308,6 @@ public class TlsTest {
         assertThat(tlsClientTrustCertPath).isEqualTo("/ca.pem");
 
         tlsConfigFile = "/notFound";
-    }
-
-    private static void writeStringToFile(String path, String content) {
-        try {
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
-            out.println(content);
-            out.close();
-        } catch (IOException ignore) {
-        }
-    }
-
-    private static String getCertsPath(String fileName) {
-        File resourcesDirectory = new File("src/test/resources/certs");
-        return resourcesDirectory.getAbsolutePath() + "/" + fileName;
-    }
-
-    private static RemotingCommand createRequest() {
-        RequestHeader requestHeader = new RequestHeader();
-        requestHeader.setCount(1);
-        requestHeader.setMessageTitle("Welcome");
-        return RemotingCommand.createRequestCommand(0, requestHeader);
     }
 
     private void requestThenAssertResponse() throws Exception {

@@ -17,11 +17,6 @@
 
 package org.apache.rocketmq.test.client.consumer.filter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.MessageSelector;
@@ -39,13 +34,31 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import static com.google.common.truth.Truth.assertThat;
 
 public class SqlFilterIT extends BaseConf {
+    private static final Map<MessageQueue, Long> OFFSE_TABLE = new HashMap<MessageQueue, Long>();
     private static Logger logger = Logger.getLogger(SqlFilterIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
-    private static final Map<MessageQueue, Long> OFFSE_TABLE = new HashMap<MessageQueue, Long>();
+
+    private static long getMessageQueueOffset(MessageQueue mq) {
+        Long offset = OFFSE_TABLE.get(mq);
+        if (offset != null)
+            return offset;
+
+        return 0;
+    }
+
+    private static void putMessageQueueOffset(MessageQueue mq, long offset) {
+        OFFSE_TABLE.put(mq, offset);
+    }
 
     @Before
     public void setUp() {
@@ -74,8 +87,8 @@ public class SqlFilterIT extends BaseConf {
         Assert.assertEquals("Not all sent succeeded", msgSize * 3, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(msgSize * 2, consumeTime);
         assertThat(producer.getAllMsgBody())
-            .containsAllIn(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-                consumer.getListener().getAllMsgBody()));
+                .containsAllIn(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+                        consumer.getListener().getAllMsgBody()));
 
         assertThat(consumer.getListener().getAllMsgBody().size()).isEqualTo(msgSize * 2);
     }
@@ -102,7 +115,7 @@ public class SqlFilterIT extends BaseConf {
             while (true) {
                 try {
                     PullResult pullResult =
-                        consumer.pull(mq, selector, getMessageQueueOffset(mq), 32);
+                            consumer.pull(mq, selector, getMessageQueueOffset(mq), 32);
                     putMessageQueueOffset(mq, pullResult.getNextBeginOffset());
                     switch (pullResult.getPullStatus()) {
                         case FOUND:
@@ -127,17 +140,5 @@ public class SqlFilterIT extends BaseConf {
         }
 
         assertThat(receivedMessage.size()).isEqualTo(msgSize * 2);
-    }
-
-    private static long getMessageQueueOffset(MessageQueue mq) {
-        Long offset = OFFSE_TABLE.get(mq);
-        if (offset != null)
-            return offset;
-
-        return 0;
-    }
-
-    private static void putMessageQueueOffset(MessageQueue mq, long offset) {
-        OFFSE_TABLE.put(mq, offset);
     }
 }

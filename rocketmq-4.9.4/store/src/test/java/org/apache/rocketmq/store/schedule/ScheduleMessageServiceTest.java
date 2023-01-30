@@ -21,7 +21,14 @@ import org.apache.rocketmq.common.BrokerConfig;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.message.MessageDecoder;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.store.*;
+import org.apache.rocketmq.store.ConsumeQueueExt;
+import org.apache.rocketmq.store.DefaultMessageStore;
+import org.apache.rocketmq.store.GetMessageResult;
+import org.apache.rocketmq.store.GetMessageStatus;
+import org.apache.rocketmq.store.MessageArrivingListener;
+import org.apache.rocketmq.store.MessageExtBrokerInner;
+import org.apache.rocketmq.store.PutMessageResult;
+import org.apache.rocketmq.store.StoreTestUtil;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
 import org.junit.After;
@@ -49,32 +56,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ScheduleMessageServiceTest {
 
 
-    /**
-     * t
-     * defaultMessageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h"
-     */
-    String testMessageDelayLevel = "5s 8s";
-    /**
-     * choose delay level
-     */
-    int delayLevel = 2;
-
     private static final String storePath = System.getProperty("user.home") + File.separator + "schedule_test#" + UUID.randomUUID();
     private static final int commitLogFileSize = 1024;
     private static final int cqFileSize = 10;
     private static final int cqExtFileSize = 10 * (ConsumeQueueExt.CqExtUnit.MIN_EXT_UNIT_SIZE + 64);
-
-    private static SocketAddress bornHost;
-    private static SocketAddress storeHost;
-    DefaultMessageStore messageStore;
-    MessageStoreConfig messageStoreConfig;
-    BrokerConfig brokerConfig;
-    ScheduleMessageService scheduleMessageService;
-
     static String sendMessage = " ------- schedule message test -------";
     static String topic = "schedule_topic_test";
     static String messageGroup = "delayGroupTest";
-
+    private static SocketAddress bornHost;
+    private static SocketAddress storeHost;
 
     static {
         try {
@@ -89,6 +79,19 @@ public class ScheduleMessageServiceTest {
         }
     }
 
+    /**
+     * t
+     * defaultMessageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h"
+     */
+    String testMessageDelayLevel = "5s 8s";
+    /**
+     * choose delay level
+     */
+    int delayLevel = 2;
+    DefaultMessageStore messageStore;
+    MessageStoreConfig messageStoreConfig;
+    BrokerConfig brokerConfig;
+    ScheduleMessageService scheduleMessageService;
 
     @Before
     public void init() throws Exception {

@@ -28,26 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FilterSpiTest {
 
-    static class NothingExpression implements Expression {
-
-        @Override
-        public Object evaluate(final EvaluationContext context) throws Exception {
-            return Boolean.TRUE;
-        }
-    }
-
-    static class NothingFilter implements FilterSpi {
-        @Override
-        public Expression compile(final String expr) throws MQFilterException {
-            return new NothingExpression();
-        }
-
-        @Override
-        public String ofType() {
-            return "Nothing";
-        }
-    }
-
     @Test
     public void testRegister() {
         FilterFactory.INSTANCE.register(new NothingFilter());
@@ -74,10 +54,30 @@ public class FilterSpiTest {
     public void testGet() {
         try {
             assertThat((Boolean) FilterFactory.INSTANCE.get(ExpressionType.SQL92).compile("a is not null and a > 0")
-                .evaluate(new EmptyEvaluationContext())).isFalse();
+                    .evaluate(new EmptyEvaluationContext())).isFalse();
         } catch (Exception e) {
             e.printStackTrace();
             assertThat(Boolean.FALSE).isTrue();
+        }
+    }
+
+    static class NothingExpression implements Expression {
+
+        @Override
+        public Object evaluate(final EvaluationContext context) throws Exception {
+            return Boolean.TRUE;
+        }
+    }
+
+    static class NothingFilter implements FilterSpi {
+        @Override
+        public Expression compile(final String expr) throws MQFilterException {
+            return new NothingExpression();
+        }
+
+        @Override
+        public String ofType() {
+            return "Nothing";
         }
     }
 }

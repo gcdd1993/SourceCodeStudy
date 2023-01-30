@@ -16,6 +16,11 @@
  */
 package org.apache.rocketmq.store;
 
+import org.apache.rocketmq.common.ServiceThread;
+import org.apache.rocketmq.common.constant.LoggerName;
+import org.apache.rocketmq.logging.InternalLogger;
+import org.apache.rocketmq.logging.InternalLoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,10 +33,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantLock;
-import org.apache.rocketmq.common.ServiceThread;
-import org.apache.rocketmq.common.constant.LoggerName;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
 
 public class StoreStatsService extends ServiceThread {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
@@ -39,33 +40,28 @@ public class StoreStatsService extends ServiceThread {
     private static final int FREQUENCY_OF_SAMPLING = 1000;
 
     private static final int MAX_RECORDS_OF_SAMPLING = 60 * 10;
-    private static final String[] PUT_MESSAGE_ENTIRE_TIME_MAX_DESC = new String[] {
-        "[<=0ms]", "[0~10ms]", "[10~50ms]", "[50~100ms]", "[100~200ms]", "[200~500ms]", "[500ms~1s]", "[1~2s]", "[2~3s]", "[3~4s]", "[4~5s]", "[5~10s]", "[10s~]",
+    private static final String[] PUT_MESSAGE_ENTIRE_TIME_MAX_DESC = new String[]{
+            "[<=0ms]", "[0~10ms]", "[10~50ms]", "[50~100ms]", "[100~200ms]", "[200~500ms]", "[500ms~1s]", "[1~2s]", "[2~3s]", "[3~4s]", "[4~5s]", "[5~10s]", "[10s~]",
     };
 
     //The rule to define buckets
     private static final Map<Integer/*interval step size*/, Integer/*times*/> PUT_MESSAGE_ENTIRE_TIME_BUCKETS = new TreeMap<>();
-    //buckets
-    private TreeMap<Long/*bucket*/, LongAdder/*times*/> buckets = new TreeMap<>();
-    private Map<Long/*bucket*/, LongAdder/*times*/> lastBuckets = new TreeMap<>();
-
     private static int printTPSInterval = 60 * 1;
-
     private final LongAdder putMessageFailedTimes = new LongAdder();
-
     private final ConcurrentMap<String, LongAdder> putMessageTopicTimesTotal =
-        new ConcurrentHashMap<>(128);
+            new ConcurrentHashMap<>(128);
     private final ConcurrentMap<String, LongAdder> putMessageTopicSizeTotal =
-        new ConcurrentHashMap<>(128);
-
+            new ConcurrentHashMap<>(128);
     private final LongAdder getMessageTimesTotalFound = new LongAdder();
     private final LongAdder getMessageTransferedMsgCount = new LongAdder();
     private final LongAdder getMessageTimesTotalMiss = new LongAdder();
     private final LinkedList<CallSnapshot> putTimesList = new LinkedList<CallSnapshot>();
-
     private final LinkedList<CallSnapshot> getTimesFoundList = new LinkedList<CallSnapshot>();
     private final LinkedList<CallSnapshot> getTimesMissList = new LinkedList<CallSnapshot>();
     private final LinkedList<CallSnapshot> transferedMsgCountList = new LinkedList<CallSnapshot>();
+    //buckets
+    private TreeMap<Long/*bucket*/, LongAdder/*times*/> buckets = new TreeMap<>();
+    private Map<Long/*bucket*/, LongAdder/*times*/> lastBuckets = new TreeMap<>();
     private volatile LongAdder[] putMessageDistributeTime;
     private volatile LongAdder[] lastPutMessageDistributeTime;
     private long messageStoreBootTimestamp = System.currentTimeMillis();
@@ -82,13 +78,13 @@ public class StoreStatsService extends ServiceThread {
     private long lastPrintTimestamp = System.currentTimeMillis();
 
     public StoreStatsService() {
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(1,20);  //0-20
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(2,15);  //20-50
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(5,10);  //50-100
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(10,10);  //100-200
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(50,6);  //200-500
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(100,5);  //500-1000
-        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(1000,9);  //1s-10s
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(1, 20);  //0-20
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(2, 15);  //20-50
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(5, 10);  //50-100
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(10, 10);  //100-200
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(50, 6);  //200-500
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(100, 5);  //500-1000
+        PUT_MESSAGE_ENTIRE_TIME_BUCKETS.put(1000, 9);  //1s-10s
 
         this.resetPutMessageTimeBuckets();
         this.resetPutMessageDistributeTime();
@@ -128,10 +124,10 @@ public class StoreStatsService extends ServiceThread {
             if (pxIndex <= passCount + count) {
                 long relativeIndex = pxIndex - passCount;
                 if (i == 0) {
-                    result = count == 0 ? 0 : bucketValue.get(i) * relativeIndex / (double)count;
+                    result = count == 0 ? 0 : bucketValue.get(i) * relativeIndex / (double) count;
                 } else {
                     long lastBucket = bucketValue.get(i - 1);
-                    result = lastBucket + (count == 0 ? 0 : (bucketValue.get(i) - lastBucket) * relativeIndex / (double)count);
+                    result = lastBucket + (count == 0 ? 0 : (bucketValue.get(i) - lastBucket) * relativeIndex / (double) count);
                 }
                 break;
             } else {
@@ -208,7 +204,7 @@ public class StoreStatsService extends ServiceThread {
         if (value > this.putMessageEntireTimeMax) {
             this.putLock.lock();
             this.putMessageEntireTimeMax =
-                value > this.putMessageEntireTimeMax ? value : this.putMessageEntireTimeMax;
+                    value > this.putMessageEntireTimeMax ? value : this.putMessageEntireTimeMax;
             this.putLock.unlock();
         }
     }
@@ -221,7 +217,7 @@ public class StoreStatsService extends ServiceThread {
         if (value > this.getMessageEntireTimeMax) {
             this.getLock.lock();
             this.getMessageEntireTimeMax =
-                value > this.getMessageEntireTimeMax ? value : this.getMessageEntireTimeMax;
+                    value > this.getMessageEntireTimeMax ? value : this.getMessageEntireTimeMax;
             this.getLock.unlock();
         }
     }
@@ -248,9 +244,9 @@ public class StoreStatsService extends ServiceThread {
         sb.append("\tgetPutMessageFailedTimes: " + this.getPutMessageFailedTimes() + "\r\n");
         sb.append("\tputMessageSizeTotal: " + this.getPutMessageSizeTotal() + "\r\n");
         sb.append("\tputMessageDistributeTime: " + this.getPutMessageDistributeTimeStringInfo(totalTimes)
-            + "\r\n");
+                + "\r\n");
         sb.append("\tputMessageAverageSize: " + (this.getPutMessageSizeTotal() / totalTimes.doubleValue())
-            + "\r\n");
+                + "\r\n");
         sb.append("\tdispatchMaxBuffer: " + this.dispatchMaxBuffer + "\r\n");
         sb.append("\tgetMessageEntireTimeMax: " + this.getMessageEntireTimeMax + "\r\n");
         sb.append("\tputTps: " + this.getPutTps() + "\r\n");
@@ -282,7 +278,7 @@ public class StoreStatsService extends ServiceThread {
         long hours = (time % day) / hour;
         long minutes = (time % hour) / minute;
         long seconds = (time % minute) / second;
-        return messageFormat.format(new Long[] {days, hours, minutes, seconds});
+        return messageFormat.format(new Long[]{days, hours, minutes, seconds});
     }
 
     public long getPutMessageSizeTotal() {
@@ -407,7 +403,7 @@ public class StoreStatsService extends ServiceThread {
 
             if (this.getTimesFoundList.size() > time) {
                 CallSnapshot lastBefore =
-                    this.getTimesFoundList.get(this.getTimesFoundList.size() - (time + 1));
+                        this.getTimesFoundList.get(this.getTimesFoundList.size() - (time + 1));
                 result += CallSnapshot.getTPS(lastBefore, last);
             }
         } finally {
@@ -425,7 +421,7 @@ public class StoreStatsService extends ServiceThread {
 
             if (this.getTimesMissList.size() > time) {
                 CallSnapshot lastBefore =
-                    this.getTimesMissList.get(this.getTimesMissList.size() - (time + 1));
+                        this.getTimesMissList.get(this.getTimesMissList.size() - (time + 1));
                 result += CallSnapshot.getTPS(lastBefore, last);
             }
 
@@ -446,7 +442,7 @@ public class StoreStatsService extends ServiceThread {
 
                 if (this.getTimesFoundList.size() > time) {
                     CallSnapshot lastBefore =
-                        this.getTimesFoundList.get(this.getTimesFoundList.size() - (time + 1));
+                            this.getTimesFoundList.get(this.getTimesFoundList.size() - (time + 1));
                     found = CallSnapshot.getTPS(lastBefore, last);
                 }
             }
@@ -455,7 +451,7 @@ public class StoreStatsService extends ServiceThread {
 
                 if (this.getTimesMissList.size() > time) {
                     CallSnapshot lastBefore =
-                        this.getTimesMissList.get(this.getTimesMissList.size() - (time + 1));
+                            this.getTimesMissList.get(this.getTimesMissList.size() - (time + 1));
                     miss = CallSnapshot.getTPS(lastBefore, last);
                 }
             }
@@ -475,7 +471,7 @@ public class StoreStatsService extends ServiceThread {
 
             if (this.transferedMsgCountList.size() > time) {
                 CallSnapshot lastBefore =
-                    this.transferedMsgCountList.get(this.transferedMsgCountList.size() - (time + 1));
+                        this.transferedMsgCountList.get(this.transferedMsgCountList.size() - (time + 1));
                 result += CallSnapshot.getTPS(lastBefore, last);
             }
 
@@ -501,9 +497,9 @@ public class StoreStatsService extends ServiceThread {
         result.put("putMessageFailedTimes", String.valueOf(this.putMessageFailedTimes));
         result.put("putMessageSizeTotal", String.valueOf(this.getPutMessageSizeTotal()));
         result.put("putMessageDistributeTime",
-            String.valueOf(this.getPutMessageDistributeTimeStringInfo(totalTimes)));
+                String.valueOf(this.getPutMessageDistributeTimeStringInfo(totalTimes)));
         result.put("putMessageAverageSize",
-            String.valueOf(this.getPutMessageSizeTotal() / totalTimes.doubleValue()));
+                String.valueOf(this.getPutMessageSizeTotal() / totalTimes.doubleValue()));
         result.put("dispatchMaxBuffer", String.valueOf(this.dispatchMaxBuffer));
         result.put("getMessageEntireTimeMax", String.valueOf(this.getMessageEntireTimeMax));
         result.put("putTps", this.getPutTps());
@@ -549,19 +545,19 @@ public class StoreStatsService extends ServiceThread {
             }
 
             this.getTimesFoundList.add(new CallSnapshot(System.currentTimeMillis(),
-                this.getMessageTimesTotalFound.longValue()));
+                    this.getMessageTimesTotalFound.longValue()));
             if (this.getTimesFoundList.size() > (MAX_RECORDS_OF_SAMPLING + 1)) {
                 this.getTimesFoundList.removeFirst();
             }
 
             this.getTimesMissList.add(new CallSnapshot(System.currentTimeMillis(),
-                this.getMessageTimesTotalMiss.longValue()));
+                    this.getMessageTimesTotalMiss.longValue()));
             if (this.getTimesMissList.size() > (MAX_RECORDS_OF_SAMPLING + 1)) {
                 this.getTimesMissList.removeFirst();
             }
 
             this.transferedMsgCountList.add(new CallSnapshot(System.currentTimeMillis(),
-                this.getMessageTransferedMsgCount.longValue()));
+                    this.getMessageTransferedMsgCount.longValue()));
             if (this.transferedMsgCountList.size() > (MAX_RECORDS_OF_SAMPLING + 1)) {
                 this.transferedMsgCountList.removeFirst();
             }
@@ -576,10 +572,10 @@ public class StoreStatsService extends ServiceThread {
             this.lastPrintTimestamp = System.currentTimeMillis();
 
             log.info("[STORETPS] put_tps {} get_found_tps {} get_miss_tps {} get_transfered_tps {}",
-                this.getPutTps(printTPSInterval),
-                this.getGetFoundTps(printTPSInterval),
-                this.getGetMissTps(printTPSInterval),
-                this.getGetTransferedTps(printTPSInterval)
+                    this.getPutTps(printTPSInterval),
+                    this.getGetFoundTps(printTPSInterval),
+                    this.getGetMissTps(printTPSInterval),
+                    this.getGetTransferedTps(printTPSInterval)
             );
 
             final LongAdder[] times = this.resetPutMessageDistributeTime();

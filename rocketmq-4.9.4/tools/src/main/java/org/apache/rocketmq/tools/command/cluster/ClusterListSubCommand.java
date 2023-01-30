@@ -16,10 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.cluster;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -34,6 +30,11 @@ import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ClusterListSubCommand implements SubCommand {
 
@@ -62,7 +63,7 @@ public class ClusterListSubCommand implements SubCommand {
 
     @Override
     public void execute(final CommandLine commandLine, final Options options,
-        RPCHook rpcHook) throws SubCommandException {
+                        RPCHook rpcHook) throws SubCommandException {
         DefaultMQAdminExt defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
 
         defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
@@ -97,17 +98,17 @@ public class ClusterListSubCommand implements SubCommand {
     }
 
     private void printClusterMoreStats(final DefaultMQAdminExt defaultMQAdminExt) throws RemotingConnectException,
-        RemotingTimeoutException, RemotingSendRequestException, InterruptedException, MQBrokerException {
+            RemotingTimeoutException, RemotingSendRequestException, InterruptedException, MQBrokerException {
 
         ClusterInfo clusterInfoSerializeWrapper = defaultMQAdminExt.examineBrokerClusterInfo();
 
         System.out.printf("%-16s  %-32s %14s %14s %14s %14s%n",
-            "#Cluster Name",
-            "#Broker Name",
-            "#InTotalYest",
-            "#OutTotalYest",
-            "#InTotalToday",
-            "#OutTotalToday"
+                "#Cluster Name",
+                "#Broker Name",
+                "#InTotalYest",
+                "#OutTotalYest",
+                "#InTotalToday",
+                "#OutTotalToday"
         );
 
         Iterator<Map.Entry<String, Set<String>>> itCluster = clusterInfoSerializeWrapper.getClusterAddrTable().entrySet().iterator();
@@ -148,12 +149,12 @@ public class ClusterListSubCommand implements SubCommand {
                         }
 
                         System.out.printf("%-16s  %-32s %14d %14d %14d %14d%n",
-                            clusterName,
-                            brokerName,
-                            inTotalYest,
-                            outTotalYest,
-                            inTotalToday,
-                            outTotalToday
+                                clusterName,
+                                brokerName,
+                                inTotalYest,
+                                outTotalYest,
+                                inTotalToday,
+                                outTotalToday
                         );
                     }
                 }
@@ -166,22 +167,22 @@ public class ClusterListSubCommand implements SubCommand {
     }
 
     private void printClusterBaseInfo(
-        final DefaultMQAdminExt defaultMQAdminExt) throws RemotingConnectException, RemotingTimeoutException,
-        RemotingSendRequestException, InterruptedException, MQBrokerException {
+            final DefaultMQAdminExt defaultMQAdminExt) throws RemotingConnectException, RemotingTimeoutException,
+            RemotingSendRequestException, InterruptedException, MQBrokerException {
 
         ClusterInfo clusterInfoSerializeWrapper = defaultMQAdminExt.examineBrokerClusterInfo();
 
         System.out.printf("%-16s  %-22s  %-4s  %-22s %-16s %19s %19s %10s %5s %6s%n",
-            "#Cluster Name",
-            "#Broker Name",
-            "#BID",
-            "#Addr",
-            "#Version",
-            "#InTPS(LOAD)",
-            "#OutTPS(LOAD)",
-            "#PCWait(ms)",
-            "#Hour",
-            "#SPACE"
+                "#Cluster Name",
+                "#Broker Name",
+                "#BID",
+                "#Addr",
+                "#Version",
+                "#InTPS(LOAD)",
+                "#OutTPS(LOAD)",
+                "#PCWait(ms)",
+                "#Hour",
+                "#SPACE"
         );
 
         Iterator<Map.Entry<String, Set<String>>> itCluster = clusterInfoSerializeWrapper.getClusterAddrTable().entrySet().iterator();
@@ -255,16 +256,16 @@ public class ClusterListSubCommand implements SubCommand {
                         }
 
                         System.out.printf("%-16s  %-22s  %-4s  %-22s %-16s %19s %19s %10s %5s %6s%n",
-                            clusterName,
-                            brokerName,
-                            next1.getKey(),
-                            next1.getValue(),
-                            version,
-                            String.format("%9.2f(%s,%sms)", in, sendThreadPoolQueueSize, sendThreadPoolQueueHeadWaitTimeMills),
-                            String.format("%9.2f(%s,%sms)", out, pullThreadPoolQueueSize, pullThreadPoolQueueHeadWaitTimeMills),
-                            pageCacheLockTimeMills,
-                            String.format("%2.2f", hour),
-                            String.format("%.4f", space)
+                                clusterName,
+                                brokerName,
+                                next1.getKey(),
+                                next1.getValue(),
+                                version,
+                                String.format("%9.2f(%s,%sms)", in, sendThreadPoolQueueSize, sendThreadPoolQueueHeadWaitTimeMills),
+                                String.format("%9.2f(%s,%sms)", out, pullThreadPoolQueueSize, pullThreadPoolQueueHeadWaitTimeMills),
+                                pageCacheLockTimeMills,
+                                String.format("%2.2f", hour),
+                                String.format("%.4f", space)
                         );
                     }
                 }

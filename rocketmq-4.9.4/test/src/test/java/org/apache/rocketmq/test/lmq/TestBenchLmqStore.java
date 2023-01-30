@@ -39,10 +39,12 @@ import org.apache.rocketmq.test.lmq.benchmark.BenchLmqStore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -69,8 +71,9 @@ public class TestBenchLmqStore {
         BenchLmqStore.defaultMQPullConsumers[0] = mock(DefaultMQPullConsumer.class);
         BenchLmqStore.doPull(new ConcurrentHashMap<>(), new MessageQueue(), 1L);
         verify(BenchLmqStore.defaultMQPullConsumers[0], atLeastOnce()).pullBlockIfNotFound(any(MessageQueue.class), anyString(), anyLong(), anyInt(), any(
-            PullCallback.class));
+                PullCallback.class));
     }
+
     @Test
     public void testOffset() throws RemotingException, InterruptedException, MQClientException, MQBrokerException, IllegalAccessException {
         System.setProperty("sendThreadNum", "1");

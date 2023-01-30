@@ -39,21 +39,21 @@ public class TraceDataEncoderTest {
     public void init() {
         time = System.currentTimeMillis();
         traceData = new StringBuilder()
-            .append("Pub").append(TraceConstants.CONTENT_SPLITOR)
-            .append(time).append(TraceConstants.CONTENT_SPLITOR)
-            .append("DefaultRegion").append(TraceConstants.CONTENT_SPLITOR)
-            .append("PID-test").append(TraceConstants.CONTENT_SPLITOR)
-            .append("topic-test").append(TraceConstants.CONTENT_SPLITOR)
-            .append("AC1415116D1418B4AAC217FE1B4E0000").append(TraceConstants.CONTENT_SPLITOR)
-            .append("Tags").append(TraceConstants.CONTENT_SPLITOR)
-            .append("Keys").append(TraceConstants.CONTENT_SPLITOR)
-            .append("127.0.0.1:10911").append(TraceConstants.CONTENT_SPLITOR)
-            .append(26).append(TraceConstants.CONTENT_SPLITOR)
-            .append(245).append(TraceConstants.CONTENT_SPLITOR)
-            .append(MessageType.Normal_Msg.ordinal()).append(TraceConstants.CONTENT_SPLITOR)
-            .append("0A9A002600002A9F0000000000002329").append(TraceConstants.CONTENT_SPLITOR)
-            .append(true).append(TraceConstants.FIELD_SPLITOR)
-            .toString();
+                .append("Pub").append(TraceConstants.CONTENT_SPLITOR)
+                .append(time).append(TraceConstants.CONTENT_SPLITOR)
+                .append("DefaultRegion").append(TraceConstants.CONTENT_SPLITOR)
+                .append("PID-test").append(TraceConstants.CONTENT_SPLITOR)
+                .append("topic-test").append(TraceConstants.CONTENT_SPLITOR)
+                .append("AC1415116D1418B4AAC217FE1B4E0000").append(TraceConstants.CONTENT_SPLITOR)
+                .append("Tags").append(TraceConstants.CONTENT_SPLITOR)
+                .append("Keys").append(TraceConstants.CONTENT_SPLITOR)
+                .append("127.0.0.1:10911").append(TraceConstants.CONTENT_SPLITOR)
+                .append(26).append(TraceConstants.CONTENT_SPLITOR)
+                .append(245).append(TraceConstants.CONTENT_SPLITOR)
+                .append(MessageType.Normal_Msg.ordinal()).append(TraceConstants.CONTENT_SPLITOR)
+                .append("0A9A002600002A9F0000000000002329").append(TraceConstants.CONTENT_SPLITOR)
+                .append(true).append(TraceConstants.FIELD_SPLITOR)
+                .toString();
     }
 
     @Test

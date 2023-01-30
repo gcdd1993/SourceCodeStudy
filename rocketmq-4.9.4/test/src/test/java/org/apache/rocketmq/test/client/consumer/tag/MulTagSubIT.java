@@ -17,7 +17,6 @@
 
 package org.apache.rocketmq.test.client.consumer.tag;
 
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.rmq.RMQNormalConsumer;
@@ -31,6 +30,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -58,14 +59,14 @@ public class MulTagSubIT extends BaseConf {
         String subExpress = String.format("%s||jueyin2", tag);
         int msgSize = 10;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
-            new RMQNormalListener());
+                new RMQNormalListener());
         producer.send(tag, msgSize);
         Assert.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
     }
 
     @Test
@@ -75,7 +76,7 @@ public class MulTagSubIT extends BaseConf {
         String subExpress = String.format("%s||noExistTag", tag2);
         int msgSize = 10;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
-            new RMQNormalListener());
+                new RMQNormalListener());
 
         producer.send(tag1, msgSize);
         Assert.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
@@ -84,10 +85,10 @@ public class MulTagSubIT extends BaseConf {
         Assert.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
 
         consumer.getListener().waitForMessageConsume(MQMessageFactory.getMessageBody(tag2Msgs),
-            consumeTime);
+                consumeTime);
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(MQMessageFactory.getMessageBody(tag2Msgs));
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(MQMessageFactory.getMessageBody(tag2Msgs));
     }
 
     @Test
@@ -98,17 +99,17 @@ public class MulTagSubIT extends BaseConf {
 
         TagMessage tagMessage = new TagMessage(tags, topic, msgSize);
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
-            new RMQNormalListener());
+                new RMQNormalListener());
 
         producer.send(tagMessage.getMixedTagMessages());
         Assert.assertEquals("Not all sent succeeded", msgSize * tags.length,
-            producer.getAllUndupMsgBody().size());
+                producer.getAllUndupMsgBody().size());
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(tagMessage.getAllTagMessageBody());
+                consumer.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(tagMessage.getAllTagMessageBody());
     }
 
     @Test
@@ -119,18 +120,18 @@ public class MulTagSubIT extends BaseConf {
 
         TagMessage tagMessage = new TagMessage(tags, topic, msgSize);
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
-            new RMQNormalListener());
+                new RMQNormalListener());
 
         producer.send(tagMessage.getMixedTagMessages());
         Assert.assertEquals("Not all sent succeeded", msgSize * tags.length,
-            producer.getAllUndupMsgBody().size());
+                producer.getAllUndupMsgBody().size());
 
         consumer.getListener().waitForMessageConsume(
-            tagMessage.getMessageBodyByTag(tags[0], tags[1]), consumeTime);
+                tagMessage.getMessageBodyByTag(tags[0], tags[1]), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer.getListener().getAllMsgBody())).containsExactlyElementsIn(
-            tagMessage.getMessageBodyByTag(tags[0], tags[1]));
+                consumer.getListener().getAllMsgBody())).containsExactlyElementsIn(
+                tagMessage.getMessageBodyByTag(tags[0], tags[1]));
     }
 
     @Test
@@ -141,16 +142,16 @@ public class MulTagSubIT extends BaseConf {
 
         TagMessage tagMessage = new TagMessage(tags, topic, msgSize);
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
-            new RMQNormalListener());
+                new RMQNormalListener());
 
         producer.send(tagMessage.getMixedTagMessages());
         Assert.assertEquals("Not all sent succeeded", msgSize * tags.length,
-            producer.getAllUndupMsgBody().size());
+                producer.getAllUndupMsgBody().size());
 
         TestUtils.waitForSeconds(5);
 
         assertThat(VerifyUtils
-            .getFilterdMessage(producer.getAllMsgBody(), consumer.getListener().getAllMsgBody())
-            .size()).isEqualTo(0);
+                .getFilterdMessage(producer.getAllMsgBody(), consumer.getListener().getAllMsgBody())
+                .size()).isEqualTo(0);
     }
 }

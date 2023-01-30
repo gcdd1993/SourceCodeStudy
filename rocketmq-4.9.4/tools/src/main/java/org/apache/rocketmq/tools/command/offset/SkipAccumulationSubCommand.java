@@ -16,9 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.offset;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -31,6 +28,10 @@ import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class SkipAccumulationSubCommand implements SubCommand {
 
@@ -81,22 +82,22 @@ public class SkipAccumulationSubCommand implements SubCommand {
                 if (ResponseCode.CONSUMER_NOT_ONLINE == e.getResponseCode()) {
                     List<RollbackStats> rollbackStatsList = defaultMQAdminExt.resetOffsetByTimestampOld(group, topic, timestamp, force);
                     System.out.printf("%-20s  %-20s  %-20s  %-20s  %-20s  %-20s%n",
-                        "#brokerName",
-                        "#queueId",
-                        "#brokerOffset",
-                        "#consumerOffset",
-                        "#timestampOffset",
-                        "#rollbackOffset"
+                            "#brokerName",
+                            "#queueId",
+                            "#brokerOffset",
+                            "#consumerOffset",
+                            "#timestampOffset",
+                            "#rollbackOffset"
                     );
 
                     for (RollbackStats rollbackStats : rollbackStatsList) {
                         System.out.printf("%-20s  %-20d  %-20d  %-20d  %-20d  %-20d%n",
-                            UtilAll.frontStringAtLeast(rollbackStats.getBrokerName(), 32),
-                            rollbackStats.getQueueId(),
-                            rollbackStats.getBrokerOffset(),
-                            rollbackStats.getConsumerOffset(),
-                            rollbackStats.getTimestampOffset(),
-                            rollbackStats.getRollbackOffset()
+                                UtilAll.frontStringAtLeast(rollbackStats.getBrokerName(), 32),
+                                rollbackStats.getQueueId(),
+                                rollbackStats.getBrokerOffset(),
+                                rollbackStats.getConsumerOffset(),
+                                rollbackStats.getTimestampOffset(),
+                                rollbackStats.getRollbackOffset()
                         );
                     }
                     return;
@@ -105,17 +106,17 @@ public class SkipAccumulationSubCommand implements SubCommand {
             }
 
             System.out.printf("%-40s  %-40s  %-40s%n",
-                "#brokerName",
-                "#queueId",
-                "#offset");
+                    "#brokerName",
+                    "#queueId",
+                    "#offset");
 
             Iterator<Map.Entry<MessageQueue, Long>> iterator = offsetTable.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<MessageQueue, Long> entry = iterator.next();
                 System.out.printf("%-40s  %-40d  %-40d%n",
-                    UtilAll.frontStringAtLeast(entry.getKey().getBrokerName(), 32),
-                    entry.getKey().getQueueId(),
-                    entry.getValue());
+                        UtilAll.frontStringAtLeast(entry.getKey().getBrokerName(), 32),
+                        entry.getKey().getQueueId(),
+                        entry.getValue());
             }
         } catch (Exception e) {
             throw new SubCommandException(this.getClass().getSimpleName() + " command failed", e);

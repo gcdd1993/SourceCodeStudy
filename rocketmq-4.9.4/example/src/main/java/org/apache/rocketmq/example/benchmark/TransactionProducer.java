@@ -48,19 +48,18 @@ import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 
 public class TransactionProducer {
-    private static final long START_TIME = System.currentTimeMillis();
-    private static final LongAdder MSG_COUNT = new LongAdder();
-
     //broker max check times should less than this value
     static final int MAX_CHECK_RESULT_IN_MSG = 20;
+    private static final long START_TIME = System.currentTimeMillis();
+    private static final LongAdder MSG_COUNT = new LongAdder();
 
     public static void main(String[] args) throws MQClientException, UnsupportedEncodingException {
         System.setProperty(RemotingCommand.SERIALIZE_TYPE_PROPERTY, SerializeType.ROCKETMQ.name());
@@ -115,7 +114,7 @@ public class TransactionProducer {
                     final long dupCheck = end.duplicatedCheck - begin.duplicatedCheck;
 
                     System.out.printf(
-                        "Current Time: %s Send TPS:%5d Max RT(ms):%5d AVG RT(ms):%3.1f Send Failed: %d check: %d unexpectedCheck: %d duplicatedCheck: %d %n",
+                            "Current Time: %s Send TPS:%5d Max RT(ms):%5d AVG RT(ms):%3.1f Send Failed: %d check: %d unexpectedCheck: %d duplicatedCheck: %d %n",
                             System.currentTimeMillis(), sendTps, statsBenchmark.getSendMessageMaxRT().get(), averageRT, failCount, checkCount,
                             unexpectedCheck, dupCheck);
                     statsBenchmark.getSendMessageMaxRT().set(0);
@@ -295,16 +294,9 @@ public class TransactionProducer {
 }
 
 class TransactionListenerImpl implements TransactionListener {
+    private final LRUMap<Long, Integer> cache = new LRUMap<>(200000);
     private StatsBenchmarkTProducer statBenchmark;
     private TxSendConfig sendConfig;
-    private final LRUMap<Long, Integer> cache = new LRUMap<>(200000);
-
-    private class MsgMeta {
-        long batchId;
-        long msgId;
-        LocalTransactionState sendResult;
-        List<LocalTransactionState> checkResult;
-    }
 
     public TransactionListenerImpl(StatsBenchmarkTProducer statsBenchmark, TxSendConfig sendConfig) {
         this.statBenchmark = statsBenchmark;
@@ -384,6 +376,13 @@ class TransactionListenerImpl implements TransactionListener {
             }
         }
         return msgMeta.checkResult.get(times - 1);
+    }
+
+    private class MsgMeta {
+        long batchId;
+        long msgId;
+        LocalTransactionState sendResult;
+        List<LocalTransactionState> checkResult;
     }
 }
 

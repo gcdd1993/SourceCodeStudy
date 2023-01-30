@@ -27,15 +27,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Through {@link Callable} interface, this hook can customization operations in anywhere.
  */
 public class ShutdownHookThread extends Thread {
-    private volatile boolean hasShutdown = false;
-    private AtomicInteger shutdownTimes = new AtomicInteger(0);
     private final InternalLogger log;
     private final Callable callback;
+    private volatile boolean hasShutdown = false;
+    private AtomicInteger shutdownTimes = new AtomicInteger(0);
 
     /**
      * Create the standard hook thread, with a call back, by using {@link Callable} interface.
      *
-     * @param log The log instance is used in hook thread.
+     * @param log      The log instance is used in hook thread.
      * @param callback The call back function.
      */
     public ShutdownHookThread(InternalLogger log, Callable callback) {

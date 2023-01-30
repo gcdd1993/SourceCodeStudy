@@ -17,6 +17,17 @@
 
 package org.apache.rocketmq.store;
 
+import org.apache.rocketmq.common.BrokerConfig;
+import org.apache.rocketmq.common.ThreadFactoryImpl;
+import org.apache.rocketmq.common.message.MessageConst;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.store.config.FlushDiskType;
+import org.apache.rocketmq.store.config.MessageStoreConfig;
+import org.apache.rocketmq.store.schedule.ScheduleMessageService;
+import org.apache.rocketmq.store.stats.BrokerStatsManager;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,16 +42,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.rocketmq.common.BrokerConfig;
-import org.apache.rocketmq.common.ThreadFactoryImpl;
-import org.apache.rocketmq.common.message.MessageConst;
-import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.store.config.FlushDiskType;
-import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.apache.rocketmq.store.schedule.ScheduleMessageService;
-import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.Assert;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,7 +60,7 @@ public class ScheduleMessageServiceTest {
         ConcurrentMap<Integer /* level */, Long/* offset */> offsetTable = null;
 
         DefaultMessageStore defaultMessageStore = new DefaultMessageStore(buildMessageStoreConfig(),
-            new BrokerStatsManager("simpleTest", true), null, new BrokerConfig());
+                new BrokerStatsManager("simpleTest", true), null, new BrokerConfig());
         ScheduleMessageService scheduleMessageService = new ScheduleMessageService(defaultMessageStore);
         scheduleMessageService.parseDelayLevel();
 
@@ -115,19 +116,19 @@ public class ScheduleMessageServiceTest {
         Field field = scheduleMessageService.getClass().getDeclaredField("deliverPendingTable");
         field.setAccessible(true);
         Map<Integer /* level */, LinkedBlockingQueue<ScheduleMessageService.PutResultProcess>> deliverPendingTable =
-            (Map<Integer, LinkedBlockingQueue<ScheduleMessageService.PutResultProcess>>) field.get(scheduleMessageService);
+                (Map<Integer, LinkedBlockingQueue<ScheduleMessageService.PutResultProcess>>) field.get(scheduleMessageService);
 
         field = scheduleMessageService.getClass().getDeclaredField("offsetTable");
         field.setAccessible(true);
         ConcurrentMap<Integer /* level */, Long/* offset */> offsetTable =
-            (ConcurrentMap<Integer /* level */, Long/* offset */>) field.get(scheduleMessageService);
+                (ConcurrentMap<Integer /* level */, Long/* offset */>) field.get(scheduleMessageService);
         for (int i = 1; i <= scheduleMessageService.getMaxDelayLevel(); i++) {
             offsetTable.put(i, 0L);
         }
 
         int deliverThreadPoolNums = Runtime.getRuntime().availableProcessors();
         ScheduledExecutorService handleExecutorService = new ScheduledThreadPoolExecutor(deliverThreadPoolNums,
-            new ThreadFactoryImpl("ScheduleMessageExecutorHandleThread_"));
+                new ThreadFactoryImpl("ScheduleMessageExecutorHandleThread_"));
         field = scheduleMessageService.getClass().getDeclaredField("handleExecutorService");
         field.setAccessible(true);
         field.set(scheduleMessageService, handleExecutorService);
@@ -156,10 +157,10 @@ public class ScheduleMessageServiceTest {
                 CompletableFuture<PutMessageResult> future = new CompletableFuture<>();
                 ScheduleMessageService.PutResultProcess putResultProcess = scheduleMessageService.new PutResultProcess();
                 putResultProcess = putResultProcess
-                    .setOffset(num)
-                    .setAutoResend(true)
-                    .setFuture(future)
-                    .thenProcess();
+                        .setOffset(num)
+                        .setAutoResend(true)
+                        .setFuture(future)
+                        .thenProcess();
                 deliverPendingTable.get(level).add(putResultProcess);
                 putMsgFutrueList.add(future);
             }

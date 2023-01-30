@@ -42,6 +42,102 @@ public class SelectorParser implements SelectorParserConstants {
 
     private static final Cache<String, Object> PARSE_CACHE = CacheBuilder.newBuilder().maximumSize(100).build();
     //    private static final String CONVERT_STRING_EXPRESSIONS_PREFIX = "convert_string_expressions:";
+    static private int[] jjLa10;
+    static private int[] jjLa11;
+
+    static {
+        jj_la1_init_0();
+        jj_la1_init_1();
+    }
+
+    final private int[] jjLa1 = new int[13];
+    final private JJCalls[] jj2Rtns = new JJCalls[4];
+    final private LookaheadSuccess jjLs = new LookaheadSuccess();
+    /**
+     * Generated Token Manager.
+     */
+    public SelectorParserTokenManager tokenSource;
+    /**
+     * Current token.
+     */
+    public Token token;
+    /**
+     * Next token.
+     */
+    public Token jjNt;
+    SimpleCharStream jjInputStream;
+    private String sql;
+    private int jjNtk;
+    private Token jjScanpos, jjLastpos;
+    private int jjLa;
+    private int jjGen;
+    private boolean jjRescan = false;
+    private int jjGc = 0;
+    private java.util.List<int[]> jjExpentries = new java.util.ArrayList<int[]>();
+    private int[] jjExpentry;
+    private int jjKind = -1;
+    private int[] jjLasttokens = new int[100];
+    private int jjEndpos;
+
+    protected SelectorParser(String sql) {
+        this(new StringReader(sql));
+        this.sql = sql;
+    }
+
+    /**
+     * Constructor with InputStream.
+     */
+    public SelectorParser(java.io.InputStream stream) {
+        this(stream, null);
+    }
+
+    /**
+     * Constructor with InputStream and supplied encoding
+     */
+    public SelectorParser(java.io.InputStream stream, String encoding) {
+        try {
+            jjInputStream = new SimpleCharStream(stream, encoding, 1, 1);
+        } catch (java.io.UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        tokenSource = new SelectorParserTokenManager(jjInputStream);
+        token = new Token();
+        jjNtk = -1;
+        jjGen = 0;
+        for (int i = 0; i < 13; i++)
+            jjLa1[i] = -1;
+        for (int i = 0; i < jj2Rtns.length; i++)
+            jj2Rtns[i] = new JJCalls();
+    }
+
+    /**
+     * Constructor.
+     */
+    public SelectorParser(java.io.Reader stream) {
+        jjInputStream = new SimpleCharStream(stream, 1, 1);
+        tokenSource = new SelectorParserTokenManager(jjInputStream);
+        token = new Token();
+        jjNtk = -1;
+        jjGen = 0;
+        for (int i = 0; i < 13; i++)
+            jjLa1[i] = -1;
+        for (int i = 0; i < jj2Rtns.length; i++)
+            jj2Rtns[i] = new JJCalls();
+    }
+
+    /**
+     * Constructor with generated Token Manager.
+     */
+    public SelectorParser(SelectorParserTokenManager tm) {
+        tokenSource = tm;
+        token = new Token();
+        jjNtk = -1;
+        jjGen = 0;
+        for (int i = 0; i < 13; i++)
+            jjLa1[i] = -1;
+        for (int i = 0; i < jj2Rtns.length; i++)
+            jj2Rtns[i] = new JJCalls();
+    }
 
     public static BooleanExpression parse(String sql) throws MQFilterException {
         //        sql = "("+sql+")";
@@ -82,11 +178,14 @@ public class SelectorParser implements SelectorParserConstants {
         PARSE_CACHE.cleanUp();
     }
 
-    private String sql;
+    private static void jj_la1_init_0() {
+        jjLa10 = new int[]{
+                0x400, 0x200, 0xc10000, 0xc00000, 0x10000, 0xf001900, 0x20000000, 0x20000000, 0xf000800,
+                0x1000, 0x1036e100, 0x1036e000, 0x16e000};
+    }
 
-    protected SelectorParser(String sql) {
-        this(new StringReader(sql));
-        this.sql = sql;
+    private static void jj_la1_init_1() {
+        jjLa11 = new int[]{0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0};
     }
 
     protected BooleanExpression parse() throws MQFilterException {
@@ -971,72 +1070,6 @@ public class SelectorParser implements SelectorParserConstants {
     }
 
     /**
-     * Generated Token Manager.
-     */
-    public SelectorParserTokenManager tokenSource;
-    SimpleCharStream jjInputStream;
-    /**
-     * Current token.
-     */
-    public Token token;
-    /**
-     * Next token.
-     */
-    public Token jjNt;
-    private int jjNtk;
-    private Token jjScanpos, jjLastpos;
-    private int jjLa;
-    private int jjGen;
-    final private int[] jjLa1 = new int[13];
-    static private int[] jjLa10;
-    static private int[] jjLa11;
-
-    static {
-        jj_la1_init_0();
-        jj_la1_init_1();
-    }
-
-    private static void jj_la1_init_0() {
-        jjLa10 = new int[] {
-            0x400, 0x200, 0xc10000, 0xc00000, 0x10000, 0xf001900, 0x20000000, 0x20000000, 0xf000800,
-            0x1000, 0x1036e100, 0x1036e000, 0x16e000};
-    }
-
-    private static void jj_la1_init_1() {
-        jjLa11 = new int[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0};
-    }
-
-    final private JJCalls[] jj2Rtns = new JJCalls[4];
-    private boolean jjRescan = false;
-    private int jjGc = 0;
-
-    /**
-     * Constructor with InputStream.
-     */
-    public SelectorParser(java.io.InputStream stream) {
-        this(stream, null);
-    }
-
-    /**
-     * Constructor with InputStream and supplied encoding
-     */
-    public SelectorParser(java.io.InputStream stream, String encoding) {
-        try {
-            jjInputStream = new SimpleCharStream(stream, encoding, 1, 1);
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        tokenSource = new SelectorParserTokenManager(jjInputStream);
-        token = new Token();
-        jjNtk = -1;
-        jjGen = 0;
-        for (int i = 0; i < 13; i++)
-            jjLa1[i] = -1;
-        for (int i = 0; i < jj2Rtns.length; i++)
-            jj2Rtns[i] = new JJCalls();
-    }
-
-    /**
      * Reinitialise.
      */
     public void ReInit(java.io.InputStream stream) {
@@ -1063,40 +1096,11 @@ public class SelectorParser implements SelectorParserConstants {
     }
 
     /**
-     * Constructor.
-     */
-    public SelectorParser(java.io.Reader stream) {
-        jjInputStream = new SimpleCharStream(stream, 1, 1);
-        tokenSource = new SelectorParserTokenManager(jjInputStream);
-        token = new Token();
-        jjNtk = -1;
-        jjGen = 0;
-        for (int i = 0; i < 13; i++)
-            jjLa1[i] = -1;
-        for (int i = 0; i < jj2Rtns.length; i++)
-            jj2Rtns[i] = new JJCalls();
-    }
-
-    /**
      * Reinitialise.
      */
     public void ReInit(java.io.Reader stream) {
         jjInputStream.ReInit(stream, 1, 1);
         tokenSource.ReInit(jjInputStream);
-        token = new Token();
-        jjNtk = -1;
-        jjGen = 0;
-        for (int i = 0; i < 13; i++)
-            jjLa1[i] = -1;
-        for (int i = 0; i < jj2Rtns.length; i++)
-            jj2Rtns[i] = new JJCalls();
-    }
-
-    /**
-     * Constructor with generated Token Manager.
-     */
-    public SelectorParser(SelectorParserTokenManager tm) {
-        tokenSource = tm;
         token = new Token();
         jjNtk = -1;
         jjGen = 0;
@@ -1146,11 +1150,6 @@ public class SelectorParser implements SelectorParserConstants {
         jjKind = kind;
         throw generateParseException();
     }
-
-    static private final class LookaheadSuccess extends java.lang.Error {
-    }
-
-    final private LookaheadSuccess jjLs = new LookaheadSuccess();
 
     private boolean jj_scan_token(int kind) {
         if (jjScanpos == jjLastpos) {
@@ -1213,12 +1212,6 @@ public class SelectorParser implements SelectorParserConstants {
         else
             return jjNtk = jjNt.kind;
     }
-
-    private java.util.List<int[]> jjExpentries = new java.util.ArrayList<int[]>();
-    private int[] jjExpentry;
-    private int jjKind = -1;
-    private int[] jjLasttokens = new int[100];
-    private int jjEndpos;
 
     private void jj_add_error_token(int kind, int pos) {
         if (pos >= 100)
@@ -1344,6 +1337,9 @@ public class SelectorParser implements SelectorParserConstants {
         p.gen = jjGen + xla - jjLa;
         p.first = token;
         p.arg = xla;
+    }
+
+    static private final class LookaheadSuccess extends java.lang.Error {
     }
 
     static final class JJCalls {

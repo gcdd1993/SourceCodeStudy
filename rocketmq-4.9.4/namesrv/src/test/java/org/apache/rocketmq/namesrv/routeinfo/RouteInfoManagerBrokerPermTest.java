@@ -30,12 +30,11 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RouteInfoManagerBrokerPermTest extends RouteInfoManagerTestBase {
-    private static RouteInfoManager routeInfoManager;
     public static String clusterName = "cluster";
     public static String brokerPrefix = "broker";
     public static String topicPrefix = "topic";
-
     public static RouteInfoManagerTestBase.Cluster cluster;
+    private static RouteInfoManager routeInfoManager;
 
     @Before
     public void setup() {
@@ -60,8 +59,8 @@ public class RouteInfoManagerBrokerPermTest extends RouteInfoManagerTestBase {
 
     @Test
     public void testAddWritePermOfBrokerByLock() throws Exception {
-        String brokerName = getBrokerName(brokerPrefix,0);
-        String topicName = getTopicName(topicPrefix,0);
+        String brokerName = getBrokerName(brokerPrefix, 0);
+        String topicName = getTopicName(topicPrefix, 0);
 
 
         QueueData qd = new QueueData();
@@ -86,8 +85,8 @@ public class RouteInfoManagerBrokerPermTest extends RouteInfoManagerTestBase {
 
     @Test
     public void testWipeWritePermOfBrokerByLock() throws Exception {
-        String brokerName = getBrokerName(brokerPrefix,0);
-        String topicName = getTopicName(topicPrefix,0);
+        String brokerName = getBrokerName(brokerPrefix, 0);
+        String topicName = getTopicName(topicPrefix, 0);
 
         QueueData qd = new QueueData();
         qd.setPerm(PermName.PERM_READ);

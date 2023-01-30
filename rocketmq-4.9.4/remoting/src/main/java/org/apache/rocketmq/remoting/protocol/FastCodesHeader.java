@@ -17,11 +17,10 @@
 
 package org.apache.rocketmq.remoting.protocol;
 
-import java.util.HashMap;
-
+import io.netty.buffer.ByteBuf;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 
-import io.netty.buffer.ByteBuf;
+import java.util.HashMap;
 
 public interface FastCodesHeader {
 

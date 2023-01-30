@@ -17,10 +17,6 @@
 
 package org.apache.rocketmq.acl.common;
 
-import java.lang.reflect.Field;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
 import org.apache.rocketmq.common.MixAll;
 import org.apache.rocketmq.common.protocol.RequestCode;
 import org.apache.rocketmq.common.protocol.header.PullMessageRequestHeader;
@@ -29,13 +25,18 @@ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.remoting.protocol.RequestType;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static org.apache.rocketmq.acl.common.SessionCredentials.ACCESS_KEY;
 import static org.apache.rocketmq.acl.common.SessionCredentials.SECURITY_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AclClientRPCHookTest {
     protected ConcurrentHashMap<Class<? extends CommandCustomHeader>, Field[]> fieldCache =
-        new ConcurrentHashMap<Class<? extends CommandCustomHeader>, Field[]>();
+            new ConcurrentHashMap<Class<? extends CommandCustomHeader>, Field[]>();
     private AclClientRPCHook aclClientRPCHook = new AclClientRPCHook(null);
 
     @Test

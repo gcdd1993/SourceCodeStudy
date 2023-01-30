@@ -16,10 +16,11 @@
  */
 package org.apache.rocketmq.client.producer.selector;
 
-import java.util.List;
 import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageQueue;
+
+import java.util.List;
 
 public class SelectMessageQueueByHash implements MessageQueueSelector {
 

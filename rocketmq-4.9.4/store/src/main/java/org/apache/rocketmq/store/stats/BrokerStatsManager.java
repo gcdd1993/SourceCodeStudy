@@ -16,51 +16,77 @@
  */
 package org.apache.rocketmq.store.stats;
 
+import org.apache.rocketmq.common.ThreadFactoryImpl;
+import org.apache.rocketmq.common.constant.LoggerName;
+import org.apache.rocketmq.common.stats.MomentStatsItemSet;
+import org.apache.rocketmq.common.stats.Stats;
+import org.apache.rocketmq.common.stats.StatsItem;
+import org.apache.rocketmq.common.stats.StatsItemSet;
+import org.apache.rocketmq.logging.InternalLogger;
+import org.apache.rocketmq.logging.InternalLoggerFactory;
+
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import org.apache.rocketmq.common.ThreadFactoryImpl;
-import org.apache.rocketmq.common.constant.LoggerName;
-import org.apache.rocketmq.common.stats.Stats;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
-import org.apache.rocketmq.common.stats.MomentStatsItemSet;
-import org.apache.rocketmq.common.stats.StatsItem;
-import org.apache.rocketmq.common.stats.StatsItemSet;
 
 public class BrokerStatsManager {
 
-    @Deprecated public static final String QUEUE_PUT_NUMS = Stats.QUEUE_PUT_NUMS;
-    @Deprecated public static final String QUEUE_PUT_SIZE = Stats.QUEUE_PUT_SIZE;
-    @Deprecated public static final String QUEUE_GET_NUMS = Stats.QUEUE_GET_NUMS;
-    @Deprecated public static final String QUEUE_GET_SIZE = Stats.QUEUE_GET_SIZE;
-    @Deprecated public static final String TOPIC_PUT_NUMS = Stats.TOPIC_PUT_NUMS;
-    @Deprecated public static final String TOPIC_PUT_SIZE = Stats.TOPIC_PUT_SIZE;
-    @Deprecated public static final String GROUP_GET_NUMS = Stats.GROUP_GET_NUMS;
-    @Deprecated public static final String GROUP_GET_SIZE = Stats.GROUP_GET_SIZE;
-    @Deprecated public static final String SNDBCK_PUT_NUMS = Stats.SNDBCK_PUT_NUMS;
-    @Deprecated public static final String BROKER_PUT_NUMS = Stats.BROKER_PUT_NUMS;
-    @Deprecated public static final String BROKER_GET_NUMS = Stats.BROKER_GET_NUMS;
-    @Deprecated public static final String GROUP_GET_FROM_DISK_NUMS = Stats.GROUP_GET_FROM_DISK_NUMS;
-    @Deprecated public static final String GROUP_GET_FROM_DISK_SIZE = Stats.GROUP_GET_FROM_DISK_SIZE;
-    @Deprecated public static final String BROKER_GET_FROM_DISK_NUMS = Stats.BROKER_GET_FROM_DISK_NUMS;
-    @Deprecated public static final String BROKER_GET_FROM_DISK_SIZE = Stats.BROKER_GET_FROM_DISK_SIZE;
+    @Deprecated
+    public static final String QUEUE_PUT_NUMS = Stats.QUEUE_PUT_NUMS;
+    @Deprecated
+    public static final String QUEUE_PUT_SIZE = Stats.QUEUE_PUT_SIZE;
+    @Deprecated
+    public static final String QUEUE_GET_NUMS = Stats.QUEUE_GET_NUMS;
+    @Deprecated
+    public static final String QUEUE_GET_SIZE = Stats.QUEUE_GET_SIZE;
+    @Deprecated
+    public static final String TOPIC_PUT_NUMS = Stats.TOPIC_PUT_NUMS;
+    @Deprecated
+    public static final String TOPIC_PUT_SIZE = Stats.TOPIC_PUT_SIZE;
+    @Deprecated
+    public static final String GROUP_GET_NUMS = Stats.GROUP_GET_NUMS;
+    @Deprecated
+    public static final String GROUP_GET_SIZE = Stats.GROUP_GET_SIZE;
+    @Deprecated
+    public static final String SNDBCK_PUT_NUMS = Stats.SNDBCK_PUT_NUMS;
+    @Deprecated
+    public static final String BROKER_PUT_NUMS = Stats.BROKER_PUT_NUMS;
+    @Deprecated
+    public static final String BROKER_GET_NUMS = Stats.BROKER_GET_NUMS;
+    @Deprecated
+    public static final String GROUP_GET_FROM_DISK_NUMS = Stats.GROUP_GET_FROM_DISK_NUMS;
+    @Deprecated
+    public static final String GROUP_GET_FROM_DISK_SIZE = Stats.GROUP_GET_FROM_DISK_SIZE;
+    @Deprecated
+    public static final String BROKER_GET_FROM_DISK_NUMS = Stats.BROKER_GET_FROM_DISK_NUMS;
+    @Deprecated
+    public static final String BROKER_GET_FROM_DISK_SIZE = Stats.BROKER_GET_FROM_DISK_SIZE;
     // For commercial
-    @Deprecated public static final String COMMERCIAL_SEND_TIMES = Stats.COMMERCIAL_SEND_TIMES;
-    @Deprecated public static final String COMMERCIAL_SNDBCK_TIMES = Stats.COMMERCIAL_SNDBCK_TIMES;
-    @Deprecated public static final String COMMERCIAL_RCV_TIMES = Stats.COMMERCIAL_RCV_TIMES;
-    @Deprecated public static final String COMMERCIAL_RCV_EPOLLS = Stats.COMMERCIAL_RCV_EPOLLS;
-    @Deprecated public static final String COMMERCIAL_SEND_SIZE = Stats.COMMERCIAL_SEND_SIZE;
-    @Deprecated public static final String COMMERCIAL_RCV_SIZE = Stats.COMMERCIAL_RCV_SIZE;
-    @Deprecated public static final String COMMERCIAL_PERM_FAILURES = Stats.COMMERCIAL_PERM_FAILURES;
+    @Deprecated
+    public static final String COMMERCIAL_SEND_TIMES = Stats.COMMERCIAL_SEND_TIMES;
+    @Deprecated
+    public static final String COMMERCIAL_SNDBCK_TIMES = Stats.COMMERCIAL_SNDBCK_TIMES;
+    @Deprecated
+    public static final String COMMERCIAL_RCV_TIMES = Stats.COMMERCIAL_RCV_TIMES;
+    @Deprecated
+    public static final String COMMERCIAL_RCV_EPOLLS = Stats.COMMERCIAL_RCV_EPOLLS;
+    @Deprecated
+    public static final String COMMERCIAL_SEND_SIZE = Stats.COMMERCIAL_SEND_SIZE;
+    @Deprecated
+    public static final String COMMERCIAL_RCV_SIZE = Stats.COMMERCIAL_RCV_SIZE;
+    @Deprecated
+    public static final String COMMERCIAL_PERM_FAILURES = Stats.COMMERCIAL_PERM_FAILURES;
     public static final String COMMERCIAL_OWNER = "Owner";
     // Message Size limit for one api-calling count.
     public static final double SIZE_PER_COUNT = 64 * 1024;
 
-    @Deprecated public static final String GROUP_GET_FALL_SIZE = Stats.GROUP_GET_FALL_SIZE;
-    @Deprecated public static final String GROUP_GET_FALL_TIME = Stats.GROUP_GET_FALL_TIME;
+    @Deprecated
+    public static final String GROUP_GET_FALL_SIZE = Stats.GROUP_GET_FALL_SIZE;
+    @Deprecated
+    public static final String GROUP_GET_FALL_TIME = Stats.GROUP_GET_FALL_TIME;
     // Pull Message Latency
-    @Deprecated public static final String GROUP_GET_LATENCY = Stats.GROUP_GET_LATENCY;
+    @Deprecated
+    public static final String GROUP_GET_LATENCY = Stats.GROUP_GET_LATENCY;
 
     /**
      * read disk follow stats
@@ -68,9 +94,9 @@ public class BrokerStatsManager {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.ROCKETMQ_STATS_LOGGER_NAME);
     private static final InternalLogger COMMERCIAL_LOG = InternalLoggerFactory.getLogger(LoggerName.COMMERCIAL_LOGGER_NAME);
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl(
-        "BrokerStatsThread"));
+            "BrokerStatsThread"));
     private final ScheduledExecutorService commercialExecutor = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl(
-        "CommercialStatsThread"));
+            "CommercialStatsThread"));
     private final HashMap<String, StatsItemSet> statsTable = new HashMap<String, StatsItemSet>();
     private final String clusterName;
     private final boolean enableQueueStat;
@@ -295,19 +321,19 @@ public class BrokerStatsManager {
     }
 
     public void recordDiskFallBehindTime(final String group, final String topic, final int queueId,
-        final long fallBehind) {
+                                         final long fallBehind) {
         final String statsKey = buildStatsKey(queueId, topic, group);
         this.momentStatsItemSetFallTime.getAndCreateStatsItem(statsKey).getValue().set(fallBehind);
     }
 
     public void recordDiskFallBehindSize(final String group, final String topic, final int queueId,
-        final long fallBehind) {
+                                         final long fallBehind) {
         final String statsKey = buildStatsKey(queueId, topic, group);
         this.momentStatsItemSetFallSize.getAndCreateStatsItem(statsKey).getValue().set(fallBehind);
     }
 
     public void incCommercialValue(final String key, final String owner, final String group,
-        final String topic, final String type, final int incValue) {
+                                   final String topic, final String type, final int incValue) {
         final String statsKey = buildCommercialStatsKey(owner, topic, group, type);
         this.statsTable.get(key).addValue(statsKey, incValue, 1);
     }

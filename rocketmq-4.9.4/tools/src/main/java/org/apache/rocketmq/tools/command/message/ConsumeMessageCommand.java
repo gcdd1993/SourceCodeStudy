@@ -37,22 +37,6 @@ public class ConsumeMessageCommand implements SubCommand {
     private long messageCount = 128;
     private DefaultMQPullConsumer defaultMQPullConsumer;
 
-
-    public enum ConsumeType {
-        /**
-         * Topic only
-         */
-        DEFAULT,
-        /**
-         * Topic brokerName queueId set
-         */
-        BYQUEUE,
-        /**
-         * Topic brokerName queueId offset set
-         */
-        BYOFFSET
-    }
-
     private static long timestampFormat(final String value) {
         long timestamp;
         try {
@@ -63,6 +47,7 @@ public class ConsumeMessageCommand implements SubCommand {
 
         return timestamp;
     }
+
     @Override
     public String commandName() {
         return "consumeMessage";
@@ -217,7 +202,7 @@ public class ConsumeMessageCommand implements SubCommand {
         for (long offset = minOffset; offset <= maxOffset; ) {
             PullResult pullResult = null;
             try {
-                pullResult = defaultMQPullConsumer.pull(mq, "*", offset, (int)(maxOffset - offset + 1));
+                pullResult = defaultMQPullConsumer.pull(mq, "*", offset, (int) (maxOffset - offset + 1));
             } catch (Exception e) {
                 e.printStackTrace();
                 return;
@@ -228,16 +213,16 @@ public class ConsumeMessageCommand implements SubCommand {
                     case FOUND:
                         System.out.print("Consume ok\n");
                         PrintMessageByQueueCommand.printMessage(pullResult.getMsgFoundList(), "UTF-8",
-                            true, true);
+                                true, true);
                         break;
                     case NO_MATCHED_MSG:
                         System.out.printf("%s no matched msg. status=%s, offset=%s\n", mq, pullResult.getPullStatus(),
-                            offset);
+                                offset);
                         break;
                     case NO_NEW_MSG:
                     case OFFSET_ILLEGAL:
                         System.out.printf("%s print msg finished. status=%s, offset=%s\n", mq,
-                            pullResult.getPullStatus(), offset);
+                                pullResult.getPullStatus(), offset);
                         break READQ;
                     default:
                         break;
@@ -302,5 +287,20 @@ public class ConsumeMessageCommand implements SubCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public enum ConsumeType {
+        /**
+         * Topic only
+         */
+        DEFAULT,
+        /**
+         * Topic brokerName queueId set
+         */
+        BYQUEUE,
+        /**
+         * Topic brokerName queueId offset set
+         */
+        BYOFFSET
     }
 }

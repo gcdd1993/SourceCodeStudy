@@ -16,19 +16,6 @@
  */
 package org.apache.rocketmq.client.trace;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.apache.rocketmq.client.AccessChannel;
 import org.apache.rocketmq.client.common.ThreadLocalIndex;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -48,6 +35,19 @@ import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.remoting.RPCHook;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static org.apache.rocketmq.client.trace.TraceConstants.TRACE_INSTANCE_NAME;
 
 public class AsyncTraceDispatcher implements TraceDispatcher {
@@ -61,11 +61,11 @@ public class AsyncTraceDispatcher implements TraceDispatcher {
     private final long waitTimeThresholdMil;
     private final DefaultMQProducer traceProducer;
     private final ThreadPoolExecutor traceExecutor;
+    private final ArrayBlockingQueue<TraceContext> traceContextQueue;
+    private final HashMap<String, TraceDataSegment> taskQueueByTopic;
     // The last discard number of log
     private AtomicLong discardCount;
     private Thread worker;
-    private final ArrayBlockingQueue<TraceContext> traceContextQueue;
-    private final HashMap<String, TraceDataSegment> taskQueueByTopic;
     private ArrayBlockingQueue<Runnable> appenderQueue;
     private volatile Thread shutDownHook;
     private volatile boolean stopped = false;
@@ -309,11 +309,11 @@ public class AsyncTraceDispatcher implements TraceDispatcher {
     }
 
     class TraceDataSegment {
-        private long firstBeanAddTime;
-        private int currentMsgSize;
         private final String traceTopicName;
         private final String regionId;
         private final List<TraceTransferBean> traceTransferBeanList = new ArrayList();
+        private long firstBeanAddTime;
+        private int currentMsgSize;
 
         TraceDataSegment(String traceTopicName, String regionId) {
             this.traceTopicName = traceTopicName;
@@ -384,8 +384,8 @@ public class AsyncTraceDispatcher implements TraceDispatcher {
         /**
          * Send message trace data
          *
-         * @param keySet the keyset in this batch(including msgId in original message not offsetMsgId)
-         * @param data   the message trace data in this batch
+         * @param keySet     the keyset in this batch(including msgId in original message not offsetMsgId)
+         * @param data       the message trace data in this batch
          * @param traceTopic the topic which message trace data will send to
          */
         private void sendTraceDataByMQ(Set<String> keySet, final String data, String traceTopic) {

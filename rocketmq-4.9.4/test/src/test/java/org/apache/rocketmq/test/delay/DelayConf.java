@@ -21,7 +21,7 @@ import org.apache.rocketmq.test.base.BaseConf;
 
 public class DelayConf extends BaseConf {
     protected static final int[] DELAY_LEVEL = {
-        1, 5, 10, 30, 1 * 60, 5 * 60, 10 * 60,
-        30 * 60, 1 * 3600, 2 * 3600, 6 * 3600, 12 * 3600, 1 * 24 * 3600};
+            1, 5, 10, 30, 1 * 60, 5 * 60, 10 * 60,
+            30 * 60, 1 * 3600, 2 * 3600, 6 * 3600, 12 * 3600, 1 * 24 * 3600};
 
 }

@@ -25,7 +25,7 @@ public class RMQBroadCastConsumer extends RMQNormalConsumer {
     private static Logger logger = Logger.getLogger(RMQBroadCastConsumer.class);
 
     public RMQBroadCastConsumer(String nsAddr, String topic, String subExpression,
-        String consumerGroup, AbstractListener listner) {
+                                String consumerGroup, AbstractListener listner) {
         super(nsAddr, topic, subExpression, consumerGroup, listner);
     }
 

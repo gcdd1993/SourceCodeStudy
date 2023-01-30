@@ -27,23 +27,48 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StoreTestBase {
 
+    private static AtomicInteger port = new AtomicInteger(30000);
+    protected Set<String> baseDirs = new HashSet<>();
     private int QUEUE_TOTAL = 100;
     private AtomicInteger QueueId = new AtomicInteger(0);
     private SocketAddress BornHost = new InetSocketAddress("127.0.0.1", 8123);
     private SocketAddress StoreHost = BornHost;
     private byte[] MessageBody = new byte[1024];
 
-    protected Set<String> baseDirs = new HashSet<>();
-
-    private static AtomicInteger port = new AtomicInteger(30000);
-
     public static synchronized int nextPort() {
         return port.addAndGet(5);
+    }
+
+    public static String createBaseDir() {
+        String baseDir = System.getProperty("user.home") + File.separator + "unitteststore" + File.separator + UUID.randomUUID();
+        final File file = new File(baseDir);
+        if (file.exists()) {
+            System.exit(1);
+        }
+        return baseDir;
+    }
+
+    public static boolean makeSureFileExists(String fileName) throws Exception {
+        File file = new File(fileName);
+        MappedFile.ensureDirOK(file.getParent());
+        return file.createNewFile();
+    }
+
+    public static void deleteFile(String fileName) {
+        deleteFile(new File(fileName));
+    }
+
+    public static void deleteFile(File file) {
+        UtilAll.deleteFile(file);
     }
 
     protected MessageExtBatch buildBatchMessage(int size) {
@@ -142,29 +167,6 @@ public class StoreTestBase {
             e.printStackTrace();
         }
         return msg;
-    }
-
-    public static String createBaseDir() {
-        String baseDir = System.getProperty("user.home") + File.separator + "unitteststore" + File.separator + UUID.randomUUID();
-        final File file = new File(baseDir);
-        if (file.exists()) {
-            System.exit(1);
-        }
-        return baseDir;
-    }
-
-    public static boolean makeSureFileExists(String fileName) throws Exception {
-        File file = new File(fileName);
-        MappedFile.ensureDirOK(file.getParent());
-        return file.createNewFile();
-    }
-
-    public static void deleteFile(String fileName) {
-        deleteFile(new File(fileName));
-    }
-
-    public static void deleteFile(File file) {
-        UtilAll.deleteFile(file);
     }
 
     @After

@@ -30,9 +30,9 @@ public class ClusterAclConfigVersionListSubCommandTest {
     public void testExecute() {
         ClusterAclConfigVersionListSubCommand cmd = new ClusterAclConfigVersionListSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-c default-cluster"};
+        String[] subargs = new String[]{"-c default-cluster"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('c').trim()).isEqualTo("default-cluster");
     }
 }

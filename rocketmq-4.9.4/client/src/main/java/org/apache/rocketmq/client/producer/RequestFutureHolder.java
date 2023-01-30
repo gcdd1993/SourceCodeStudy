@@ -17,6 +17,13 @@
 
 package org.apache.rocketmq.client.producer;
 
+import org.apache.rocketmq.client.common.ClientErrorCode;
+import org.apache.rocketmq.client.exception.RequestTimeoutException;
+import org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl;
+import org.apache.rocketmq.client.log.ClientLogger;
+import org.apache.rocketmq.common.ThreadFactoryImpl;
+import org.apache.rocketmq.logging.InternalLogger;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,19 +35,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.rocketmq.client.common.ClientErrorCode;
-import org.apache.rocketmq.client.exception.RequestTimeoutException;
-import org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl;
-import org.apache.rocketmq.client.log.ClientLogger;
-import org.apache.rocketmq.common.ThreadFactoryImpl;
-import org.apache.rocketmq.logging.InternalLogger;
-
 public class RequestFutureHolder {
-    private static InternalLogger log = ClientLogger.getLog();
     private static final RequestFutureHolder INSTANCE = new RequestFutureHolder();
-    private ConcurrentHashMap<String, RequestResponseFuture> requestFutureTable = new ConcurrentHashMap<String, RequestResponseFuture>();
+    private static InternalLogger log = ClientLogger.getLog();
     private final Set<DefaultMQProducerImpl> producerSet = new HashSet<DefaultMQProducerImpl>();
+    private ConcurrentHashMap<String, RequestResponseFuture> requestFutureTable = new ConcurrentHashMap<String, RequestResponseFuture>();
     private ScheduledExecutorService scheduledExecutorService = null;
+
+    private RequestFutureHolder() {
+    }
+
+    public static RequestFutureHolder getInstance() {
+        return INSTANCE;
+    }
 
     public ConcurrentHashMap<String, RequestResponseFuture> getRequestFutureTable() {
         return requestFutureTable;
@@ -97,11 +104,5 @@ public class RequestFutureHolder {
             this.scheduledExecutorService = null;
             executorService.shutdown();
         }
-    }
-
-    private RequestFutureHolder() {}
-
-    public static RequestFutureHolder getInstance() {
-        return INSTANCE;
     }
 }

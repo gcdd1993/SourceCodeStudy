@@ -17,10 +17,11 @@
 
 package org.apache.rocketmq.test.util.data.collect;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.rocketmq.test.util.data.collect.impl.ListDataCollectorImpl;
 import org.apache.rocketmq.test.util.data.collect.impl.MapDataCollectorImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class DataCollectorManager {
     private static DataCollectorManager instance = new DataCollectorManager();
@@ -50,10 +51,10 @@ public final class DataCollectorManager {
     public DataCollector fetchMapDataCollector(String key) {
         String realKey = key;
         if (!collectMap.containsKey(realKey)
-            || collectMap.get(realKey) instanceof ListDataCollectorImpl) {
+                || collectMap.get(realKey) instanceof ListDataCollectorImpl) {
             synchronized (lock) {
                 if (!collectMap.containsKey(realKey)
-                    || collectMap.get(realKey) instanceof ListDataCollectorImpl) {
+                        || collectMap.get(realKey) instanceof ListDataCollectorImpl) {
                     DataCollector collect = null;
                     if (collectMap.containsKey(realKey)) {
                         DataCollector src = collectMap.get(realKey);
@@ -72,10 +73,10 @@ public final class DataCollectorManager {
     public DataCollector fetchListDataCollector(String key) {
         String realKey = key;
         if (!collectMap.containsKey(realKey)
-            || collectMap.get(realKey) instanceof MapDataCollectorImpl) {
+                || collectMap.get(realKey) instanceof MapDataCollectorImpl) {
             synchronized (lock) {
                 if (!collectMap.containsKey(realKey)
-                    || collectMap.get(realKey) instanceof MapDataCollectorImpl) {
+                        || collectMap.get(realKey) instanceof MapDataCollectorImpl) {
                     DataCollector collect = null;
                     if (collectMap.containsKey(realKey)) {
                         DataCollector src = collectMap.get(realKey);

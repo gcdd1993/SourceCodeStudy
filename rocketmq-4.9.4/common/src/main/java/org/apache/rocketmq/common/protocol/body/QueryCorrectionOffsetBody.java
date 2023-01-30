@@ -16,9 +16,10 @@
  */
 package org.apache.rocketmq.common.protocol.body;
 
+import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
 public class QueryCorrectionOffsetBody extends RemotingSerializable {
     private Map<Integer, Long> correctionOffsets = new HashMap<Integer, Long>();

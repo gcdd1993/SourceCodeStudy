@@ -22,14 +22,13 @@ public class MessageSysFlag {
 
     /**
      * Meaning of each bit in the system flag
-     *
+     * <p>
      * | bit    | 7 | 6 | 5         | 4        | 3           | 2                | 1                | 0                |
      * |--------|---|---|-----------|----------|-------------|------------------|------------------|------------------|
      * | byte 1 |   |   | STOREHOST | BORNHOST | TRANSACTION | TRANSACTION      | MULTI_TAGS       | COMPRESSED       |
      * | byte 2 |   |   |           |          |             | COMPRESSION_TYPE | COMPRESSION_TYPE | COMPRESSION_TYPE |
      * | byte 3 |   |   |           |          |             |                  |                  |                  |
      * | byte 4 |   |   |           |          |             |                  |                  |                  |
-     *
      */
     public final static int COMPRESSED_FLAG = 0x1;
     public final static int MULTI_TAGS_FLAG = 0x1 << 1;

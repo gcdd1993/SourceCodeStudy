@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.acl;
 
-import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
@@ -27,6 +26,8 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.CommandUtil;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Set;
 
 public class DeleteAccessConfigSubCommand implements SubCommand {
 
@@ -65,8 +66,9 @@ public class DeleteAccessConfigSubCommand implements SubCommand {
         return options;
     }
 
-    @Override public void execute(CommandLine commandLine, Options options,
-        RPCHook rpcHook) throws SubCommandException {
+    @Override
+    public void execute(CommandLine commandLine, Options options,
+                        RPCHook rpcHook) throws SubCommandException {
 
         DefaultMQAdminExt defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
         defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
@@ -91,7 +93,7 @@ public class DeleteAccessConfigSubCommand implements SubCommand {
                 defaultMQAdminExt.start();
 
                 Set<String> brokerAddrSet =
-                    CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
+                        CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
                 for (String addr : brokerAddrSet) {
                     defaultMQAdminExt.deletePlainAccessConfig(addr, accessKey);
                     System.out.printf("delete plain access config account from %s success.%n", addr);

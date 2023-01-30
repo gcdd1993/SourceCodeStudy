@@ -17,7 +17,6 @@
 
 package org.apache.rocketmq.test.client.producer.order;
 
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.test.base.BaseConf;
@@ -31,6 +30,8 @@ import org.apache.rocketmq.test.util.VerifyUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -55,61 +56,61 @@ public class OrderMsgDynamicRebalanceIT extends BaseConf {
     public void testTwoConsumerAndCrashOne() {
         int msgSize = 10;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*",
-            new RMQOrderListener("1"));
+                new RMQOrderListener("1"));
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQOrderListener("2"));
+                "*", new RMQOrderListener("2"));
 
         List<MessageQueue> mqs = producer.getMessageQueue();
         MessageQueueMsg mqMsgs = new MessageQueueMsg(mqs, msgSize);
         producer.send(mqMsgs.getMsgsWithMQ());
 
         MQWait.waitConsumeAll(30 * 1000, producer.getAllMsgBody(), consumer1.getListener(),
-            consumer2.getListener());
+                consumer2.getListener());
         consumer2.shutdown();
 
         mqMsgs = new MessageQueueMsg(mqs, msgSize);
         producer.send(mqMsgs.getMsgsWithMQ());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener());
+                consumer1.getListener(), consumer2.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer1.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer2.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 
     @Test
     public void testThreeConsumerAndCrashOne() {
         int msgSize = 10;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*",
-            new RMQOrderListener("1"));
+                new RMQOrderListener("1"));
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQOrderListener("2"));
+                "*", new RMQOrderListener("2"));
         RMQNormalConsumer consumer3 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
-            "*", new RMQOrderListener("3"));
+                "*", new RMQOrderListener("3"));
 
         List<MessageQueue> mqs = producer.getMessageQueue();
         MessageQueueMsg mqMsgs = new MessageQueueMsg(mqs, msgSize);
         producer.send(mqMsgs.getMsgsWithMQ());
 
         MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(), consumer1.getListener(),
-            consumer2.getListener(), consumer3.getListener());
+                consumer2.getListener(), consumer3.getListener());
         consumer3.shutdown();
 
         mqMsgs = new MessageQueueMsg(mqs, msgSize);
         producer.send(mqMsgs.getMsgsWithMQ());
 
         boolean recvAll = MQWait.waitConsumeAll(30 * 1000, producer.getAllMsgBody(),
-            consumer1.getListener(), consumer2.getListener(), consumer3.getListener());
+                consumer1.getListener(), consumer2.getListener(), consumer3.getListener());
         assertThat(recvAll).isEqualTo(true);
 
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer1.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer2.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
         assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer3.getListener()).getMsgs()))
-            .isEqualTo(true);
+                .isEqualTo(true);
     }
 }

@@ -49,7 +49,7 @@ public class StartMonitoringSubCommand implements SubCommand {
     public void execute(CommandLine commandLine, Options options, RPCHook rpcHook) throws SubCommandException {
         try {
             MonitorService monitorService =
-                new MonitorService(new MonitorConfig(), new DefaultMonitorListener(), rpcHook);
+                    new MonitorService(new MonitorConfig(), new DefaultMonitorListener(), rpcHook);
 
             monitorService.start();
         } catch (Exception e) {

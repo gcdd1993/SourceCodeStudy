@@ -38,12 +38,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class RouteInfoManagerStaticRegisterTest extends RouteInfoManagerTestBase {
-    private static RouteInfoManager routeInfoManager;
     public static String clusterName = "cluster";
     public static String brokerPrefix = "broker";
     public static String topicPrefix = "topic";
-
     public static RouteInfoManagerTestBase.Cluster cluster;
+    private static RouteInfoManager routeInfoManager;
 
     @Before
     public void setup() {

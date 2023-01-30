@@ -20,9 +20,10 @@
  */
 package org.apache.rocketmq.common.protocol.heartbeat;
 
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 
 public class ConsumerData {
     private String groupName;
@@ -83,7 +84,7 @@ public class ConsumerData {
     @Override
     public String toString() {
         return "ConsumerData [groupName=" + groupName + ", consumeType=" + consumeType + ", messageModel="
-            + messageModel + ", consumeFromWhere=" + consumeFromWhere + ", unitMode=" + unitMode
-            + ", subscriptionDataSet=" + subscriptionDataSet + "]";
+                + messageModel + ", consumeFromWhere=" + consumeFromWhere + ", unitMode=" + unitMode
+                + ", subscriptionDataSet=" + subscriptionDataSet + "]";
     }
 }

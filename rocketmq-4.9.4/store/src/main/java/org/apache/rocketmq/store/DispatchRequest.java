@@ -22,34 +22,33 @@ public class DispatchRequest {
     private final String topic;
     private final int queueId;
     private final long commitLogOffset;
-    private int msgSize;
     private final long tagsCode;
     private final long storeTimestamp;
     private final long consumeQueueOffset;
     private final String keys;
     private final boolean success;
     private final String uniqKey;
-
     private final int sysFlag;
     private final long preparedTransactionOffset;
     private final Map<String, String> propertiesMap;
+    private int msgSize;
     private byte[] bitMap;
 
     private int bufferSize = -1;//the buffer size maybe larger than the msg size if the message is wrapped by something
 
     public DispatchRequest(
-        final String topic,
-        final int queueId,
-        final long commitLogOffset,
-        final int msgSize,
-        final long tagsCode,
-        final long storeTimestamp,
-        final long consumeQueueOffset,
-        final String keys,
-        final String uniqKey,
-        final int sysFlag,
-        final long preparedTransactionOffset,
-        final Map<String, String> propertiesMap
+            final String topic,
+            final int queueId,
+            final long commitLogOffset,
+            final int msgSize,
+            final long tagsCode,
+            final long storeTimestamp,
+            final long consumeQueueOffset,
+            final String keys,
+            final String uniqKey,
+            final int sysFlag,
+            final long preparedTransactionOffset,
+            final Map<String, String> propertiesMap
     ) {
         this.topic = topic;
         this.queueId = queueId;
@@ -115,6 +114,10 @@ public class DispatchRequest {
         return msgSize;
     }
 
+    public void setMsgSize(int msgSize) {
+        this.msgSize = msgSize;
+    }
+
     public long getStoreTimestamp() {
         return storeTimestamp;
     }
@@ -157,10 +160,6 @@ public class DispatchRequest {
 
     public void setBitMap(byte[] bitMap) {
         this.bitMap = bitMap;
-    }
-
-    public void setMsgSize(int msgSize) {
-        this.msgSize = msgSize;
     }
 
     public int getBufferSize() {

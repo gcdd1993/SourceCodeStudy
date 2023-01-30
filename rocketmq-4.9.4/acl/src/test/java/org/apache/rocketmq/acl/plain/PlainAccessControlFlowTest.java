@@ -71,10 +71,8 @@ public class PlainAccessControlFlowTest {
     public static final List<String> DEFAULT_GLOBAL_WHITE_ADDRS_LIST = Arrays.asList(DEFAULT_GLOBAL_WHITE_ADDR);
 
     public static final Path EMPTY_ACL_FOLDER_PLAIN_ACL_YML_PATH = Paths.get("src/test/resources/empty_acl_folder_conf/conf/plain_acl.yml");
-    private static final Path EMPTY_ACL_FOLDER_PLAIN_ACL_YML_BAK_PATH = Paths.get("src/test/resources/empty_acl_folder_conf/conf/plain_acl.yml.bak");
-
-
     public static final Path ONLY_ACL_FOLDER_DELETE_YML_PATH = Paths.get("src/test/resources/only_acl_folder_conf/conf/plain_acl.yml");
+    private static final Path EMPTY_ACL_FOLDER_PLAIN_ACL_YML_BAK_PATH = Paths.get("src/test/resources/empty_acl_folder_conf/conf/plain_acl.yml.bak");
     private static final Path ONLY_ACL_FOLDER_PLAIN_ACL_YML_PATH = Paths.get("src/test/resources/only_acl_folder_conf/conf/acl/plain_acl.yml");
     private static final Path ONLY_ACL_FOLDER_PLAIN_ACL_YML_BAK_PATH = Paths.get("src/test/resources/only_acl_folder_conf/conf/acl/plain_acl.yml.bak");
 
@@ -86,7 +84,6 @@ public class PlainAccessControlFlowTest {
     private boolean isCheckCase1 = false;
     private boolean isCheckCase2 = false;
     private boolean isCheckCase3 = false;
-
 
 
     /**

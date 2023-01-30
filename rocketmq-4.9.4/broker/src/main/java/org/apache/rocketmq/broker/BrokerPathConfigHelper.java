@@ -21,7 +21,7 @@ import java.io.File;
 
 public class BrokerPathConfigHelper {
     private static String brokerConfigPath = System.getProperty("user.home") + File.separator + "store"
-        + File.separator + "config" + File.separator + "broker.properties";
+            + File.separator + "config" + File.separator + "broker.properties";
 
     public static String getBrokerConfigPath() {
         return brokerConfigPath;

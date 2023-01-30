@@ -79,42 +79,42 @@ public class RemotingSerializableTest {
         String prettyString = serializable.toJson(true);
 
         assertThat(prettyString).isEqualTo("{\n" +
-            "\t\"stringList\":[\n" +
-            "\t\t\"a\",\n" +
-            "\t\t\"o\",\n" +
-            "\t\t\"e\",\n" +
-            "\t\t\"i\",\n" +
-            "\t\t\"u\",\n" +
-            "\t\t\"v\"\n" +
-            "\t]\n" +
-            "}");
+                "\t\"stringList\":[\n" +
+                "\t\t\"a\",\n" +
+                "\t\t\"o\",\n" +
+                "\t\t\"e\",\n" +
+                "\t\t\"i\",\n" +
+                "\t\t\"u\",\n" +
+                "\t\t\"v\"\n" +
+                "\t]\n" +
+                "}");
     }
 
     @Test
     public void testEncode() {
-         class Foo extends RemotingSerializable {
+        class Foo extends RemotingSerializable {
             Map<Long, String> map = new HashMap<>();
 
             Foo() {
-             map.put(0L, "Test");
+                map.put(0L, "Test");
             }
 
-             public Map<Long, String> getMap() {
-                 return map;
-             }
-         }
-         Foo foo = new Foo();
-         String invalid = new String(foo.encode(), Charset.defaultCharset());
-         String valid = new String(foo.encode(SerializerFeature.BrowserCompatible, SerializerFeature.QuoteFieldNames,
-                 SerializerFeature.MapSortField), Charset.defaultCharset());
+            public Map<Long, String> getMap() {
+                return map;
+            }
+        }
+        Foo foo = new Foo();
+        String invalid = new String(foo.encode(), Charset.defaultCharset());
+        String valid = new String(foo.encode(SerializerFeature.BrowserCompatible, SerializerFeature.QuoteFieldNames,
+                SerializerFeature.MapSortField), Charset.defaultCharset());
 
-         Gson gson = new Gson();
-         final TypeAdapter<JsonElement> strictAdapter = gson.getAdapter(JsonElement.class);
-         try {
-             strictAdapter.fromJson(invalid);
-             Assert.fail("Should have thrown");
-         } catch (IOException ignore) {
-         }
+        Gson gson = new Gson();
+        final TypeAdapter<JsonElement> strictAdapter = gson.getAdapter(JsonElement.class);
+        try {
+            strictAdapter.fromJson(invalid);
+            Assert.fail("Should have thrown");
+        } catch (IOException ignore) {
+        }
 
         try {
             strictAdapter.fromJson(valid);
@@ -128,7 +128,7 @@ class Sample {
     private String stringValue = "string";
     private int intValue = 2333;
     private Integer integerValue = 666;
-    private double[] doubleArray = new double[] {0.618, 1.618};
+    private double[] doubleArray = new double[]{0.618, 1.618};
     private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
     public String getStringValue() {

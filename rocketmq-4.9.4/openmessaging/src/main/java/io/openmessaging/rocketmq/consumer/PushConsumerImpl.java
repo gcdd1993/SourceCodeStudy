@@ -28,11 +28,6 @@ import io.openmessaging.rocketmq.config.ClientConfig;
 import io.openmessaging.rocketmq.domain.NonStandardKeys;
 import io.openmessaging.rocketmq.utils.BeanUtils;
 import io.openmessaging.rocketmq.utils.OMSUtil;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -41,12 +36,18 @@ import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 public class PushConsumerImpl implements PushConsumer {
     private final DefaultMQPushConsumer rocketmqPushConsumer;
     private final KeyValue properties;
-    private boolean started = false;
     private final Map<String, MessageListener> subscribeTable = new ConcurrentHashMap<>();
     private final ClientConfig clientConfig;
+    private boolean started = false;
 
     public PushConsumerImpl(final KeyValue properties) {
         this.rocketmqPushConsumer = new DefaultMQPushConsumer();
@@ -165,7 +166,7 @@ public class PushConsumerImpl implements PushConsumer {
 
         @Override
         public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> rmqMsgList,
-            ConsumeConcurrentlyContext contextRMQ) {
+                                                        ConsumeConcurrentlyContext contextRMQ) {
             MessageExt rmqMsg = rmqMsgList.get(0);
             BytesMessage omsMsg = OMSUtil.msgConvert(rmqMsg);
 
@@ -173,7 +174,7 @@ public class PushConsumerImpl implements PushConsumer {
 
             if (listener == null) {
                 throw new OMSRuntimeException("-1",
-                    String.format("The topic/queue %s isn't attached to this consumer", rmqMsg.getTopic()));
+                        String.format("The topic/queue %s isn't attached to this consumer", rmqMsg.getTopic()));
             }
 
             final KeyValue contextProperties = OMS.newKeyValue();
@@ -191,7 +192,7 @@ public class PushConsumerImpl implements PushConsumer {
                 public void ack() {
                     sync.countDown();
                     contextProperties.put(NonStandardKeys.MESSAGE_CONSUME_STATUS,
-                        ConsumeConcurrentlyStatus.CONSUME_SUCCESS.name());
+                            ConsumeConcurrentlyStatus.CONSUME_SUCCESS.name());
                 }
             };
             long begin = System.currentTimeMillis();

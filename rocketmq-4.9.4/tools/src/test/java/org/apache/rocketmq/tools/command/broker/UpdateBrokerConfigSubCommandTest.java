@@ -42,9 +42,9 @@ public class UpdateBrokerConfigSubCommandTest extends ServerResponseMocker {
     public void testExecute() throws SubCommandException {
         UpdateBrokerConfigSubCommand cmd = new UpdateBrokerConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-b 127.0.0.1:" + PORT, "-c default-cluster", "-k topicname", "-v unit_test"};
+        String[] subargs = new String[]{"-b 127.0.0.1:" + PORT, "-c default-cluster", "-k topicname", "-v unit_test"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
     }
 }

@@ -36,8 +36,22 @@ public abstract class BinaryExpression implements Expression {
         return left;
     }
 
+    /**
+     * @param expression
+     */
+    public void setLeft(Expression expression) {
+        left = expression;
+    }
+
     public Expression getRight() {
         return right;
+    }
+
+    /**
+     * @param expression
+     */
+    public void setRight(Expression expression) {
+        right = expression;
     }
 
     /**
@@ -71,19 +85,5 @@ public abstract class BinaryExpression implements Expression {
      * represented by "+"
      */
     public abstract String getExpressionSymbol();
-
-    /**
-     * @param expression
-     */
-    public void setRight(Expression expression) {
-        right = expression;
-    }
-
-    /**
-     * @param expression
-     */
-    public void setLeft(Expression expression) {
-        left = expression;
-    }
 
 }

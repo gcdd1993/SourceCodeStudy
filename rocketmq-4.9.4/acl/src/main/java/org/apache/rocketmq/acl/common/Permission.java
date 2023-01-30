@@ -16,12 +16,13 @@
  */
 package org.apache.rocketmq.acl.common;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.acl.plain.PlainAccessResource;
 import org.apache.rocketmq.common.protocol.RequestCode;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Permission {
 
@@ -75,7 +76,7 @@ public class Permission {
     }
 
     public static void parseResourcePerms(PlainAccessResource plainAccessResource, Boolean isTopic,
-        List<String> resources) {
+                                          List<String> resources) {
         if (resources == null || resources.isEmpty()) {
             return;
         }
@@ -98,12 +99,12 @@ public class Permission {
             String[] items = StringUtils.split(resource, "=");
             if (items.length != 2) {
                 throw new AclException(String.format("Parse Resource format error for %s.\n" +
-                    "The expected resource format is 'Res=Perm'. For example: topicA=SUB", resource));
+                        "The expected resource format is 'Res=Perm'. For example: topicA=SUB", resource));
             }
 
             if (!AclConstants.DENY.equals(items[1].trim()) && Permission.DENY == Permission.parsePermFromString(items[1].trim())) {
                 throw new AclException(String.format("Parse resource permission error for %s.\n" +
-                    "The expected permissions are 'SUB' or 'PUB' or 'SUB|PUB' or 'PUB|SUB'.", resource));
+                        "The expected permissions are 'SUB' or 'PUB' or 'SUB|PUB' or 'PUB|SUB'.", resource));
             }
         }
     }

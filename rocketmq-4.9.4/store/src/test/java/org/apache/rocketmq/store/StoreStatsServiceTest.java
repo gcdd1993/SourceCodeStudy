@@ -16,6 +16,8 @@
  */
 package org.apache.rocketmq.store;
 
+import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.BrokenBarrierException;
@@ -23,8 +25,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
-
-import org.junit.Test;
 
 public class StoreStatsServiceTest {
 

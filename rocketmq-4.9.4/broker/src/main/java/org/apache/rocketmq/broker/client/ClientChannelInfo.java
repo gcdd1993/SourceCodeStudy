@@ -95,6 +95,6 @@ public class ClientChannelInfo {
     @Override
     public String toString() {
         return "ClientChannelInfo [channel=" + channel + ", clientId=" + clientId + ", language=" + language
-            + ", version=" + version + ", lastUpdateTimestamp=" + lastUpdateTimestamp + "]";
+                + ", version=" + version + ", lastUpdateTimestamp=" + lastUpdateTimestamp + "]";
     }
 }

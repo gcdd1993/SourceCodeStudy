@@ -30,14 +30,10 @@ public abstract class Appender {
     public static final int CODE_FILE_OPEN_FAILURE = 4;
 
     public final static String LINE_SEP = System.getProperty("line.separator");
-
-    boolean firstTime = true;
-
     protected Layout layout;
-
     protected String name;
-
     protected boolean closed = false;
+    boolean firstTime = true;
 
     public void activateOptions() {
     }
@@ -62,8 +58,16 @@ public abstract class Appender {
         return layout;
     }
 
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public final String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public synchronized void doAppend(LoggingEvent event) {
@@ -72,14 +76,6 @@ public abstract class Appender {
             return;
         }
         this.append(event);
-    }
-
-    public void setLayout(Layout layout) {
-        this.layout = layout;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public abstract void close();

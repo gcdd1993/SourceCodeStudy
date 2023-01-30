@@ -16,8 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.broker;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -28,6 +26,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class DeleteExpiredCommitLogSubCommandTest extends ServerResponseMocker {
 
@@ -64,9 +65,9 @@ public class DeleteExpiredCommitLogSubCommandTest extends ServerResponseMocker {
     public void testExecute() throws SubCommandException {
         DeleteExpiredCommitLogSubCommand cmd = new DeleteExpiredCommitLogSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-b 127.0.0.1:" + PORT, "-c default-cluster"};
+        String[] subargs = new String[]{"-b 127.0.0.1:" + PORT, "-c default-cluster"};
         final CommandLine commandLine = ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs,
-            cmd.buildCommandlineOptions(options), new PosixParser());
+                cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
         Assert.assertTrue(outContent.toString().startsWith("success"));
         Assert.assertEquals("", errContent.toString());

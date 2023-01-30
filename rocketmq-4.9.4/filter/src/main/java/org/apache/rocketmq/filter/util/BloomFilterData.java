@@ -41,12 +41,12 @@ public class BloomFilterData {
         return bitPos;
     }
 
-    public int getBitNum() {
-        return bitNum;
-    }
-
     public void setBitPos(final int[] bitPos) {
         this.bitPos = bitPos;
+    }
+
+    public int getBitNum() {
+        return bitNum;
     }
 
     public void setBitNum(final int bitNum) {
@@ -80,8 +80,8 @@ public class BloomFilterData {
     @Override
     public String toString() {
         return "BloomFilterData{" +
-            "bitPos=" + Arrays.toString(bitPos) +
-            ", bitNum=" + bitNum +
-            '}';
+                "bitPos=" + Arrays.toString(bitPos) +
+                ", bitNum=" + bitNum +
+                '}';
     }
 }

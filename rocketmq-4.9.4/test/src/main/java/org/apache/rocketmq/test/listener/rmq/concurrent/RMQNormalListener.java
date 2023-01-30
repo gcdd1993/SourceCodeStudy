@@ -17,13 +17,14 @@
 
 package org.apache.rocketmq.test.listener.rmq.concurrent;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.test.listener.AbstractListener;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RMQNormalListener extends AbstractListener implements MessageListenerConcurrently {
     private ConsumeConcurrentlyStatus consumeStatus = ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
@@ -47,15 +48,15 @@ public class RMQNormalListener extends AbstractListener implements MessageListen
     }
 
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
-        ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+                                                    ConsumeConcurrentlyContext consumeConcurrentlyContext) {
         for (MessageExt msg : msgs) {
             msgIndex.getAndIncrement();
             if (isDebug) {
                 if (listenerName != null && !listenerName.isEmpty()) {
                     logger.info(listenerName + ":" + msgIndex.get() + ":"
-                        + String.format("msgid:%s broker:%s queueId:%s offset:%s",
-                        msg.getMsgId(), msg.getStoreHost(), msg.getQueueId(),
-                        msg.getQueueOffset()));
+                            + String.format("msgid:%s broker:%s queueId:%s offset:%s",
+                            msg.getMsgId(), msg.getStoreHost(), msg.getQueueId(),
+                            msg.getQueueOffset()));
                 } else {
                     logger.info(msg);
                 }

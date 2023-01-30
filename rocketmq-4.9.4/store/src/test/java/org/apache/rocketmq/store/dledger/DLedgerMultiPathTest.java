@@ -33,20 +33,20 @@ public class DLedgerMultiPathTest extends MessageStoreTestBase {
 
     @Test
     public void multiDirsStorageTest() throws Exception {
-        String base =  createBaseDir();
+        String base = createBaseDir();
         String topic = UUID.randomUUID().toString();
         String peers = String.format("n0-localhost:%d", nextPort());
         String group = UUID.randomUUID().toString();
         String multiStorePath =
-            base + "/multi/a/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
-            base + "/multi/b/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
-            base + "/multi/c/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
+                base + "/multi/a/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
+                        base + "/multi/b/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
+                        base + "/multi/c/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
         {
 
             DefaultMessageStore dLedgerStore = createDLedgerMessageStore(base, group, "n0", peers, multiStorePath, null);
             Thread.sleep(2000);
             doPutMessages(dLedgerStore, topic, 0, 1000, 0);
-            Assert.assertEquals(11, dLedgerStore.getMaxPhyOffset()/dLedgerStore.getMessageStoreConfig().getMappedFileSizeCommitLog());
+            Assert.assertEquals(11, dLedgerStore.getMaxPhyOffset() / dLedgerStore.getMessageStoreConfig().getMappedFileSizeCommitLog());
             Thread.sleep(500);
             Assert.assertEquals(0, dLedgerStore.getMinOffsetInQueue(topic, 0));
             Assert.assertEquals(1000, dLedgerStore.getMaxOffsetInQueue(topic, 0));
@@ -56,11 +56,11 @@ public class DLedgerMultiPathTest extends MessageStoreTestBase {
         }
         {
             String readOnlyPath =
-                base + "/multi/a/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
-                base + "/multi/b/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
+                    base + "/multi/a/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
+                            base + "/multi/b/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
             multiStorePath =
-                base + "/multi/c/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
-                base + "/multi/d/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
+                    base + "/multi/c/" + MessageStoreConfig.MULTI_PATH_SPLITTER +
+                            base + "/multi/d/" + MessageStoreConfig.MULTI_PATH_SPLITTER;
 
             DefaultMessageStore dLedgerStore = createDLedgerMessageStore(base, group, "n0", peers, multiStorePath, readOnlyPath);
             Thread.sleep(2000);
@@ -94,7 +94,7 @@ public class DLedgerMultiPathTest extends MessageStoreTestBase {
         storeConfig.setdLegerGroup(group);
         storeConfig.setdLegerPeers(peers);
         storeConfig.setdLegerSelfId(selfId);
-        DefaultMessageStore defaultMessageStore = new DefaultMessageStore(storeConfig,  new BrokerStatsManager("DLedgerCommitLogTest", true), (topic, queueId, logicOffset, tagsCode, msgStoreTime, filterBitMap, properties) -> {
+        DefaultMessageStore defaultMessageStore = new DefaultMessageStore(storeConfig, new BrokerStatsManager("DLedgerCommitLogTest", true), (topic, queueId, logicOffset, tagsCode, msgStoreTime, filterBitMap, properties) -> {
 
         }, new BrokerConfig());
         Assert.assertTrue(defaultMessageStore.load());

@@ -69,11 +69,11 @@ public class ProducerConnectionSubCommand implements SubCommand {
             int i = 1;
             for (Connection conn : pc.getConnectionSet()) {
                 System.out.printf("%04d  %-32s %-22s %-8s %s%n",
-                    i++,
-                    conn.getClientId(),
-                    conn.getClientAddr(),
-                    conn.getLanguage(),
-                    MQVersion.getVersionDesc(conn.getVersion())
+                        i++,
+                        conn.getClientId(),
+                        conn.getClientAddr(),
+                        conn.getLanguage(),
+                        MQVersion.getVersionDesc(conn.getVersion())
                 );
             }
         } catch (Exception e) {

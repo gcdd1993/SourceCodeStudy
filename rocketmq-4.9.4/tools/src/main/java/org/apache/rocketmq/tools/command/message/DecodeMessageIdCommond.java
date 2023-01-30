@@ -46,7 +46,7 @@ public class DecodeMessageIdCommond implements SubCommand {
 
     @Override
     public void execute(final CommandLine commandLine, final Options options,
-        RPCHook rpcHook) throws SubCommandException {
+                        RPCHook rpcHook) throws SubCommandException {
         String messageId = commandLine.getOptionValue('i').trim();
 
         try {

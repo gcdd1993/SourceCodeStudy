@@ -85,7 +85,7 @@ public class QueryMsgTraceByIdSubCommand implements SubCommand {
     }
 
     private void queryTraceByMsgId(final DefaultMQAdminExt admin, String traceTopic, String msgId)
-        throws MQClientException, InterruptedException {
+            throws MQClientException, InterruptedException {
         admin.start();
         QueryResult queryResult = admin.queryMessage(traceTopic, msgId, 64, 0, System.currentTimeMillis());
         List<MessageExt> messageList = queryResult.getMessageList();
@@ -103,20 +103,20 @@ public class QueryMsgTraceByIdSubCommand implements SubCommand {
         for (TraceView traceView : traceViews) {
             if (traceView.getMsgType().equals(TraceType.Pub.name())) {
                 System.out.printf("%-10s %-20s %-20s %-20s %-10s %-10s%n",
-                    "#Type",
-                    "#ProducerGroup",
-                    "#ClientHost",
-                    "#SendTime",
-                    "#CostTimes",
-                    "#Status"
+                        "#Type",
+                        "#ProducerGroup",
+                        "#ClientHost",
+                        "#SendTime",
+                        "#CostTimes",
+                        "#Status"
                 );
                 System.out.printf("%-10s %-20s %-20s %-20s %-10s %-10s%n",
-                    "Pub",
-                    traceView.getGroupName(),
-                    traceView.getClientHost(),
-                    DateFormatUtils.format(traceView.getTimeStamp(), "yyyy-MM-dd HH:mm:ss"),
-                    traceView.getCostTime() + "ms",
-                    traceView.getStatus()
+                        "Pub",
+                        traceView.getGroupName(),
+                        traceView.getClientHost(),
+                        DateFormatUtils.format(traceView.getTimeStamp(), "yyyy-MM-dd HH:mm:ss"),
+                        traceView.getCostTime() + "ms",
+                        traceView.getStatus()
                 );
                 System.out.printf("\n");
             }
@@ -135,22 +135,22 @@ public class QueryMsgTraceByIdSubCommand implements SubCommand {
         Iterator<String> consumers = consumerTraceMap.keySet().iterator();
         while (consumers.hasNext()) {
             System.out.printf("%-10s %-20s %-20s %-20s %-10s %-10s%n",
-                "#Type",
-                "#ConsumerGroup",
-                "#ClientHost",
-                "#ConsumerTime",
-                "#CostTimes",
-                "#Status"
+                    "#Type",
+                    "#ConsumerGroup",
+                    "#ClientHost",
+                    "#ConsumerTime",
+                    "#CostTimes",
+                    "#Status"
             );
             List<TraceView> consumerTraces = consumerTraceMap.get(consumers.next());
             for (TraceView traceView : consumerTraces) {
                 System.out.printf("%-10s %-20s %-20s %-20s %-10s %-10s%n",
-                    "Sub",
-                    traceView.getGroupName(),
-                    traceView.getClientHost(),
-                    DateFormatUtils.format(traceView.getTimeStamp(), "yyyy-MM-dd HH:mm:ss"),
-                    traceView.getCostTime() + "ms",
-                    traceView.getStatus()
+                        "Sub",
+                        traceView.getGroupName(),
+                        traceView.getClientHost(),
+                        DateFormatUtils.format(traceView.getTimeStamp(), "yyyy-MM-dd HH:mm:ss"),
+                        traceView.getCostTime() + "ms",
+                        traceView.getStatus()
                 );
             }
             System.out.printf("\n");

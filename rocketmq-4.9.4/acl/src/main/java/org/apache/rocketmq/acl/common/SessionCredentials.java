@@ -16,12 +16,13 @@
  */
 package org.apache.rocketmq.acl.common;
 
+import org.apache.rocketmq.common.MixAll;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import org.apache.rocketmq.common.MixAll;
 
 public class SessionCredentials {
     public static final Charset CHARSET = StandardCharsets.UTF_8;
@@ -31,7 +32,7 @@ public class SessionCredentials {
     public static final String SECURITY_TOKEN = "SecurityToken";
 
     public static final String KEY_FILE = System.getProperty("rocketmq.client.keyFile",
-        System.getProperty("user.home") + File.separator + "key");
+            System.getProperty("user.home") + File.separator + "key");
 
     private String accessKey;
     private String secretKey;
@@ -155,6 +156,6 @@ public class SessionCredentials {
     @Override
     public String toString() {
         return "SessionCredentials [accessKey=" + accessKey + ", secretKey=" + secretKey + ", signature="
-            + signature + ", SecurityToken=" + securityToken + "]";
+                + signature + ", SecurityToken=" + securityToken + "]";
     }
 }

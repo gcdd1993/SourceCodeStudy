@@ -32,16 +32,38 @@ import org.apache.rocketmq.test.util.MQWait;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static com.google.common.truth.Truth.assertThat;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.google.common.truth.Truth.assertThat;
 
 public class TransactionalMsgIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TransactionalMsgIT.class);
     private RMQTransactionalProducer producer = null;
     private RMQNormalConsumer consumer = null;
     private String topic = null;
+
+    static Pair<Boolean, LocalTransactionState> getTransactionHandle(int msgIndex) {
+        switch (msgIndex % 5) {
+            case 0:
+                //commit immediately
+                return new Pair<>(true, LocalTransactionState.COMMIT_MESSAGE);
+            case 1:
+                //rollback immediately
+                return new Pair<>(true, LocalTransactionState.ROLLBACK_MESSAGE);
+            case 2:
+                //commit in check
+                return new Pair<>(false, LocalTransactionState.COMMIT_MESSAGE);
+            case 3:
+                //rollback in check
+                return new Pair<>(false, LocalTransactionState.ROLLBACK_MESSAGE);
+            case 4:
+            default:
+                return new Pair<>(false, LocalTransactionState.UNKNOW);
+
+        }
+    }
 
     @Before
     public void setUp() {
@@ -68,33 +90,12 @@ public class TransactionalMsgIT extends BaseConf {
         assertThat(recvAll).isEqualTo(true);
     }
 
-    static Pair<Boolean, LocalTransactionState> getTransactionHandle(int msgIndex) {
-        switch (msgIndex % 5) {
-            case 0:
-                //commit immediately
-                return new Pair<>(true, LocalTransactionState.COMMIT_MESSAGE);
-            case 1:
-                //rollback immediately
-                return new Pair<>(true, LocalTransactionState.ROLLBACK_MESSAGE);
-            case 2:
-                //commit in check
-                return new Pair<>(false, LocalTransactionState.COMMIT_MESSAGE);
-            case 3:
-                //rollback in check
-                return new Pair<>(false, LocalTransactionState.ROLLBACK_MESSAGE);
-            case 4:
-            default:
-                return new Pair<>(false, LocalTransactionState.UNKNOW);
-
-        }
-    }
-
     static private class TransactionListenerImpl implements TransactionListener {
         ConcurrentHashMap<String, LocalTransactionState> checkStatus = new ConcurrentHashMap<>();
 
         @Override
         public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
-            Pair<Boolean, LocalTransactionState> transactionHandle = (Pair<Boolean,LocalTransactionState>) arg;
+            Pair<Boolean, LocalTransactionState> transactionHandle = (Pair<Boolean, LocalTransactionState>) arg;
             if (transactionHandle.getObject1()) {
                 return transactionHandle.getObject2();
             } else {

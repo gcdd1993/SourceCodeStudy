@@ -38,8 +38,8 @@ public class AsyncRequestProducer {
 
         try {
             Message msg = new Message(topic,
-                "",
-                "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
+                    "",
+                    "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
 
             long begin = System.currentTimeMillis();
             producer.request(msg, new RequestCallback() {
@@ -57,7 +57,7 @@ public class AsyncRequestProducer {
         } catch (Exception e) {
             log.warn("", e);
         }
-         /* shutdown after your request callback is finished */
+        /* shutdown after your request callback is finished */
 //        producer.shutdown();
     }
 }

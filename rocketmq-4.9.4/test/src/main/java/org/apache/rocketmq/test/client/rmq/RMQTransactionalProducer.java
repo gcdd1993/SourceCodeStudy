@@ -28,7 +28,7 @@ import org.apache.rocketmq.test.clientinterface.AbstractMQProducer;
 import org.apache.rocketmq.test.sendresult.ResultWrapper;
 
 public class RMQTransactionalProducer extends AbstractMQProducer {
-    private static Logger logger  = Logger.getLogger(RMQTransactionalProducer.class);
+    private static Logger logger = Logger.getLogger(RMQTransactionalProducer.class);
     private TransactionMQProducer producer = null;
     private String nsAddr = null;
 

@@ -68,6 +68,26 @@ public class ConstantExpression implements Expression {
         return new NowExpression();
     }
 
+    /**
+     * Encodes the value of string so that it looks like it would look like when
+     * it was provided in a selector.
+     */
+    public static String encodeString(String s) {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append('\'');
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '\'') {
+                builder.append(c);
+            }
+            builder.append(c);
+        }
+        builder.append('\'');
+        return builder.toString();
+    }
+
     public Object evaluate(EvaluationContext context) throws Exception {
         return value;
     }
@@ -110,26 +130,6 @@ public class ConstantExpression implements Expression {
         }
         return toString().equals(o.toString());
 
-    }
-
-    /**
-     * Encodes the value of string so that it looks like it would look like when
-     * it was provided in a selector.
-     */
-    public static String encodeString(String s) {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append('\'');
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '\'') {
-                builder.append(c);
-            }
-            builder.append(c);
-        }
-        builder.append('\'');
-        return builder.toString();
     }
 
 }

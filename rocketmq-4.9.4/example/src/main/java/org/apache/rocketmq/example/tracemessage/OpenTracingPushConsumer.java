@@ -57,14 +57,14 @@ public class OpenTracingPushConsumer {
 
     private static Tracer initTracer() {
         Configuration.SamplerConfiguration samplerConfig = Configuration.SamplerConfiguration.fromEnv()
-            .withType(ConstSampler.TYPE)
-            .withParam(1);
+                .withType(ConstSampler.TYPE)
+                .withParam(1);
         Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
-            .withLogSpans(true);
+                .withLogSpans(true);
 
         Configuration config = new Configuration("rocketmq")
-            .withSampler(samplerConfig)
-            .withReporter(reporterConfig);
+                .withSampler(samplerConfig)
+                .withReporter(reporterConfig);
         GlobalTracer.registerIfAbsent(config.getTracer());
         return config.getTracer();
     }

@@ -17,9 +17,10 @@
 
 package org.apache.rocketmq.common.protocol.body;
 
-import java.util.Date;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.message.MessageQueue;
+
+import java.util.Date;
 
 public class QueueTimeSpan {
     private MessageQueue messageQueue;

@@ -16,9 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.consumer;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -33,11 +30,15 @@ import org.apache.rocketmq.tools.command.MQAdminStartup;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 public class ConsumerStatusSubCommand implements SubCommand {
 
     public static void main(String[] args) {
         System.setProperty(MixAll.NAMESRV_ADDR_PROPERTY, "127.0.0.1:9876");
-        MQAdminStartup.main(new String[] {new ConsumerStatusSubCommand().commandName(), "-g", "benchmark_consumer"});
+        MQAdminStartup.main(new String[]{new ConsumerStatusSubCommand().commandName(), "-g", "benchmark_consumer"});
     }
 
     @Override
@@ -81,31 +82,31 @@ public class ConsumerStatusSubCommand implements SubCommand {
             defaultMQAdminExt.start();
             String group = commandLine.getOptionValue('g').trim();
             ConsumerConnection cc = commandLine.hasOption('b')
-                ? defaultMQAdminExt.examineConsumerConnectionInfo(group, commandLine.getOptionValue('b').trim())
-                : defaultMQAdminExt.examineConsumerConnectionInfo(group);
+                    ? defaultMQAdminExt.examineConsumerConnectionInfo(group, commandLine.getOptionValue('b').trim())
+                    : defaultMQAdminExt.examineConsumerConnectionInfo(group);
             boolean jstack = commandLine.hasOption('s');
             if (!commandLine.hasOption('i')) {
                 int i = 1;
                 long now = System.currentTimeMillis();
                 final TreeMap<String/* clientId */, ConsumerRunningInfo> criTable = new TreeMap<String, ConsumerRunningInfo>();
                 System.out.printf("%-10s %-40s %-20s %s%n",
-                    "#Index",
-                    "#ClientId",
-                    "#Version",
-                    "#ConsumerRunningInfoFile");
+                        "#Index",
+                        "#ClientId",
+                        "#Version",
+                        "#ConsumerRunningInfoFile");
                 for (Connection conn : cc.getConnectionSet()) {
                     try {
                         ConsumerRunningInfo consumerRunningInfo =
-                            defaultMQAdminExt.getConsumerRunningInfo(group, conn.getClientId(), jstack);
+                                defaultMQAdminExt.getConsumerRunningInfo(group, conn.getClientId(), jstack);
                         if (consumerRunningInfo != null) {
                             criTable.put(conn.getClientId(), consumerRunningInfo);
                             String filePath = now + "/" + conn.getClientId();
                             MixAll.string2FileNotSafe(consumerRunningInfo.formatString(), filePath);
                             System.out.printf("%-10d %-40s %-20s %s%n",
-                                i++,
-                                conn.getClientId(),
-                                MQVersion.getVersionDesc(conn.getVersion()),
-                                filePath);
+                                    i++,
+                                    conn.getClientId(),
+                                    MQVersion.getVersionDesc(conn.getVersion()),
+                                    filePath);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -124,7 +125,7 @@ public class ConsumerStatusSubCommand implements SubCommand {
                         while (it.hasNext()) {
                             Entry<String, ConsumerRunningInfo> next = it.next();
                             String result =
-                                ConsumerRunningInfo.analyzeProcessQueue(next.getKey(), next.getValue());
+                                    ConsumerRunningInfo.analyzeProcessQueue(next.getKey(), next.getValue());
                             if (result.length() > 0) {
                                 System.out.printf("%s", result);
                             }
@@ -136,7 +137,7 @@ public class ConsumerStatusSubCommand implements SubCommand {
             } else {
                 String clientId = commandLine.getOptionValue('i').trim();
                 ConsumerRunningInfo consumerRunningInfo =
-                    defaultMQAdminExt.getConsumerRunningInfo(group, clientId, jstack);
+                        defaultMQAdminExt.getConsumerRunningInfo(group, clientId, jstack);
                 if (consumerRunningInfo != null) {
                     System.out.printf("%s", consumerRunningInfo.formatString());
                 }

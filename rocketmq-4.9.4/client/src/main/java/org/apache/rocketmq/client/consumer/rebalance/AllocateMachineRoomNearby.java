@@ -16,19 +16,20 @@
  */
 package org.apache.rocketmq.client.consumer.rebalance;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.rocketmq.client.consumer.AllocateMessageQueueStrategy;
+import org.apache.rocketmq.common.message.MessageQueue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.rocketmq.client.consumer.AllocateMessageQueueStrategy;
-import org.apache.rocketmq.common.message.MessageQueue;
 
 /**
  * An allocate strategy proxy for based on machine room nearside priority. An actual allocate strategy can be
  * specified.
- *
+ * <p>
  * If any consumer is alive in a machine room, the message queue of the broker which is deployed in the same machine
  * should only be allocated to those. Otherwise, those message queues can be shared along all consumers since there are
  * no alive consumer to monopolize them.
@@ -39,7 +40,7 @@ public class AllocateMachineRoomNearby extends AbstractAllocateMessageQueueStrat
     private final MachineRoomResolver machineRoomResolver;
 
     public AllocateMachineRoomNearby(AllocateMessageQueueStrategy allocateMessageQueueStrategy,
-        MachineRoomResolver machineRoomResolver) throws NullPointerException {
+                                     MachineRoomResolver machineRoomResolver) throws NullPointerException {
         if (allocateMessageQueueStrategy == null) {
             throw new NullPointerException("allocateMessageQueueStrategy is null");
         }
@@ -54,7 +55,7 @@ public class AllocateMachineRoomNearby extends AbstractAllocateMessageQueueStrat
 
     @Override
     public List<MessageQueue> allocate(String consumerGroup, String currentCID, List<MessageQueue> mqAll,
-        List<String> cidAll) {
+                                       List<String> cidAll) {
 
         List<MessageQueue> result = new ArrayList<MessageQueue>();
         if (!check(consumerGroup, currentCID, mqAll, cidAll)) {
@@ -116,9 +117,9 @@ public class AllocateMachineRoomNearby extends AbstractAllocateMessageQueueStrat
 
     /**
      * A resolver object to determine which machine room do the message queues or clients are deployed in.
-     *
+     * <p>
      * AllocateMachineRoomNearby will use the results to group the message queues and clients by machine room.
-     *
+     * <p>
      * The result returned from the implemented method CANNOT be null.
      */
     public interface MachineRoomResolver {

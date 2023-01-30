@@ -16,13 +16,14 @@
  */
 package org.apache.rocketmq.client.consumer.rebalance;
 
+import junit.framework.TestCase;
+import org.apache.rocketmq.common.message.MessageQueue;
+import org.junit.Assert;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import junit.framework.TestCase;
-import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Assert;
 
 public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
 
@@ -42,10 +43,10 @@ public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
             }
             consumerAllocateQueue.put(consumerId, queueIds);
         }
-        Assert.assertArrayEquals(new int[] {0, 4, 8}, consumerAllocateQueue.get("CID_PREFIX0"));
-        Assert.assertArrayEquals(new int[] {1, 5, 9}, consumerAllocateQueue.get("CID_PREFIX1"));
-        Assert.assertArrayEquals(new int[] {2, 6}, consumerAllocateQueue.get("CID_PREFIX2"));
-        Assert.assertArrayEquals(new int[] {3, 7}, consumerAllocateQueue.get("CID_PREFIX3"));
+        Assert.assertArrayEquals(new int[]{0, 4, 8}, consumerAllocateQueue.get("CID_PREFIX0"));
+        Assert.assertArrayEquals(new int[]{1, 5, 9}, consumerAllocateQueue.get("CID_PREFIX1"));
+        Assert.assertArrayEquals(new int[]{2, 6}, consumerAllocateQueue.get("CID_PREFIX2"));
+        Assert.assertArrayEquals(new int[]{3, 7}, consumerAllocateQueue.get("CID_PREFIX3"));
     }
 
     private List<String> createConsumerIdList(int size) {

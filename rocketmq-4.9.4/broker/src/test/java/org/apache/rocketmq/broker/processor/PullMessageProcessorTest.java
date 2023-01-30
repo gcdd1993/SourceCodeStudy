@@ -18,11 +18,6 @@ package org.apache.rocketmq.broker.processor;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.apache.rocketmq.broker.BrokerController;
 import org.apache.rocketmq.broker.client.ClientChannelInfo;
 import org.apache.rocketmq.broker.filter.ExpressionMessageFilter;
@@ -53,6 +48,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -74,6 +75,22 @@ public class PullMessageProcessorTest {
     private String group = "FooBarGroup";
     private String topic = "FooBar";
 
+    static ConsumerData createConsumerData(String group, String topic) {
+        ConsumerData consumerData = new ConsumerData();
+        consumerData.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        consumerData.setConsumeType(ConsumeType.CONSUME_PASSIVELY);
+        consumerData.setGroupName(group);
+        consumerData.setMessageModel(MessageModel.CLUSTERING);
+        Set<SubscriptionData> subscriptionDataSet = new HashSet<>();
+        SubscriptionData subscriptionData = new SubscriptionData();
+        subscriptionData.setTopic(topic);
+        subscriptionData.setSubString("*");
+        subscriptionData.setSubVersion(100L);
+        subscriptionDataSet.add(subscriptionData);
+        consumerData.setSubscriptionDataSet(subscriptionDataSet);
+        return consumerData;
+    }
+
     @Before
     public void init() {
         brokerController.setMessageStore(messageStore);
@@ -85,13 +102,13 @@ public class PullMessageProcessorTest {
         clientChannelInfo = new ClientChannelInfo(mockChannel);
         ConsumerData consumerData = createConsumerData(group, topic);
         brokerController.getConsumerManager().registerConsumer(
-            consumerData.getGroupName(),
-            clientChannelInfo,
-            consumerData.getConsumeType(),
-            consumerData.getMessageModel(),
-            consumerData.getConsumeFromWhere(),
-            consumerData.getSubscriptionDataSet(),
-            false);
+                consumerData.getGroupName(),
+                clientChannelInfo,
+                consumerData.getConsumeType(),
+                consumerData.getMessageModel(),
+                consumerData.getConsumeFromWhere(),
+                consumerData.getSubscriptionDataSet(),
+                false);
     }
 
     @Test
@@ -206,22 +223,6 @@ public class PullMessageProcessorTest {
         RemotingCommand request = RemotingCommand.createRequestCommand(requestCode, requestHeader);
         request.makeCustomHeaderToNet();
         return request;
-    }
-
-    static ConsumerData createConsumerData(String group, String topic) {
-        ConsumerData consumerData = new ConsumerData();
-        consumerData.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        consumerData.setConsumeType(ConsumeType.CONSUME_PASSIVELY);
-        consumerData.setGroupName(group);
-        consumerData.setMessageModel(MessageModel.CLUSTERING);
-        Set<SubscriptionData> subscriptionDataSet = new HashSet<>();
-        SubscriptionData subscriptionData = new SubscriptionData();
-        subscriptionData.setTopic(topic);
-        subscriptionData.setSubString("*");
-        subscriptionData.setSubVersion(100L);
-        subscriptionDataSet.add(subscriptionData);
-        consumerData.setSubscriptionDataSet(subscriptionDataSet);
-        return consumerData;
     }
 
     private GetMessageResult createGetMessageResult() {

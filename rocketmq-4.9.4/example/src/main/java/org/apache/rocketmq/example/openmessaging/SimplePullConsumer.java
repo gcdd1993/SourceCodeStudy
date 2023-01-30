@@ -33,14 +33,14 @@ public class SimplePullConsumer {
         // You need to set the environment variable OMS_RMQ_DIRECT_NAME_SRV=true
 
         final MessagingAccessPoint messagingAccessPoint =
-            OMS.getMessagingAccessPoint(URL);
+                OMS.getMessagingAccessPoint(URL);
 
         messagingAccessPoint.startup();
 
         final Producer producer = messagingAccessPoint.createProducer();
 
         final PullConsumer consumer = messagingAccessPoint.createPullConsumer(
-            OMS.newKeyValue().put(OMSBuiltinKeys.CONSUMER_ID, QUEUE));
+                OMS.newKeyValue().put(OMSBuiltinKeys.CONSUMER_ID, QUEUE));
 
         messagingAccessPoint.startup();
         System.out.printf("MessagingAccessPoint startup OK%n");

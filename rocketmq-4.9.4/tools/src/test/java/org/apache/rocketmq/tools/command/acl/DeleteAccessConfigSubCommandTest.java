@@ -30,9 +30,9 @@ public class DeleteAccessConfigSubCommandTest {
     public void testExecute() {
         DeleteAccessConfigSubCommand cmd = new DeleteAccessConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-a unit-test", "-c default-cluster"};
+        String[] subargs = new String[]{"-a unit-test", "-c default-cluster"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         assertThat(commandLine.getOptionValue('a').trim()).isEqualTo("unit-test");
         assertThat(commandLine.getOptionValue('c').trim()).isEqualTo("default-cluster");
     }

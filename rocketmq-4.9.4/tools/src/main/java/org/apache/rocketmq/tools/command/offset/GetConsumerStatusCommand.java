@@ -17,7 +17,6 @@
 
 package org.apache.rocketmq.tools.command.offset;
 
-import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -27,6 +26,8 @@ import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
+
+import java.util.Map;
 
 public class GetConsumerStatusCommand implements SubCommand {
     @Override
@@ -70,15 +71,15 @@ public class GetConsumerStatusCommand implements SubCommand {
             defaultMQAdminExt.start();
 
             Map<String, Map<MessageQueue, Long>> consumerStatusTable =
-                defaultMQAdminExt.getConsumeStatus(topic, group, originClientId);
+                    defaultMQAdminExt.getConsumeStatus(topic, group, originClientId);
             System.out.printf("get consumer status from client. group=%s, topic=%s, originClientId=%s%n",
-                group, topic, originClientId);
+                    group, topic, originClientId);
 
             System.out.printf("%-50s  %-15s  %-15s  %-20s%n",
-                "#clientId",
-                "#brokerName",
-                "#queueId",
-                "#offset");
+                    "#clientId",
+                    "#brokerName",
+                    "#queueId",
+                    "#offset");
 
             for (Map.Entry<String, Map<MessageQueue, Long>> entry : consumerStatusTable.entrySet()) {
                 String clientId = entry.getKey();
@@ -86,10 +87,10 @@ public class GetConsumerStatusCommand implements SubCommand {
                 for (Map.Entry<MessageQueue, Long> entry1 : mqTable.entrySet()) {
                     MessageQueue mq = entry1.getKey();
                     System.out.printf("%-50s  %-15s  %-15d  %-20d%n",
-                        UtilAll.frontStringAtLeast(clientId, 50),
-                        mq.getBrokerName(),
-                        mq.getQueueId(),
-                        mqTable.get(mq));
+                            UtilAll.frontStringAtLeast(clientId, 50),
+                            mq.getBrokerName(),
+                            mq.getQueueId(),
+                            mqTable.get(mq));
                 }
             }
         } catch (Exception e) {

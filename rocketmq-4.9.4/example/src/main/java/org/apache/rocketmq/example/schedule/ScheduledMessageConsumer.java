@@ -41,7 +41,7 @@ public class ScheduledMessageConsumer {
             for (MessageExt message : messages) {
                 // Print approximate delay time period
                 System.out.printf("Receive message[msgId=%s %d  ms later]\n", message.getMsgId(),
-                    System.currentTimeMillis() - message.getStoreTimestamp());
+                        System.currentTimeMillis() - message.getStoreTimestamp());
             }
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });

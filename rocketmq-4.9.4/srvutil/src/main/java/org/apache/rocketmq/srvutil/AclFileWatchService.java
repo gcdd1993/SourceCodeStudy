@@ -17,33 +17,33 @@
 
 package org.apache.rocketmq.srvutil;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.rocketmq.common.ServiceThread;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.constant.LoggerName;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.logging.InternalLoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AclFileWatchService extends ServiceThread {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
-
+    private static final int WATCH_INTERVAL = 5000;
     private final String aclPath;
-    private int aclFilesNum;
     @Deprecated
     private final Map<String, String> fileCurrentHash;
+    private final AclFileWatchService.Listener listener;
+    private int aclFilesNum;
     private Map<String, Long> fileLastModifiedTime;
     private List<String/**absolute pathname **/> fileList = new ArrayList<>();
-    private final AclFileWatchService.Listener listener;
-    private static final int WATCH_INTERVAL = 5000;
     private MessageDigest md = MessageDigest.getInstance("MD5");
     private String defaultAclFile;
 

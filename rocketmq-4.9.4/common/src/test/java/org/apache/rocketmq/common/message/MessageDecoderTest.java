@@ -273,7 +273,7 @@ public class MessageDecoderTest {
     public void testString2messageProperties() {
         StringBuilder sb = new StringBuilder();
         sb.append("k1").append(NAME_VALUE_SEPARATOR).append("v1");
-        Map<String,String> m = MessageDecoder.string2messageProperties(sb.toString());
+        Map<String, String> m = MessageDecoder.string2messageProperties(sb.toString());
         assertThat(m).size().isEqualTo(1);
         assertThat(m.get("k1")).isEqualTo("v1");
 
@@ -376,7 +376,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    public void testMessageId() throws Exception{
+    public void testMessageId() throws Exception {
         // ipv4 messageId test
         MessageExt msgExt = new MessageExt();
         msgExt.setStoreHost(new InetSocketAddress("127.0.0.1", 9103));

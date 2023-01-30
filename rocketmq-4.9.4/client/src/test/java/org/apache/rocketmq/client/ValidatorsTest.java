@@ -37,7 +37,7 @@ public class ValidatorsTest {
             assertThat(e.getErrorMessage()).isEqualTo("the specified group is blank");
         }
     }
-    
+
     @Test
     public void testCheckTopic_Success() throws MQClientException {
         Validators.checkTopic("Hello");

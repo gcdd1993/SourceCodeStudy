@@ -17,18 +17,12 @@
 
 package org.apache.rocketmq.test.base;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.rocketmq.broker.BrokerController;
 import org.apache.rocketmq.common.BrokerConfig;
 import org.apache.rocketmq.common.UtilAll;
+import org.apache.rocketmq.common.namesrv.NamesrvConfig;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.logging.InternalLoggerFactory;
-import org.apache.rocketmq.common.namesrv.NamesrvConfig;
 import org.apache.rocketmq.namesrv.NamesrvController;
 import org.apache.rocketmq.remoting.netty.NettyClientConfig;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
@@ -37,24 +31,25 @@ import org.apache.rocketmq.test.util.MQAdmin;
 import org.apache.rocketmq.test.util.TestUtils;
 import org.junit.Assert;
 
-public class IntegrationTestBase {
-    public static InternalLogger logger = InternalLoggerFactory.getLogger(IntegrationTestBase.class);
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
+public class IntegrationTestBase {
     protected static final String SEP = File.separator;
     protected static final String BROKER_NAME_PREFIX = "TestBrokerName_";
     protected static final AtomicInteger BROKER_INDEX = new AtomicInteger(0);
     protected static final List<File> TMPE_FILES = new ArrayList<>();
     protected static final List<BrokerController> BROKER_CONTROLLERS = new ArrayList<>();
     protected static final List<NamesrvController> NAMESRV_CONTROLLERS = new ArrayList<>();
-    protected static int topicCreateTime = 30 * 1000;
     protected static final int COMMIT_LOG_SIZE = 1024 * 1024 * 100;
     protected static final int INDEX_NUM = 1000;
-
     private static final AtomicInteger port = new AtomicInteger(40000);
-
-    public static synchronized int nextPort() {
-        return port.addAndGet(random.nextInt(10) + 10);
-    }
+    public static InternalLogger logger = InternalLoggerFactory.getLogger(IntegrationTestBase.class);
+    protected static int topicCreateTime = 30 * 1000;
     protected static Random random = new Random();
 
     static {
@@ -90,6 +85,10 @@ public class IntegrationTestBase {
             }
         });
 
+    }
+
+    public static synchronized int nextPort() {
+        return port.addAndGet(random.nextInt(10) + 10);
     }
 
     public static String createBaseDir() {
@@ -170,7 +169,7 @@ public class IntegrationTestBase {
                 break;
             } else if (System.currentTimeMillis() - startTime > topicCreateTime) {
                 Assert.fail(String.format("topic[%s] is created failed after:%d ms", topic,
-                    System.currentTimeMillis() - startTime));
+                        System.currentTimeMillis() - startTime));
                 break;
             } else {
                 TestUtils.waitForMoment(500);

@@ -16,10 +16,11 @@
  */
 package org.apache.rocketmq.example.simple;
 
-import java.util.List;
 import org.apache.rocketmq.client.consumer.DefaultLitePullConsumer;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
+
+import java.util.List;
 
 public class LitePullConsumerSubscribe {
 

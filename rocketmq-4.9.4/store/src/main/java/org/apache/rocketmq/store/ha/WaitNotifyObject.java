@@ -28,7 +28,7 @@ public class WaitNotifyObject {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);
 
     protected final ConcurrentHashMap<Long/* thread id */, AtomicBoolean/* notified */> waitingThreadTable =
-        new ConcurrentHashMap<Long, AtomicBoolean>(16);
+            new ConcurrentHashMap<Long, AtomicBoolean>(16);
 
     protected AtomicBoolean hasNotified = new AtomicBoolean(false);
 
@@ -67,7 +67,7 @@ public class WaitNotifyObject {
 
     public void wakeupAll() {
         boolean needNotify = false;
-        for (Map.Entry<Long,AtomicBoolean> entry : this.waitingThreadTable.entrySet()) {
+        for (Map.Entry<Long, AtomicBoolean> entry : this.waitingThreadTable.entrySet()) {
             if (entry.getValue().compareAndSet(false, true)) {
                 needNotify = true;
             }

@@ -32,9 +32,9 @@ public class NameServerMocker {
     /**
      * use the specified port to start the nameserver
      *
-     * @param nameServerPort    nameServer port
-     * @param brokerPort    broker port
-     * @return  ServerResponseMocker
+     * @param nameServerPort nameServer port
+     * @param brokerPort     broker port
+     * @return ServerResponseMocker
      */
     public static ServerResponseMocker startByDefaultConf(int nameServerPort, int brokerPort) {
         return startByDefaultConf(nameServerPort, brokerPort, null);
@@ -43,10 +43,10 @@ public class NameServerMocker {
     /**
      * use the specified port to start the nameserver
      *
-     * @param nameServerPort    nameServer port
-     * @param brokerPort    broker port
-     * @param extMap    extend config
-     * @return  ServerResponseMocker
+     * @param nameServerPort nameServer port
+     * @param brokerPort     broker port
+     * @param extMap         extend config
+     * @return ServerResponseMocker
      */
     public static ServerResponseMocker startByDefaultConf(int nameServerPort, int brokerPort,
                                                           HashMap<String, String> extMap) {

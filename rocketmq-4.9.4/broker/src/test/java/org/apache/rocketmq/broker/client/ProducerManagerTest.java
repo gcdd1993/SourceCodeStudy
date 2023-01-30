@@ -18,15 +18,15 @@ package org.apache.rocketmq.broker.client;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -104,7 +104,7 @@ public class ProducerManagerTest {
     public void testGetGroupChannelTable() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> oldMap = producerManager.getGroupChannelTable().get(group);
-        
+
         producerManager.unregisterProducer(group, clientInfo);
         assertThat(oldMap.size()).isEqualTo(0);
     }

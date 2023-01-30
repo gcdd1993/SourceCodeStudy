@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.broker.transaction.queue;
 
-import java.net.InetSocketAddress;
 import org.apache.rocketmq.broker.BrokerController;
 import org.apache.rocketmq.common.BrokerConfig;
 import org.apache.rocketmq.common.message.MessageAccessor;
@@ -36,6 +35,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.net.InetSocketAddress;
+
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultTransactionalMessageCheckListenerTest {
 
@@ -45,8 +46,8 @@ public class DefaultTransactionalMessageCheckListenerTest {
 
     @Spy
     private BrokerController brokerController = new BrokerController(new BrokerConfig(),
-        new NettyServerConfig(),
-        new NettyClientConfig(), new MessageStoreConfig());
+            new NettyServerConfig(),
+            new NettyClientConfig(), new MessageStoreConfig());
 
     @Before
     public void init() throws Exception {

@@ -34,24 +34,6 @@ import java.util.concurrent.ConcurrentMap;
 
 public class RouteInfoManagerTestBase {
 
-    protected static class Cluster {
-        ConcurrentMap<String, TopicConfig> topicConfig;
-        Map<String, BrokerData> brokerDataMap;
-
-        public Cluster(ConcurrentMap<String, TopicConfig> topicConfig, Map<String, BrokerData> brokerData) {
-            this.topicConfig = topicConfig;
-            this.brokerDataMap = brokerData;
-        }
-
-        public Set<String> getAllBrokerName() {
-            return brokerDataMap.keySet();
-        }
-
-        public Set<String> getAllTopicName() {
-            return topicConfig.keySet();
-        }
-    }
-
     protected Cluster registerCluster(RouteInfoManager routeInfoManager, String cluster,
                                       String brokerNamePrefix,
                                       int brokerNameNumber,
@@ -133,12 +115,12 @@ public class RouteInfoManagerTestBase {
     }
 
     protected RegisterBrokerResult registerBrokerWithTopicConfig(RouteInfoManager routeInfoManager, String clusterName,
-                                                 String brokerAddr,
-                                                 String brokerName,
-                                                 long brokerId,
-                                                 String haServerAddr,
-                                                 ConcurrentMap<String, TopicConfig> topicConfigTable,
-                                                 List<String> filterServerAddr) {
+                                                                 String brokerAddr,
+                                                                 String brokerName,
+                                                                 long brokerId,
+                                                                 String haServerAddr,
+                                                                 ConcurrentMap<String, TopicConfig> topicConfigTable,
+                                                                 List<String> filterServerAddr) {
 
         TopicConfigSerializeWrapper topicConfigSerializeWrapper = new TopicConfigSerializeWrapper();
         topicConfigSerializeWrapper.setTopicConfigTable(topicConfigTable);
@@ -153,7 +135,6 @@ public class RouteInfoManagerTestBase {
                 filterServerAddr,
                 channel);
     }
-
 
     protected String getTopicName(String topicPrefix, int topicNumber) {
         return topicPrefix + "-" + topicNumber;
@@ -183,6 +164,24 @@ public class RouteInfoManagerTestBase {
 
     protected BrokerData findBrokerDataByBrokerName(List<BrokerData> data, String brokerName) {
         return data.stream().filter(bd -> bd.getBrokerName().equals(brokerName)).findFirst().orElse(null);
+    }
+
+    protected static class Cluster {
+        ConcurrentMap<String, TopicConfig> topicConfig;
+        Map<String, BrokerData> brokerDataMap;
+
+        public Cluster(ConcurrentMap<String, TopicConfig> topicConfig, Map<String, BrokerData> brokerData) {
+            this.topicConfig = topicConfig;
+            this.brokerDataMap = brokerData;
+        }
+
+        public Set<String> getAllBrokerName() {
+            return brokerDataMap.keySet();
+        }
+
+        public Set<String> getAllTopicName() {
+            return topicConfig.keySet();
+        }
     }
 
 }

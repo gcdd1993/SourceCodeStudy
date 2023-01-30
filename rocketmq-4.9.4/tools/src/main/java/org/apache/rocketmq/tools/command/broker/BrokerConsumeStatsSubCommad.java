@@ -16,11 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.broker;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -34,6 +29,12 @@ import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public class BrokerConsumeStatsSubCommad implements SubCommand {
 
     private DefaultMQAdminExt defaultMQAdminExt;
@@ -46,8 +47,7 @@ public class BrokerConsumeStatsSubCommad implements SubCommand {
             defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
             try {
                 defaultMQAdminExt.start();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new SubCommandException(this.getClass().getSimpleName() + " command failed", e);
             }
             return defaultMQAdminExt;
@@ -88,7 +88,7 @@ public class BrokerConsumeStatsSubCommad implements SubCommand {
     @Override
     public void execute(CommandLine commandLine, Options options, RPCHook rpcHook) throws SubCommandException {
         try {
-            defaultMQAdminExt =  createMQAdminExt(rpcHook);
+            defaultMQAdminExt = createMQAdminExt(rpcHook);
 
             String brokerAddr = commandLine.getOptionValue('b').trim();
             boolean isOrder = false;
@@ -106,14 +106,14 @@ public class BrokerConsumeStatsSubCommad implements SubCommand {
 
             ConsumeStatsList consumeStatsList = defaultMQAdminExt.fetchConsumeStatsInBroker(brokerAddr, isOrder, timeoutMillis);
             System.out.printf("%-64s  %-64s  %-32s  %-4s  %-20s  %-20s  %-20s  %s%n",
-                "#Topic",
-                "#Group",
-                "#Broker Name",
-                "#QID",
-                "#Broker Offset",
-                "#Consumer Offset",
-                "#Diff",
-                "#LastTime");
+                    "#Topic",
+                    "#Group",
+                    "#Broker Name",
+                    "#QID",
+                    "#Broker Offset",
+                    "#Consumer Offset",
+                    "#Diff",
+                    "#LastTime");
             for (Map<String, List<ConsumeStats>> map : consumeStatsList.getConsumeStatsList()) {
                 for (Map.Entry<String, List<ConsumeStats>> entry : map.entrySet()) {
                     String group = entry.getKey();
@@ -137,14 +137,14 @@ public class BrokerConsumeStatsSubCommad implements SubCommand {
                             }
                             if (offsetWrapper.getLastTimestamp() > 0)
                                 System.out.printf("%-64s  %-64s  %-32s  %-4d  %-20d  %-20d  %-20d  %s%n",
-                                    UtilAll.frontStringAtLeast(mq.getTopic(), 64),
-                                    group,
-                                    UtilAll.frontStringAtLeast(mq.getBrokerName(), 32),
-                                    mq.getQueueId(),
-                                    offsetWrapper.getBrokerOffset(),
-                                    offsetWrapper.getConsumerOffset(),
-                                    diff,
-                                    lastTime
+                                        UtilAll.frontStringAtLeast(mq.getTopic(), 64),
+                                        group,
+                                        UtilAll.frontStringAtLeast(mq.getBrokerName(), 32),
+                                        mq.getQueueId(),
+                                        offsetWrapper.getBrokerOffset(),
+                                        offsetWrapper.getConsumerOffset(),
+                                        diff,
+                                        lastTime
                                 );
                         }
                     }

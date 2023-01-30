@@ -33,13 +33,9 @@ import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractTransactionalMessageCheckListener {
-    private static final InternalLogger LOGGER = InternalLoggerFactory.getLogger(LoggerName.TRANSACTION_LOGGER_NAME);
-
-    private BrokerController brokerController;
-
     //queue nums of topic TRANS_CHECK_MAX_TIME_TOPIC
     protected final static int TCMT_QUEUE_NUMS = 1;
-
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getLogger(LoggerName.TRANSACTION_LOGGER_NAME);
     private static ExecutorService executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2000), new ThreadFactory() {
         @Override
         public Thread newThread(Runnable r) {
@@ -48,6 +44,7 @@ public abstract class AbstractTransactionalMessageCheckListener {
             return thread;
         }
     }, new CallerRunsPolicy());
+    private BrokerController brokerController;
 
     public AbstractTransactionalMessageCheckListener() {
     }
@@ -92,10 +89,6 @@ public abstract class AbstractTransactionalMessageCheckListener {
         return brokerController;
     }
 
-    public void shutDown() {
-        executorService.shutdown();
-    }
-
     /**
      * Inject brokerController for this listener
      *
@@ -103,6 +96,10 @@ public abstract class AbstractTransactionalMessageCheckListener {
      */
     public void setBrokerController(BrokerController brokerController) {
         this.brokerController = brokerController;
+    }
+
+    public void shutDown() {
+        executorService.shutdown();
     }
 
     /**

@@ -25,7 +25,6 @@ import org.apache.rocketmq.common.MixAll;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.admin.ConsumeStats;
 import org.apache.rocketmq.common.admin.OffsetWrapper;
-import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.body.Connection;
 import org.apache.rocketmq.common.protocol.body.ConsumerConnection;
@@ -33,6 +32,7 @@ import org.apache.rocketmq.common.protocol.body.ConsumerRunningInfo;
 import org.apache.rocketmq.common.protocol.body.TopicList;
 import org.apache.rocketmq.common.protocol.heartbeat.ConsumeType;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.command.SubCommand;
@@ -72,14 +72,14 @@ public class ConsumerProgressSubCommand implements SubCommand {
     }
 
     private Map<MessageQueue, String> getMessageQueueAllocationResult(DefaultMQAdminExt defaultMQAdminExt,
-        String groupName) {
+                                                                      String groupName) {
         Map<MessageQueue, String> results = new HashMap<>();
         try {
             ConsumerConnection consumerConnection = defaultMQAdminExt.examineConsumerConnectionInfo(groupName);
             for (Connection connection : consumerConnection.getConnectionSet()) {
                 String clientId = connection.getClientId();
                 ConsumerRunningInfo consumerRunningInfo = defaultMQAdminExt.getConsumerRunningInfo(groupName, clientId,
-                    false);
+                        false);
                 for (MessageQueue messageQueue : consumerRunningInfo.getMqTable().keySet()) {
                     results.put(messageQueue, clientId.split("@")[0]);
                 }
@@ -98,7 +98,7 @@ public class ConsumerProgressSubCommand implements SubCommand {
             defaultMQAdminExt.start();
 
             boolean showClientIP = commandLine.hasOption('s')
-                && "true".equalsIgnoreCase(commandLine.getOptionValue('s'));
+                    && "true".equalsIgnoreCase(commandLine.getOptionValue('s'));
 
             if (commandLine.hasOption('g')) {
                 String consumerGroup = commandLine.getOptionValue('g').trim();
@@ -179,13 +179,13 @@ public class ConsumerProgressSubCommand implements SubCommand {
                 System.out.printf("Diff Total: %d%n", diffTotal);
             } else {
                 System.out.printf("%-64s  %-6s  %-24s %-5s  %-14s  %-7s  %s%n",
-                    "#Group",
-                    "#Count",
-                    "#Version",
-                    "#Type",
-                    "#Model",
-                    "#TPS",
-                    "#Diff Total"
+                        "#Group",
+                        "#Count",
+                        "#Version",
+                        "#Type",
+                        "#Model",
+                        "#TPS",
+                        "#Diff Total"
                 );
                 TopicList topicList = defaultMQAdminExt.fetchAllTopicList();
                 for (String topic : topicList.getTopicList()) {
@@ -222,13 +222,13 @@ public class ConsumerProgressSubCommand implements SubCommand {
                             }
 
                             System.out.printf("%-64s  %-6d  %-24s %-5s  %-14s  %-7d  %d%n",
-                                UtilAll.frontStringAtLeast(groupConsumeInfo.getGroup(), 64),
-                                groupConsumeInfo.getCount(),
-                                groupConsumeInfo.getCount() > 0 ? groupConsumeInfo.versionDesc() : "OFFLINE",
-                                groupConsumeInfo.consumeTypeDesc(),
-                                groupConsumeInfo.messageModelDesc(),
-                                groupConsumeInfo.getConsumeTps(),
-                                groupConsumeInfo.getDiffTotal()
+                                    UtilAll.frontStringAtLeast(groupConsumeInfo.getGroup(), 64),
+                                    groupConsumeInfo.getCount(),
+                                    groupConsumeInfo.getCount() > 0 ? groupConsumeInfo.versionDesc() : "OFFLINE",
+                                    groupConsumeInfo.consumeTypeDesc(),
+                                    groupConsumeInfo.messageModelDesc(),
+                                    groupConsumeInfo.getConsumeTps(),
+                                    groupConsumeInfo.getDiffTotal()
                             );
                         } catch (Exception e) {
                             log.warn("examineConsumeStats or examineConsumerConnectionInfo exception, " + consumerGroup, e);

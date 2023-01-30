@@ -31,7 +31,7 @@ public abstract class AbstractMQConsumer implements MQConsumer {
     }
 
     public AbstractMQConsumer(String nsAddr, String topic, String subExpression,
-        String consumerGroup, AbstractListener listener) {
+                              String consumerGroup, AbstractListener listener) {
         this.topic = topic;
         this.subExpression = subExpression;
         this.consumerGroup = consumerGroup;

@@ -17,7 +17,6 @@
 
 package org.apache.rocketmq.namesrv;
 
-import java.util.Properties;
 import org.apache.commons.cli.Options;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,6 +25,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Properties;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NamesrvStartupTest {

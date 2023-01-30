@@ -31,9 +31,9 @@ public class RTStatsItem extends StatsItem {
     }
 
     /**
-     *   For Response Time stat Item, the print detail should be a little different, TPS and SUM makes no sense.
-     *   And we give a name "AVGRT" rather than AVGPT for value getAvgpt()
-      */
+     * For Response Time stat Item, the print detail should be a little different, TPS and SUM makes no sense.
+     * And we give a name "AVGRT" rather than AVGPT for value getAvgpt()
+     */
     @Override
     protected String statPrintDetail(StatsSnapshot ss) {
         return String.format("TIMES: %d AVGRT: %.2f", ss.getTimes(), ss.getAvgpt());

@@ -59,9 +59,9 @@ public class ConsumerStatusSubCommandTest {
     public void testExecute() throws SubCommandException {
         ConsumerStatusSubCommand cmd = new ConsumerStatusSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-g default-group", "-i cid_one"};
+        String[] subargs = new String[]{"-g default-group", "-i cid_one"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
     }
 

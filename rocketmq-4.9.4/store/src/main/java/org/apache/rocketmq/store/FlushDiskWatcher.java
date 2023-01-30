@@ -17,13 +17,13 @@
 package org.apache.rocketmq.store;
 
 
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.rocketmq.common.ServiceThread;
 import org.apache.rocketmq.common.constant.LoggerName;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.logging.InternalLoggerFactory;
 import org.apache.rocketmq.store.CommitLog.GroupCommitRequest;
+
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class FlushDiskWatcher extends ServiceThread {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.STORE_LOGGER_NAME);

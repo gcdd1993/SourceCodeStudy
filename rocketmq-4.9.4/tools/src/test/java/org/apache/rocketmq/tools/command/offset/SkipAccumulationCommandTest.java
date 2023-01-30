@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.offset;
 
-import java.lang.reflect.Field;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -32,6 +31,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
 
 import static org.mockito.Mockito.mock;
 
@@ -69,9 +70,9 @@ public class SkipAccumulationCommandTest {
         System.setProperty("rocketmq.namesrv.addr", "127.0.0.1:9876");
         SkipAccumulationSubCommand cmd = new SkipAccumulationSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
-        String[] subargs = new String[] {"-g group-test", "-t topic-test", "-f false"};
+        String[] subargs = new String[]{"-g group-test", "-t topic-test", "-f false"};
         final CommandLine commandLine =
-            ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
+                ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
         cmd.execute(commandLine, options, null);
     }
 }

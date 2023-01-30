@@ -55,9 +55,9 @@ public class BroadCastTwoConsumerFilterIT extends BaseBroadCastIT {
         String tag2 = "jueyin_tag_2";
 
         RMQBroadCastConsumer consumer1 = getBroadCastConsumer(nsAddr, topic, tag1,
-            new RMQNormalListener());
+                new RMQNormalListener());
         RMQBroadCastConsumer consumer2 = getBroadCastConsumer(nsAddr,
-            consumer1.getConsumerGroup(), topic, tag1, new RMQNormalListener());
+                consumer1.getConsumerGroup(), topic, tag1, new RMQNormalListener());
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(tag2, msgSize);
@@ -69,10 +69,10 @@ public class BroadCastTwoConsumerFilterIT extends BaseBroadCastIT {
         consumer2.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer1.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer1.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
         assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
-            consumer2.getListener().getAllMsgBody()))
-            .containsExactlyElementsIn(producer.getAllMsgBody());
+                consumer2.getListener().getAllMsgBody()))
+                .containsExactlyElementsIn(producer.getAllMsgBody());
     }
 }

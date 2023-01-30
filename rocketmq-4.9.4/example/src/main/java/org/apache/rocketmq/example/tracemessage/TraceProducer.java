@@ -44,9 +44,9 @@ public class TraceProducer {
             try {
                 {
                     Message msg = new Message(TOPIC,
-                        TAG,
-                        KEY,
-                        "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
+                            TAG,
+                            KEY,
+                            "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
                     SendResult sendResult = producer.send(msg);
                     System.out.printf("%s%n", sendResult);
                 }

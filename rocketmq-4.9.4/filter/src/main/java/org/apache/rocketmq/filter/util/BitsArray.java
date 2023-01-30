@@ -25,18 +25,6 @@ public class BitsArray implements Cloneable {
     private byte[] bytes;
     private int bitLength;
 
-    public static BitsArray create(int bitLength) {
-        return new BitsArray(bitLength);
-    }
-
-    public static BitsArray create(byte[] bytes, int bitLength) {
-        return new BitsArray(bytes, bitLength);
-    }
-
-    public static BitsArray create(byte[] bytes) {
-        return new BitsArray(bytes);
-    }
-
     private BitsArray(int bitLength) {
         this.bitLength = bitLength;
         // init bytes
@@ -76,6 +64,18 @@ public class BitsArray implements Cloneable {
         this.bitLength = bytes.length * Byte.SIZE;
         this.bytes = new byte[bytes.length];
         System.arraycopy(bytes, 0, this.bytes, 0, this.bytes.length);
+    }
+
+    public static BitsArray create(int bitLength) {
+        return new BitsArray(bitLength);
+    }
+
+    public static BitsArray create(byte[] bytes, int bitLength) {
+        return new BitsArray(bytes, bitLength);
+    }
+
+    public static BitsArray create(byte[] bytes) {
+        return new BitsArray(bytes);
     }
 
     public int bitLength() {

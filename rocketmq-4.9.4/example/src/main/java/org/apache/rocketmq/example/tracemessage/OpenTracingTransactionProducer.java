@@ -68,7 +68,7 @@ public class OpenTracingTransactionProducer {
 
         try {
             Message msg = new Message(TOPIC, TAG, KEY,
-                "Hello RocketMQ".getBytes(RemotingHelper.DEFAULT_CHARSET));
+                    "Hello RocketMQ".getBytes(RemotingHelper.DEFAULT_CHARSET));
             SendResult sendResult = producer.sendMessageInTransaction(msg, null);
             System.out.printf("%s%n", sendResult);
         } catch (MQClientException | UnsupportedEncodingException e) {
@@ -83,14 +83,14 @@ public class OpenTracingTransactionProducer {
 
     private static Tracer initTracer() {
         Configuration.SamplerConfiguration samplerConfig = Configuration.SamplerConfiguration.fromEnv()
-            .withType(ConstSampler.TYPE)
-            .withParam(1);
+                .withType(ConstSampler.TYPE)
+                .withParam(1);
         Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
-            .withLogSpans(true);
+                .withLogSpans(true);
 
         Configuration config = new Configuration("rocketmq")
-            .withSampler(samplerConfig)
-            .withReporter(reporterConfig);
+                .withSampler(samplerConfig)
+                .withReporter(reporterConfig);
         GlobalTracer.registerIfAbsent(config.getTracer());
         return config.getTracer();
     }

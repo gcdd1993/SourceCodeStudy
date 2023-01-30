@@ -49,6 +49,6 @@ public class FailedMsgs {
     @Override
     public String toString() {
         return "FailedMsgs [consumerGroup=" + consumerGroup + ", topic=" + topic
-            + ", failedMsgsTotalRecently=" + failedMsgsTotalRecently + "]";
+                + ", failedMsgsTotalRecently=" + failedMsgsTotalRecently + "]";
     }
 }

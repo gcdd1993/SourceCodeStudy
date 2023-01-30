@@ -16,11 +16,12 @@
  */
 package org.apache.rocketmq.common.message;
 
+import org.apache.rocketmq.common.MixAll;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.rocketmq.common.MixAll;
 
 public class MessageBatch extends Message implements Iterable<Message> {
 
@@ -29,14 +30,6 @@ public class MessageBatch extends Message implements Iterable<Message> {
 
     private MessageBatch(List<Message> messages) {
         this.messages = messages;
-    }
-
-    public byte[] encode() {
-        return MessageDecoder.encodeMessages(messages);
-    }
-
-    public Iterator<Message> iterator() {
-        return messages.iterator();
     }
 
     public static MessageBatch generateFromList(Collection<Message> messages) {
@@ -68,6 +61,14 @@ public class MessageBatch extends Message implements Iterable<Message> {
         messageBatch.setTopic(first.getTopic());
         messageBatch.setWaitStoreMsgOK(first.isWaitStoreMsgOK());
         return messageBatch;
+    }
+
+    public byte[] encode() {
+        return MessageDecoder.encodeMessages(messages);
+    }
+
+    public Iterator<Message> iterator() {
+        return messages.iterator();
     }
 
 }

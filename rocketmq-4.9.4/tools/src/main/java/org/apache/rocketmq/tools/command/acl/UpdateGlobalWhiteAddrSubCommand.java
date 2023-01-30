@@ -16,7 +16,6 @@
  */
 package org.apache.rocketmq.tools.command.acl;
 
-import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
@@ -28,17 +27,22 @@ import org.apache.rocketmq.tools.command.CommandUtil;
 import org.apache.rocketmq.tools.command.SubCommand;
 import org.apache.rocketmq.tools.command.SubCommandException;
 
+import java.util.Set;
+
 public class UpdateGlobalWhiteAddrSubCommand implements SubCommand {
 
-    @Override public String commandName() {
+    @Override
+    public String commandName() {
         return "updateGlobalWhiteAddr";
     }
 
-    @Override public String commandDesc() {
+    @Override
+    public String commandDesc() {
         return "Update global white address for acl Config File in broker";
     }
 
-    @Override public Options buildCommandlineOptions(Options options) {
+    @Override
+    public Options buildCommandlineOptions(Options options) {
 
         OptionGroup optionGroup = new OptionGroup();
 
@@ -62,8 +66,9 @@ public class UpdateGlobalWhiteAddrSubCommand implements SubCommand {
         return options;
     }
 
-    @Override public void execute(CommandLine commandLine, Options options,
-        RPCHook rpcHook) throws SubCommandException {
+    @Override
+    public void execute(CommandLine commandLine, Options options,
+                        RPCHook rpcHook) throws SubCommandException {
 
         DefaultMQAdminExt defaultMQAdminExt = new DefaultMQAdminExt(rpcHook);
         defaultMQAdminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
@@ -94,7 +99,7 @@ public class UpdateGlobalWhiteAddrSubCommand implements SubCommand {
 
                 defaultMQAdminExt.start();
                 Set<String> brokerAddrSet =
-                    CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
+                        CommandUtil.fetchMasterAndSlaveAddrByClusterName(defaultMQAdminExt, clusterName);
                 for (String addr : brokerAddrSet) {
                     defaultMQAdminExt.updateGlobalWhiteAddrConfig(addr, globalWhiteRemoteAddresses, aclFileFullPath);
                     System.out.printf("update global white remote addresses to %s success.%n", addr);

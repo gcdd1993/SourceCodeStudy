@@ -17,12 +17,13 @@
 
 package org.apache.rocketmq.common.compression;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
