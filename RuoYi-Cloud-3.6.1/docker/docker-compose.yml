@@ -7,9 +7,9 @@ services:
       context: ./nacos
     environment:
       - MODE=standalone
+      - MYSQL_SERVICE_HOST=
     volumes:
       - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
       - "9848:9848"
