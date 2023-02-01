@@ -127,7 +127,7 @@ public class ServiceThreadTest {
 
     private void stop0(boolean interrupt, ServiceThread testServiceThread) {
         if (interrupt) {
-            testServiceThread.stop(true);
+            testServiceThread .stop(true);
         } else {
             testServiceThread.stop();
         }

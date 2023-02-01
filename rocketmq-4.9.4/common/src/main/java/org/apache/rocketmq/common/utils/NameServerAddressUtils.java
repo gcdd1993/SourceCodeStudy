@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 public class NameServerAddressUtils {
     public static final String INSTANCE_PREFIX = "MQ_INST_";
     public static final String INSTANCE_REGEX = INSTANCE_PREFIX + "\\w+_\\w+";
-    public static final Pattern INST_ENDPOINT_PATTERN = Pattern.compile("^" + ENDPOINT_PREFIX + INSTANCE_REGEX + "\\..*");
     public static final String ENDPOINT_PREFIX = "(\\w+://|)";
+    public static final Pattern INST_ENDPOINT_PATTERN = Pattern.compile("^" + ENDPOINT_PREFIX + INSTANCE_REGEX + "\\..*");
     public static final Pattern NAMESRV_ENDPOINT_PATTERN = Pattern.compile("^http://.*");
 
     public static String getNameServerAddresses() {
