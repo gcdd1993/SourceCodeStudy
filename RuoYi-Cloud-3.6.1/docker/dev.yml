@@ -40,3 +40,8 @@ services:
     environment:
       MYSQL_DATABASE: 'ry-cloud'
       MYSQL_ROOT_PASSWORD: 123456
+  ruoyi-sentinel:
+    container_name: ruoyi-sentinel
+    image: gcdd1993/sentinel-dashboard:1.8.6
+    ports:
+      - "8718:8080"

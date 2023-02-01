@@ -31,6 +31,9 @@ public class TokenController {
     @Autowired
     private SysLoginService sysLoginService;
 
+    /**
+     * 登录
+     */
     @PostMapping("login")
     public R<?> login(@RequestBody LoginBody form) {
         // 用户登录
@@ -39,6 +42,9 @@ public class TokenController {
         return R.ok(tokenService.createToken(userInfo));
     }
 
+    /**
+     * 登出
+     */
     @DeleteMapping("logout")
     public R<?> logout(HttpServletRequest request) {
         String token = SecurityUtils.getToken(request);
@@ -52,6 +58,9 @@ public class TokenController {
         return R.ok();
     }
 
+    /**
+     * 刷新Token
+     */
     @PostMapping("refresh")
     public R<?> refresh(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
@@ -63,6 +72,9 @@ public class TokenController {
         return R.ok();
     }
 
+    /**
+     * 用户注册
+     */
     @PostMapping("register")
     public R<?> register(@RequestBody RegisterBody registerBody) {
         // 用户注册
